@@ -1,15 +1,26 @@
 export const useUIStore = defineStore(
   "uiStore",
   () => {
-    const hasBegun = ref(false);
-    const isPreviewing = ref(false);
+    const preferencesStep = ref(1);
+    const preferencesTotalSteps = 3;
+    const flowStep = ref(1);
+    const flowTotalSteps = 4;
+    const matchBegun = ref(false);
+    const matchDone = ref(false);
 
     return {
-      hasBegun,
-      isPreviewing,
+      preferencesStep,
+      preferencesTotalSteps,
+      flowStep,
+      flowTotalSteps,
+      matchBegun,
+      matchDone,
     };
   },
   {
-    persist: true,
+    persist: {
+      // Persister ikke preferencesStep
+      pick: ["flowStep", "viewingCandidates"],
+    },
   }
 );

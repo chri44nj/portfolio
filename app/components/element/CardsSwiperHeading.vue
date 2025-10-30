@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import { useCardStore } from "~/store/useCardStore";
+const cardStore = useCardStore();
 defineProps<{
   heading: string;
   subHeading?: string;
@@ -8,9 +10,10 @@ defineProps<{
 
 <template>
   <div class="text-center">
-    <h2>{{ heading }}</h2>
+    <h2 class="font-secondary" :class="cardStore.categoryColor">
+      {{ heading }}
+    </h2>
     <p v-if="subHeading">{{ subHeading }}</p>
-    <p class="text-baseyellow text-xl my-2">Vælg 1-{{ maximum }}</p>
   </div>
 </template>
 

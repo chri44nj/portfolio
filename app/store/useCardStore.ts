@@ -76,6 +76,37 @@ export const useCardStore = defineStore(
           return false;
       }
     });
+    const nextCategoryHasNoSelection = computed(() => {
+      const currentStep = uiStore.preferencesStep;
+      const nextStep = currentStep === 3 ? 1 : currentStep + 1;
+
+      switch (nextStep) {
+        case 1:
+          return categoryCount("skill") === 0;
+        case 2:
+          return categoryCount("personality") === 0;
+        case 3:
+          return categoryCount("bonus") === 0;
+        default:
+          return false;
+      }
+    });
+
+    const previousCategoryHasNoSelection = computed(() => {
+      const currentStep = uiStore.preferencesStep;
+      const prevStep = currentStep === 1 ? 3 : currentStep - 1;
+
+      switch (prevStep) {
+        case 1:
+          return categoryCount("skill") === 0;
+        case 2:
+          return categoryCount("personality") === 0;
+        case 3:
+          return categoryCount("bonus") === 0;
+        default:
+          return false;
+      }
+    });
     const selectedCards = computed(() => {
       return allCards.filter((card) => selectedCardIds.value.includes(card.id));
     });
@@ -158,6 +189,8 @@ export const useCardStore = defineStore(
       currentCategoryCards,
       categoryCount,
       currentCategoryHasSelection,
+      previousCategoryHasNoSelection,
+      nextCategoryHasNoSelection,
       selectedCards,
       selectedCardIds,
       selectedCardsByCategory,

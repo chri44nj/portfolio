@@ -56,6 +56,21 @@ const cardType = computed(() => {
   }
 });
 
+const useDebounceFn = (fn: Function, delay: number) => {
+  let timeout: number | null = null;
+
+  return function (...args: any[]) {
+    if (timeout !== null) {
+      clearTimeout(timeout);
+    }
+
+    timeout = window.setTimeout(() => {
+      fn(...args);
+      timeout = null;
+    }, delay);
+  };
+};
+
 const cleanupAnimation = () => {
   if (textAnimation.value) {
     textAnimation.value.complete();
@@ -138,21 +153,6 @@ onMounted(() => {
     );
   });
 });
-
-function useDebounceFn(fn: Function, delay: number) {
-  let timeout: number | null = null;
-
-  return function (...args: any[]) {
-    if (timeout !== null) {
-      clearTimeout(timeout);
-    }
-
-    timeout = window.setTimeout(() => {
-      fn(...args);
-      timeout = null;
-    }, delay);
-  };
-}
 </script>
 
 <template>
@@ -185,7 +185,7 @@ function useDebounceFn(fn: Function, delay: number) {
     </div>
     <div
       ref="scrollContainerRef"
-      class="w-full overflow-auto pt-8 pb-4 hide-scrollbar"
+      class="w-full overflow-auto p-4 hide-scrollbar"
     >
       <div class="min-w-min flex justify-center">
         <Transition name="bounce" mode="out-in" appear>
@@ -209,7 +209,7 @@ function useDebounceFn(fn: Function, delay: number) {
     </div>
     <div class="flex items-center mb-4 gap-2">
       <div
-        class="w-5 md:w-6 mx-2 md:mx-0 flex items-center transition-all duration-200"
+        class="w-5 md:w-6 flex items-center transition-all duration-200"
         :class="
           cardStore.currentCategoryHasSelection ? 'opacity-100' : 'opacity-50'
         "
@@ -229,7 +229,7 @@ function useDebounceFn(fn: Function, delay: number) {
       </div>
       <p
         ref="animatedTextRef"
-        class="text-xl animated-text"
+        class="md:text-xl animated-text"
         :class="cardStore.categoryColor"
       >
         Vælg 1-{{ cardStore.currentCategoryCards.length }} {{ cardType }}
@@ -239,7 +239,12 @@ function useDebounceFn(fn: Function, delay: number) {
     <div class="flex items-center justify-between gap-4 w-full md:max-w-sm">
       <UButton
         icon="material-symbols:chevron-left-rounded"
-        variant="outline"
+        :variant="
+          cardStore.previousCategoryHasNoSelection &&
+          cardStore.currentCategoryHasSelection
+            ? 'solid'
+            : 'outline'
+        "
         @click="handleStep('previous')"
       />
       <div
@@ -270,7 +275,12 @@ function useDebounceFn(fn: Function, delay: number) {
       </div>
       <UButton
         icon="material-symbols:chevron-right-rounded"
-        variant="outline"
+        :variant="
+          cardStore.nextCategoryHasNoSelection &&
+          cardStore.currentCategoryHasSelection
+            ? 'solid'
+            : 'outline'
+        "
         @click="handleStep('next')"
       />
     </div>

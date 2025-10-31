@@ -1,6 +1,7 @@
 <script lang="ts" setup>
 import { useCardStore } from "~/store/useCardStore";
 const cardStore = useCardStore();
+
 const handleSelection = (id: string) => {
   cardStore.toggleSelectCard(id);
 };
@@ -35,6 +36,7 @@ const handleLeaveCard = (id: string) => {
           text-alt-first="En med solide"
           text-alt-second="Vælg minimum 1 kompetence."
           highlighted-alt-word="kompetencer"
+          :hovered-cards="hoveredCards"
           class="mb-2"
           @hover-card="handleHoverCard"
           @leave-card="handleLeaveCard"
@@ -51,6 +53,7 @@ const handleLeaveCard = (id: string) => {
           text-alt-first="En der har en fantastisk"
           text-alt-second="Vælg minimum 1 karaktertræk."
           highlighted-alt-word="personlighed"
+          :hovered-cards="hoveredCards"
           class="mb-2"
           @hover-card="handleHoverCard"
           @leave-card="handleLeaveCard"
@@ -66,6 +69,7 @@ const handleLeaveCard = (id: string) => {
           text-alt-first="En med fede quirks som"
           text-alt-second="Vælg minimum 1 bonus."
           highlighted-alt-word="bonus"
+          :hovered-cards="hoveredCards"
           class="mb-2"
           @hover-card="handleHoverCard"
           @leave-card="handleLeaveCard"
@@ -88,8 +92,10 @@ const handleLeaveCard = (id: string) => {
                   : card.step === 2
                   ? 'bg-basered'
                   : 'bg-darkyellow',
-                hoveredCards[card.id] ? 'animate-pulse' : '',
+                hoveredCards.get(card.id) ? 'animate-pulse scale-110' : '',
               ]"
+              @mouseenter="handleHoverCard(card.id)"
+              @mouseleave="handleLeaveCard(card.id)"
               @click="handleSelection(card.id)"
             >
               {{ card.heading }}
@@ -116,6 +122,8 @@ const handleLeaveCard = (id: string) => {
                   ? 'border-basered hover:bg-basered'
                   : 'border-darkyellow hover:bg-darkyellow'
               "
+              @mouseenter="handleHoverCard(card.id)"
+              @mouseleave="handleLeaveCard(card.id)"
               @click="handleSelection(card.id)"
             >
               {{ card.heading }}

@@ -42,19 +42,6 @@ const hoverFlip = (id: string, isHovering: boolean) => {
   }
 };
 
-const iconColor = computed(() => {
-  switch (uiStore.preferencesStep) {
-    case 1:
-      return "text-lightblue";
-    case 2:
-      return "text-basered";
-    case 3:
-      return "text-darkyellow";
-    default:
-      return "text-white";
-  }
-});
-
 watch(
   () => [...cardStore.selectedCardIds],
   (newIds) => {
@@ -87,6 +74,16 @@ const getAnimationClass = (cardId: string) => {
   if (direction === "backward") return "rotate-backward";
   return "";
 };
+
+const formatTextContent = (text: string): string => {
+  if (!text) return "";
+  let formattedText = text.replace(/\*(.*?)\*/g, "<strong>$1</strong>");
+  formattedText = formattedText.replace(
+    /_(.*?)_/g,
+    '<span class="underline">$1</span>'
+  );
+  return formattedText;
+};
 </script>
 <template>
   <div class="flex items-center gap-6">
@@ -95,11 +92,11 @@ const getAnimationClass = (cardId: string) => {
       :key="card.id"
       class="transition-all duration-200"
       :class="{
-        'opacity-50 hover:opacity-100': !cardStore.isCardSelected(card.id),
+        'opacity-50 hover:opacity-100 ': !cardStore.isCardSelected(card.id),
       }"
     >
       <div
-        class="relative cursor-default transition-all duration-200"
+        class="relative cursor-default transition-all duration-200 group"
         :class="[
           cardStore.isCardSelected(card.id)
             ? 'opacity-100 transform scale-105'
@@ -139,13 +136,13 @@ const getAnimationClass = (cardId: string) => {
                 class="absolute top-1/2 left-1/2 transform transition-all duration-200 -translate-x-1/2 -translate-y-1/2 text-[3rem]"
                 :class="[
                   cardStore.isCardSelected(card.id)
-                    ? iconColor
+                    ? cardStore.categoryColor
                     : 'text-matteblack',
                   getAnimationClass(card.id),
                 ]"
               />
               <div
-                class="absolute top-0 right-0 pt-4 pr-4 z-10 opacity-50"
+                class="absolute top-0 right-0 pt-4 pr-4 z-10"
                 @click.stop="$device.isMobileOrTablet && toggleFlip(card.id)"
                 @mouseenter="
                   !$device.isMobileOrTablet && hoverFlip(card.id, true)
@@ -153,7 +150,11 @@ const getAnimationClass = (cardId: string) => {
               >
                 <Icon
                   name="material-symbols:refresh-rounded"
-                  class="text-matteblack text-2xl shrink-0"
+                  class="text-xl shrink-0 opacity-50 group-hover:opacity-100 group-focus-visible:opacity-100 text-matteblack transition-all duration-200"
+                  :class="{
+                    'group-hover:text-2xl group-focus-visible:text-2xl':
+                      !cardStore.isCardSelected(card.id),
+                  }"
                 />
               </div>
             </div>
@@ -163,9 +164,10 @@ const getAnimationClass = (cardId: string) => {
               <div
                 class="h-full w-full border-4 border-matteblack rounded-xl bg-lightparchment flex flex-col items-center justify-center p-4 overflow-auto"
               >
-                <p class="text-matteblack text-left text-base italic">
-                  {{ card.textBack }}
-                </p>
+                <p
+                  class="text-matteblack text-left text-base italic"
+                  v-html="formatTextContent(card.textBack)"
+                />
               </div>
 
               <div

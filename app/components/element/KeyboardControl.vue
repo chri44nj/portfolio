@@ -17,7 +17,7 @@ defineProps<{
         <!-- For regular elements (text or icon) with background -->
         <div
           v-if="control.type === 'text' || control.type === 'icon'"
-          class="px-2 rounded flex items-center bg-basered"
+          class="px-2 rounded flex items-center bg-whitesilver text-matteblack"
           :class="[height || 'h-full', control.customClass]"
         >
           <!-- Text content -->

@@ -79,7 +79,7 @@ const keyboardShortcut7: ControlItem[] = [
       @click="showingTips = !showingTips"
     />
     <template #content>
-      <section class="p-4 flex flex-col gap-4">
+      <section class="p-8 flex flex-col gap-4">
         <div v-if="!$device.isMobileOrTablet" class="flex flex-col gap-4">
           <h4 class="text-center">Tastaturgenveje</h4>
           <ElementKeyboardControl

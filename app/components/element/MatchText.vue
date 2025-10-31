@@ -11,6 +11,7 @@ const props = defineProps<{
   textAltFirst: string;
   textAltSecond: string;
   highlightedAltWord?: string;
+  hoveredCards: Map<string, boolean>;
 }>();
 
 const emit = defineEmits(["hover-card", "leave-card", "select-card"]);
@@ -40,6 +41,16 @@ const hoverClasses = computed(() => {
     "hover:text-darkyellow": props.textColor === "darkyellow",
   };
 });
+
+const getTextClasses = (cardId: string) => {
+  const isHovered = props.hoveredCards.get(cardId);
+  return {
+    ...hoverClasses.value,
+    "text-lightblue": isHovered && props.textColor === "lightblue",
+    "text-basered": isHovered && props.textColor === "basered",
+    "text-darkyellow": isHovered && props.textColor === "darkyellow",
+  };
+};
 
 const handleHoverCard = (id: string) => {
   emit("hover-card", id);
@@ -72,8 +83,8 @@ const handleSelection = (id: string) => {
         <span
           v-for="(card, index) in cards"
           :key="card.id"
-          class="transition-colors duration-200 cursor-default"
-          :class="hoverClasses"
+          class="transition-all duration-200 cursor-default"
+          :class="getTextClasses(card.id)"
           @mouseenter="handleHoverCard(card.id)"
           @mouseleave="handleLeaveCard(card.id)"
           @click="handleSelection(card.id)"

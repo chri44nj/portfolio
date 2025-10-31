@@ -22,15 +22,16 @@ setupKeyboardListeners();
   >
     <div
       v-if="uiStore.flowStep > 1"
-      class="fixed top-0 left-0 flex items-center justify-between w-full bg-matteblack/90 p-4 md:p-8 z-10"
+      class="fixed top-0 left-0 flex items-center justify-center w-full bg-matteblack/90 p-4 md:p-8 z-10"
     >
       <UButton
         variant="outline"
         icon="material-symbols:arrow-back-rounded"
+        class="fixed top-4 md:top-8 left-4 md:left-8"
         @click="handlePreviousStep"
       />
       <ElementProgressBar />
-      <ElementTooltipModal />
+      <ElementTooltipModal class="fixed top-4 md:top-8 right-4 md:right-8" />
     </div>
     <Transition name="icon" mode="out-in">
       <div

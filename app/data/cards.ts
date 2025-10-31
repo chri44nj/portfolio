@@ -7,7 +7,7 @@ export const skillCards: Card[] = [
     icon: "material-symbols:computer-rounded",
     text: "kan (eller kan lære) alt det dér frontend-halløj",
     textBack:
-      "En der mestrer HTML, CSS, JS og hvad end jeres tech-stack består af - og ellers hurtigt kan lære det.",
+      "En der *mestrer HTML, CSS, JS* og hvad end jeres tech-stack består af - og ellers *hurtigt kan lære* det.",
     step: 1,
   },
   {
@@ -17,7 +17,7 @@ export const skillCards: Card[] = [
     icon: "material-symbols:video-camera-back-rounded",
     text: "kan skyde og redigere fedt videomateriale",
     textBack:
-      "En der med rolig hånd kan varetage videoproduktionen fra idé til storyboard, optagelse og redigering.",
+      "En der med rolig hånd kan varetage *videoproduktionen* fra *idé til færdigt produkt*; storyboard, optagelse og redigering.",
     step: 1,
   },
   {
@@ -27,7 +27,7 @@ export const skillCards: Card[] = [
     icon: "material-symbols:dashboard-rounded",
     text: "kan finde ud af at implementere den gode brugeroplevelse",
     textBack:
-      "En der designer fede løsninger med udgangspunkt i smooth flow og sublim brugeroplevelse.",
+      "En der *designer fede løsninger* med udgangspunkt i *smooth flow* og *sublim brugeroplevelse*.",
     step: 1,
   },
   {
@@ -37,7 +37,7 @@ export const skillCards: Card[] = [
     icon: "material-symbols:lightbulb-2-rounded",
     text: "har endeløse kreative idéer",
     textBack:
-      "En med hovedet fuld af (hovedsageligt) gode idéer, der kan tænke ud af boksen og spotte muligheder for innovation.",
+      "En med hovedet fuld af (hovedsageligt) *gode idéer*, der kan *tænke ud af boksen* og spotte muligheder for *innovation*.",
     step: 1,
   },
 
@@ -48,11 +48,10 @@ export const skillCards: Card[] = [
     icon: "material-symbols:handshake-rounded",
     text: "ved hvordan man holder kunderne glade",
     textBack:
-      "En der lytter og altid forsøger at ramme den rigtige balance hvor vi OG kunden får vores drømme opfyldt.",
+      "En der *lytter* og altid forsøger at ramme den *rigtige balance* hvor *både vi og kunden* får vores drømme opfyldt.",
     step: 1,
   },
 ];
-
 export const personalityCards = [
   {
     id: "personality-1",
@@ -61,7 +60,7 @@ export const personalityCards = [
     icon: "material-symbols:mindfulness-rounded",
     text: "lærenem",
     textBack:
-      "En der anerkender at der altid er mere at lære, nyder processen og hurtigt udvikler sig.",
+      "En der anerkender at der *altid er mere at lære*, nyder *processen* og *hurtigt udvikler* sig.",
     step: 2,
   },
   {
@@ -71,7 +70,7 @@ export const personalityCards = [
     icon: "material-symbols:toys-and-games",
     text: "kreativ",
     textBack:
-      "En med originale idéer der lader sig inspirere, men ikke begrænse af hvad der allerede eksisterer.",
+      "En med *originale idéer* der lader sig inspirere, men *ikke begrænse* af hvad der allerede eksisterer.",
     step: 2,
   },
   {
@@ -81,10 +80,9 @@ export const personalityCards = [
     icon: "material-symbols:favorite-rounded",
     text: "passioneret",
     textBack:
-      "En der brænder for hvad de laver og ellers finder måder at gøre det røvkedelige mere spændende.",
+      "En der *brænder* for hvad de laver og ellers finder måder at gøre det _røvkedelige_ mere *spændende*.",
     step: 2,
   },
-
   {
     id: "personality-4",
     heading: "Tålmodig",
@@ -92,7 +90,7 @@ export const personalityCards = [
     icon: "material-symbols:cloud",
     text: "tålmodig",
     textBack:
-      "En der er tålmodig når der skal læres og læres fra sig, med stædigheden til at blive når udfordringerne ringer på dørklokken.",
+      "En der er tålmodig når der skal *læres og læres fra sig*, med *stædigheden* til at blive når _udfordringerne_ ringer på dørklokken.",
     step: 2,
   },
   {
@@ -102,7 +100,7 @@ export const personalityCards = [
     icon: "material-symbols:local-fire-department-rounded",
     text: "fokuseret",
     textBack:
-      "En der giver sig fuldt ud når det er game time og holder fri når dagen er ovre.",
+      "En der *giver sig fuldt ud* når det er game time og holder fri når dagen er ovre.",
     step: 2,
   },
   {
@@ -112,7 +110,7 @@ export const personalityCards = [
     icon: "material-symbols:thumb-up-rounded",
     text: "ærlig",
     textBack:
-      "En der tør sige sin mening og fortæller dig når du har spinat mellem tænderne. Pinky promise!",
+      "En der *tør sige sin mening* og fortæller dig når du har spinat mellem tænderne. Pinky promise!",
     step: 2,
   },
   {
@@ -122,7 +120,7 @@ export const personalityCards = [
     icon: "material-symbols:bolt-rounded",
     text: "energisk",
     textBack:
-      "En der ikke crasher hvis kaffemaskinen, gud forbyde det, gør det.",
+      "En der *ikke crasher* hvis kaffemaskinen, gud forbyde det, gør det.",
     step: 2,
   },
   {
@@ -132,7 +130,7 @@ export const personalityCards = [
     icon: "material-symbols:person-rounded",
     text: "selvstændig",
     textBack:
-      "En du ikke behøver holde i hånden hele vejen som trives med ansvaret for sin egen og kollektivets success.",
+      "En du *ikke behøver holde i hånden* hele vejen som trives med *ansvaret* for sin egen og kollektivets *success*.",
     step: 2,
   },
   {
@@ -142,7 +140,7 @@ export const personalityCards = [
     icon: "material-symbols:explore-rounded",
     text: "nysgerrig",
     textBack:
-      "En der er nysgerrig på både mennesker, teknologi og de heftigste konspirationsteorier.",
+      "En der er nysgerrig på både *mennesker*, *teknologi* og de heftigste konspirationsteorier.",
     step: 2,
   },
   {
@@ -151,7 +149,7 @@ export const personalityCards = [
     alt: "Et kort der viser personlighedstypen 'Grineren'",
     icon: "material-symbols:sentiment-excited-rounded",
     text: "grineren",
-    textBack: "En du kan få til at grine, der kan få dig til at grine.",
+    textBack: "En du kan *få til at grine*, der kan *få dig til at grine*.",
     step: 2,
   },
 ];
@@ -164,7 +162,7 @@ export const bonusCards = [
     icon: "material-symbols:chess-rook-rounded",
     text: "kan låne dig brætspil til enhver lejlighed",
     textBack:
-      "En god vinder og taber med brætspilskollektionen i orden, så du ikke længere behøver spille Ludo.",
+      "En *god vinder og taber* med brætspilskollektionen i orden, så du ikke længere behøver spille *Ludo*.",
     step: 3,
   },
   {
@@ -173,7 +171,7 @@ export const bonusCards = [
     alt: "Et kort der viser bonus 'Gode filmforslag'",
     icon: "material-symbols:movie-rounded",
     text: "kan give geniale forslag til din næste filmaften",
-    textBack: `En med "an offer you can't refuse" i form af fremragende filmforeslag, så du ikke skal bruge aftenen på at scrolle Netflix igennem.`,
+    textBack: `En med "an offer you can't refuse" i form af *fremragende filmforeslag*, så du ikke skal bruge aftenen på at *scrolle Netflix* igennem."`,
     step: 3,
   },
   {
@@ -183,7 +181,7 @@ export const bonusCards = [
     icon: "material-symbols:music-note-rounded",
     text: "kan sætte bangers på, på tværs af alle genrer",
     textBack:
-      "En der sætter bangers på til enhver lejlighed og ikke disser dine sangvalg når du har DJ-tjansen.",
+      "En der *kender bangers* til enhver lejlighed og *ikke disser dine sangvalg* når du har DJ-tjansen.",
     step: 3,
   },
 ];

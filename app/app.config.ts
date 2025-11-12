@@ -9,7 +9,7 @@ export default defineAppConfig({
       slots: {
         base: [
           "disabled:opacity-25 aria-disabled:opacity-25",
-          "transition-opacity",
+          "transition-all",
         ],
         compoundVariants: [
           {

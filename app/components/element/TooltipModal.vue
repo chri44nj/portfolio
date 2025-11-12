@@ -79,37 +79,76 @@ const keyboardShortcut7: ControlItem[] = [
       @click="showingTips = !showingTips"
     />
     <template #content>
-      <section class="p-8 flex flex-col gap-4">
-        <div v-if="!$device.isMobileOrTablet" class="flex flex-col gap-4">
-          <h4 class="text-center">Tastaturgenveje</h4>
-          <ElementKeyboardControl
-            :controls="keyboardShortcut1"
-            text="Tidligere/næste kategori"
-          />
-          <ElementKeyboardControl
-            :controls="keyboardShortcut2"
-            text="Vælg alle egenskaber"
-          />
-          <ElementKeyboardControl
-            :controls="keyboardShortcut3"
-            text="Vælg alle egenskaber i kategorien"
-          />
-          <ElementKeyboardControl
-            :controls="keyboardShortcut4"
-            text="Ryd valgte egenskaber"
-          />
-          <ElementKeyboardControl
-            :controls="keyboardShortcut5"
-            text="Ryd valgte egenskaber i kategorien"
-          />
-          <ElementKeyboardControl
-            :controls="keyboardShortcut6"
-            text="Fortsæt"
-          />
-          <ElementKeyboardControl
-            :controls="keyboardShortcut7"
-            text="Gå tilbage"
-          />
+      <section class="p-8 flex flex-col gap-8 overflow-auto">
+        <div class="flex flex-col gap-4">
+          <Transition name="fade" mode="out-in">
+            <div v-if="uiStore.flowStep === 2" class="text-center">
+              <h4 class="text-center mb-2">Vælg kvaliteter</h4>
+              <p>
+                Vælg <strong>minimum 1 kvalitet</strong> (og så mange du vil)
+                fra hver af de 3 kategorier af kort, der bedst repræsenterer
+                <strong>din næste drømmekollega</strong>.
+              </p>
+            </div>
+            <div v-else-if="uiStore.flowStep === 3" class="text-center">
+              <h4 class="text-center mb-2">Bekræft kvaliteter</h4>
+              <p>
+                Gennemse <strong>dine valgte kvaliteter</strong> og bekræft, at
+                det er dem du leder efter i
+                <strong>din næste drømmekollega</strong> ved at klikke på
+                <strong>match</strong>.
+              </p>
+            </div>
+            <div v-else-if="uiStore.flowStep === 4" class="text-center">
+              <h4 class="text-center mb-2">Find matches</h4>
+              <p>
+                Læn dig tilbage imens vores superavancerede algoritme
+                <strong>matcher dig med en række kandidater</strong>, baseret på
+                <strong>dine valgte kvaliteter</strong>.
+              </p>
+            </div>
+            <div v-else-if="uiStore.flowStep === 5" class="text-center">
+              <h4 class="text-center mb-2">Lav det ultimative match</h4>
+              <p>
+                {{ $device.isMobileOrTablet ? "Tryk" : "Klik" }} og hold på
+                knappen, for at <strong>skabe den ultimative kandidat</strong>,
+                ud af de bedste kvaliteter fra <strong>dine matches</strong>.
+              </p>
+            </div>
+          </Transition>
+        </div>
+        <div v-if="!$device.isMobileOrTablet">
+          <h4 class="text-center mb-2">Tastaturgenveje</h4>
+          <div class="flex flex-col gap-4">
+            <ElementKeyboardControl
+              :controls="keyboardShortcut1"
+              text="Tidligere/næste kategori"
+            />
+            <ElementKeyboardControl
+              :controls="keyboardShortcut2"
+              text="Vælg alle kvaliteter"
+            />
+            <ElementKeyboardControl
+              :controls="keyboardShortcut3"
+              text="Vælg alle kvaliteter i kategorien"
+            />
+            <ElementKeyboardControl
+              :controls="keyboardShortcut4"
+              text="Ryd valgte kvaliteter"
+            />
+            <ElementKeyboardControl
+              :controls="keyboardShortcut5"
+              text="Ryd valgte kvaliteter i kategorien"
+            />
+            <ElementKeyboardControl
+              :controls="keyboardShortcut6"
+              text="Fortsæt"
+            />
+            <ElementKeyboardControl
+              :controls="keyboardShortcut7"
+              text="Gå tilbage"
+            />
+          </div>
         </div>
       </section>
     </template>

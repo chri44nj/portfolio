@@ -26,28 +26,31 @@ onMounted(() => {
 </script>
 
 <template>
-  <section class="text-center">
-    <UButton
-      key="single-button"
-      :label="cardStore.selectedCardCount > 0 ? 'Fortsæt' : 'Find ud af det'"
-      size="xl"
-      block
-      class="fixed bottom-0 left-0 py-4 md:py-6 z-10 rounded-none"
-      @click="handleClickNext"
-    />
-    <h1>
-      <span class="text-2xl">Det</span>
-      <span class="font-secondary tracking-wide mx-4 animated-text"
-        >Rigtige Match</span
+  <section class="text-center flex flex-col items-center gap-4">
+    <h1 class="flex flex-col">
+      <span class="text-2xl font-primary font-normal">Det</span>
+      <span
+        class="font-special tracking-wide mx-4 animated-text whitespace-nowrap text-darkorange"
+        >Ultimative Match</span
       >
-      <span class="text-2xl">for</span>
-
-      <span class="mx-4"
-        >{{
-          route.params.username ? route.params.username : "din business"
-        }}?</span
+      <span class="text-2xl font-primary font-normal">for</span>
+      <span class="mx-4 font-special tracking-wide font-special"
+        >{{ route.params.username ? route.params.username : "dig" }}?</span
       >
     </h1>
+    <p>
+      Vælg de <strong>kvaliteter, du drømmer om</strong> i din næste kollega og
+      bliv lynhurtigt introduceret til det <strong>ultimative match</strong>,
+      baseret på <strong>dine præferencer</strong>.
+    </p>
+    <UButton
+      key="single-button"
+      :label="cardStore.selectedCardCount > 0 ? 'Fortsæt' : 'Start'"
+      size="xl"
+      block
+      class="fixed bottom-0 left-0 py-4 md:py-6 z-10 rounded-none animate-pulse"
+      @click="handleClickNext"
+    />
   </section>
 </template>
 

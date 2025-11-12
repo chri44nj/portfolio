@@ -1,33 +1,22 @@
 <script lang="ts" setup>
-import { animate, stagger, splitText } from "animejs";
 import { skillCards, personalityCards, bonusCards } from "~/data/cards";
 import { useCardStore } from "~/store/useCardStore";
 import { useUIStore } from "~/store/useUIStore";
-import type { JSAnimation } from "animejs";
+import { useMatchFlow } from "~/composables/useMatchFlow";
+import { useTextAnimation } from "#imports";
 
 const cardStore = useCardStore();
 const uiStore = useUIStore();
-const hoverCardCount = ref(false);
-const scrollContainerRef = ref<HTMLElement | null>(null);
-const animatedTextRef = ref<HTMLElement | null>(null);
-const textAnimation = ref<JSAnimation | null>(null);
-const { hasDragged } = useDragScroll(scrollContainerRef);
-const isAnimating = ref(false);
+const { handleStep } = useMatchFlow();
 
-const handleStep = (direction: "next" | "previous") => {
-  if (direction === "next") {
-    if (uiStore.preferencesStep === 3) {
-      uiStore.preferencesStep = 1;
-    } else {
-      uiStore.preferencesStep += 1;
-    }
-  } else {
-    if (uiStore.preferencesStep === 1) {
-      uiStore.preferencesStep = 3;
-    } else {
-      uiStore.preferencesStep -= 1;
-    }
-  }
+const hoverCardCount = ref(false);
+const animatedTextRef = ref<HTMLElement | null>(null);
+const scrollContainerRef = ref<HTMLElement | null>(null);
+const { hasDragged } = useDragScroll(scrollContainerRef);
+
+const handleStepWithScroll = (direction: "next" | "previous") => {
+  handleStep(direction);
+
   setTimeout(() => {
     if (scrollContainerRef.value) {
       scrollContainerRef.value.scrollTo({
@@ -56,102 +45,15 @@ const cardType = computed(() => {
   }
 });
 
-const useDebounceFn = (fn: Function, delay: number) => {
-  let timeout: number | null = null;
-
-  return function (...args: any[]) {
-    if (timeout !== null) {
-      clearTimeout(timeout);
-    }
-
-    timeout = window.setTimeout(() => {
-      fn(...args);
-      timeout = null;
-    }, delay);
-  };
-};
-
-const cleanupAnimation = () => {
-  if (textAnimation.value) {
-    textAnimation.value.complete();
-    textAnimation.value = null;
-  }
-
-  if (animatedTextRef.value) {
-    const originalText = `Vælg 1-${cardStore.currentCategoryCards.length} ${cardType.value}`;
-
-    const hasBeenSplit = Array.from(animatedTextRef.value.childNodes).some(
-      (node) => node.nodeType !== Node.TEXT_NODE
-    );
-
-    if (hasBeenSplit) {
-      animatedTextRef.value.innerHTML = originalText;
-    }
-  }
-};
-
-const debouncedUpdateAnimation = useDebounceFn(() => {
-  isAnimating.value = false;
-  updateTextAnimation();
-}, 100);
-
-const updateTextAnimation = () => {
-  if (isAnimating.value) {
-    debouncedUpdateAnimation();
-    return;
-  }
-
-  isAnimating.value = true;
-
-  cleanupAnimation();
-
-  if (!cardStore.currentCategoryHasSelection && animatedTextRef.value) {
-    try {
-      const { chars } = splitText(animatedTextRef.value, {
-        words: false,
-        chars: true,
-      });
-
-      if (chars && chars.length > 0) {
-        textAnimation.value = animate(chars, {
-          y: [
-            { to: "-0.5rem", ease: "inOutBounce", duration: 200 },
-            { to: 0, ease: "outBounce", duration: 400 },
-          ],
-          delay: stagger(30),
-          ease: "inOutCirc",
-          loopDelay: 1000,
-          loop: true,
-        });
-      }
-    } catch (error) {
-      console.error("Error in text animation:", error);
-    } finally {
-      isAnimating.value = false;
-    }
-  } else {
-    isAnimating.value = false;
-  }
-};
-
-onBeforeUnmount(() => {
-  cleanupAnimation();
-});
-
-onMounted(() => {
-  nextTick(() => {
-    updateTextAnimation();
-
-    watch(
-      [
-        () => uiStore.preferencesStep,
-        () => cardStore.currentCategoryHasSelection,
-      ],
-      () => {
-        nextTick(updateTextAnimation);
-      }
-    );
-  });
+useTextAnimation({
+  textRef: animatedTextRef,
+  watchSources: [
+    () => uiStore.preferencesStep,
+    () => cardStore.currentCategoryHasSelection,
+  ],
+  shouldAnimate: () => !cardStore.currentCategoryHasSelection,
+  getOriginalText: () =>
+    `Vælg 1-${cardStore.currentCategoryCards.length} ${cardType.value}`,
 });
 </script>
 
@@ -214,8 +116,8 @@ onMounted(() => {
           cardStore.currentCategoryHasSelection ? 'opacity-100' : 'opacity-50'
         "
       >
-        <Transition name="icon"
-          ><Icon
+        <Transition name="icon">
+          <Icon
             v-if="cardStore.currentCategoryHasSelection"
             class="shrink-0 text-xl md:text-2xl"
             :name="'material-symbols:check-circle-rounded'"
@@ -239,13 +141,19 @@ onMounted(() => {
     <div class="flex items-center justify-between gap-4 w-full md:max-w-sm">
       <UButton
         icon="material-symbols:chevron-left-rounded"
+        :class="
+          cardStore.previousCategoryHasNoSelection &&
+          cardStore.currentCategoryHasSelection
+            ? 'animate-pulse'
+            : ''
+        "
         :variant="
           cardStore.previousCategoryHasNoSelection &&
           cardStore.currentCategoryHasSelection
             ? 'solid'
             : 'outline'
         "
-        @click="handleStep('previous')"
+        @click="handleStepWithScroll('previous')"
       />
       <div
         class="grow overflow-hidden"
@@ -268,20 +176,26 @@ onMounted(() => {
             <span v-if="cardStore.selectedCardCount === cardStore.amountOfCards"
               >Alle </span
             >{{ cardStore.selectedCardCount }}
-            {{ cardStore.selectedCardCount === 1 ? "egenskab" : "egenskaber" }}
+            {{ cardStore.selectedCardCount === 1 ? "kvalitet" : "kvaliteter" }}
             valgt
           </p>
         </Transition>
       </div>
       <UButton
         icon="material-symbols:chevron-right-rounded"
+        :class="
+          cardStore.nextCategoryHasNoSelection &&
+          cardStore.currentCategoryHasSelection
+            ? 'animate-pulse'
+            : ''
+        "
         :variant="
           cardStore.nextCategoryHasNoSelection &&
           cardStore.currentCategoryHasSelection
             ? 'solid'
             : 'outline'
         "
-        @click="handleStep('next')"
+        @click="handleStepWithScroll('next')"
       />
     </div>
   </section>

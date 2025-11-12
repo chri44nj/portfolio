@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import { useCardStore } from "~/store/useCardStore";
-import { useUIStore } from "~/store/useUIStore";
 import type { Card } from "~~/shared/types";
 
 defineProps<{
@@ -8,7 +7,6 @@ defineProps<{
 }>();
 
 const cardStore = useCardStore();
-const uiStore = useUIStore();
 const emit = defineEmits(["toggle-select-card"]);
 const animatingCards = ref<Map<string, "forward" | "backward">>(new Map());
 const previousSelectedIds = ref<string[]>([...cardStore.selectedCardIds]);
@@ -28,7 +26,14 @@ const toggleFlip = (id: string) => {
   if (flippedCards.value.includes(id)) {
     flippedCards.value = flippedCards.value.filter((cardId) => cardId !== id);
   } else {
-    flippedCards.value.push(id);
+    if (
+      import.meta.client &&
+      window.matchMedia("(max-width: 1024px)").matches
+    ) {
+      flippedCards.value = [id];
+    } else {
+      flippedCards.value.push(id);
+    }
   }
 };
 
@@ -86,7 +91,7 @@ const formatTextContent = (text: string): string => {
 };
 </script>
 <template>
-  <div class="flex items-center gap-6">
+  <div class="flex items-center gap-4 md:gap-6">
     <div
       v-for="card in cards"
       :key="card.id"
@@ -112,7 +117,7 @@ const formatTextContent = (text: string): string => {
         @mouseleave="!$device.isMobileOrTablet && hoverFlip(card.id, false)"
       >
         <div
-          class="flip-card aspect-2/3 h-[300px] bg-transparent perspective-1000"
+          class="flip-card aspect-2/3 h-[250px] md:h-[300px] bg-transparent perspective-1000"
           :class="{
             flipped: flippedCards.includes(card.id),
             'hover-flip': !$device.isMobileOrTablet,
@@ -159,17 +164,8 @@ const formatTextContent = (text: string): string => {
               </div>
             </div>
             <div
-              class="flip-card-back absolute w-full h-full backface-hidden p-2 bg-baseparchment rounded-xl flex flex-col items-center justify-center"
+              class="flip-card-back absolute w-full h-full backface-hidden bg-lightparchment rounded-xl flex flex-col items-center justify-center p-4"
             >
-              <div
-                class="h-full w-full border-4 border-matteblack rounded-xl bg-lightparchment flex flex-col items-center justify-center p-4 overflow-auto"
-              >
-                <p
-                  class="text-matteblack text-left text-base italic"
-                  v-html="formatTextContent(card.textBack)"
-                />
-              </div>
-
               <div
                 v-if="$device.isMobileOrTablet"
                 class="absolute top-0 right-0 pt-4 pr-4 z-10"
@@ -177,15 +173,43 @@ const formatTextContent = (text: string): string => {
               >
                 <Icon
                   name="material-symbols:refresh-rounded"
-                  class="text-matteblack text-2xl shrink-0 transform rotate-y-180"
+                  class="text-matteblack text-xl shrink-0 transform rotate-y-180"
                 />
               </div>
+
+              <Icon
+                v-if="card.icon"
+                :name="card.icon"
+                class="absolute top-2 left-2 transition-all duration-200 text-xl"
+                :class="[
+                  cardStore.isCardSelected(card.id)
+                    ? cardStore.categoryColor
+                    : 'text-matteblack',
+                  getAnimationClass(card.id),
+                ]"
+              />
+              <p
+                class="text-matteblack text-left text-xs md:text-base italic break-normal"
+                v-html="formatTextContent(card.textBack)"
+              />
+
+              <Icon
+                v-if="card.icon"
+                :name="card.icon"
+                class="absolute bottom-2 right-2 rotate-180 transition-all duration-200 text-xl"
+                :class="[
+                  cardStore.isCardSelected(card.id)
+                    ? cardStore.categoryColor
+                    : 'text-matteblack',
+                  getAnimationClass(card.id),
+                ]"
+              />
             </div>
           </div>
         </div>
       </div>
       <p
-        class="mt-4 text-center w-full transition-all duration-200 card-name"
+        class="mt-4 text-center w-full transition-all duration-200 card-name text-sm md:text-base"
         :class="{
           'opacity-100': cardStore.isCardSelected(card.id),
         }"

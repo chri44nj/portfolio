@@ -1,9 +1,11 @@
 <script lang="ts" setup>
 import { useCardStore } from "~/store/useCardStore";
+const { isMobileOrTablet } = useDevice();
 const cardStore = useCardStore();
 
 const handleSelection = (id: string) => {
   cardStore.toggleSelectCard(id);
+  handleLeaveCard(id);
 };
 
 const hoveredCards = ref(new Map());
@@ -22,9 +24,11 @@ const handleLeaveCard = (id: string) => {
 </script>
 
 <template>
-  <section class="grid md:grid-cols-2 gap-8 items-center justify-center">
-    <div class="flex flex-col justify-center text-center md:text-start gap-4">
-      <h2>Du søger</h2>
+  <section
+    class="grid md:grid-cols-2 gap-8 md:gap-16 justify-center md:justify-start place-self-start md:grow"
+  >
+    <div class="flex flex-col text-center md:text-start w-fit gap-4">
+      <h3 class="text-center md:text-start text-lg">Du søger</h3>
       <TransitionGroup name="fade" appear>
         <ElementMatchText
           key="1"
@@ -48,7 +52,7 @@ const handleLeaveCard = (id: string) => {
           text-color="basered"
           card-type="personality"
           text-first="En kontormakker med"
-          text-second="der kan beskrives som værende"
+          text-second="der er"
           highlighted-word="personlighed"
           text-alt-first="En der har en fantastisk"
           text-alt-second="Vælg minimum 1 karaktertræk."
@@ -77,9 +81,9 @@ const handleLeaveCard = (id: string) => {
         />
       </TransitionGroup>
     </div>
-    <div class="flex flex-col items-center text-center w-full gap-8">
+    <div class="flex flex-col items-center text-center w-full gap-4 md:gap-8">
       <div>
-        <h3 class="mb-4">Valgte egenskaber</h3>
+        <h3 class="mb-4">Valgte &nbsp;kvaliteter</h3>
         <div class="flex gap-4 flex-wrap justify-center">
           <TransitionGroup name="list" appear>
             <div
@@ -94,21 +98,23 @@ const handleLeaveCard = (id: string) => {
                   : 'bg-darkyellow',
                 hoveredCards.get(card.id) ? 'animate-pulse scale-110' : '',
               ]"
-              @mouseenter="handleHoverCard(card.id)"
-              @mouseleave="handleLeaveCard(card.id)"
+              @mouseenter="!isMobileOrTablet && handleHoverCard(card.id)"
+              @mouseleave="!isMobileOrTablet && handleLeaveCard(card.id)"
               @click="handleSelection(card.id)"
             >
               {{ card.heading }}
             </div>
           </TransitionGroup>
           <p v-if="cardStore.selectedCards.length === 0">
-            Vælg de egenskaber, der repræsenterer den kollega du søger og bliv
-            hurtigt matchet med de rigtige kandidater til jobbet!
+            Vælg de kvaliteter, der bedst repræsenterer den kollega du søger og
+            bliv hurtigt matchet med en række spændende kandidater!
           </p>
         </div>
       </div>
       <div v-if="cardStore.notSelectedCardIds.length">
-        <h4 class="mb-4">Ikke valgt</h4>
+        <p class="mb-4 text-lg">
+          Ikke valgt{{ cardStore.notSelectedCardIds.length > 1 ? "e" : "" }}
+        </p>
         <div class="flex gap-4 flex-wrap justify-center">
           <TransitionGroup name="list" appear>
             <div
@@ -122,8 +128,8 @@ const handleLeaveCard = (id: string) => {
                   ? 'border-basered hover:bg-basered'
                   : 'border-darkyellow hover:bg-darkyellow'
               "
-              @mouseenter="handleHoverCard(card.id)"
-              @mouseleave="handleLeaveCard(card.id)"
+              @mouseenter="!isMobileOrTablet && handleHoverCard(card.id)"
+              @mouseleave="!isMobileOrTablet && handleLeaveCard(card.id)"
               @click="handleSelection(card.id)"
             >
               {{ card.heading }}

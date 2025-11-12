@@ -4,9 +4,11 @@ export const useUIStore = defineStore(
     const preferencesStep = ref(1);
     const preferencesTotalSteps = 3;
     const flowStep = ref(1);
-    const flowTotalSteps = 4;
+    const flowTotalSteps = 5;
     const matchBegun = ref(false);
     const matchDone = ref(false);
+    const showSuperiorProfile = ref(false);
+    const showMissingCategoriesTooltip = ref(false);
 
     return {
       preferencesStep,
@@ -15,12 +17,14 @@ export const useUIStore = defineStore(
       flowTotalSteps,
       matchBegun,
       matchDone,
+      showSuperiorProfile,
+      showMissingCategoriesTooltip,
     };
   },
   {
     persist: {
       // Persister ikke preferencesStep
-      pick: ["flowStep", "viewingCandidates"],
+      pick: ["flowStep", "matchBegun", "matchDone"],
     },
   }
 );

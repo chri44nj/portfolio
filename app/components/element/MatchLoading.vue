@@ -1,254 +1,168 @@
 <script setup lang="ts">
 import { useCardStore } from "~/store/useCardStore";
-import { useUIStore } from "~/store/useUIStore";
+
 const props = defineProps<{
   onComplete: () => void;
 }>();
 
-const { handleNextStep } = useMatchFlow();
-
 const cardStore = useCardStore();
-const uiStore = useUIStore();
-const skillsProgress = ref(0);
-const personalityProgress = ref(0);
-const bonusProgress = ref(0);
-const currentStage = ref(1); // 1: skills, 2: personality, 3: bonus, 4: complete
-const allComplete = ref(false);
+const loadingBegun = ref(false);
+const loadingDone = ref(false);
 
-// Calculate loading times based on selected cards
-const skillsTime = computed(
-  () => 0 + cardStore.selectedCardsByCategory("skill").length * 200
-);
-const personalityTime = computed(
-  () => 0 + cardStore.selectedCardsByCategory("personality").length * 200
-);
-const bonusTime = computed(
-  () => 0 + cardStore.selectedCardsByCategory("bonus").length * 200
-);
+// Define the stages configuration
+const stages = [
+  {
+    key: "skill",
+    label: "Kompetencer",
+    color: "lightblue",
+    statusTexts: [
+      "Indlæser kompetencer...",
+      "Analyserer kompetencer...",
+      "Matcher kompetencer...",
+      "Kompetencer matchet!",
+    ],
+    processingText: "Matcher kompetencer...",
+  },
+  {
+    key: "personality",
+    label: "Personlighed",
+    color: "basered",
+    statusTexts: [
+      "Indlæser personlighed...",
+      "Analyserer personlighed...",
+      "Matcher personlighed...",
+      "Personlighed matchet!",
+    ],
+    processingText: "Matcher personlighed...",
+  },
+  {
+    key: "bonus",
+    label: "Bonusser",
+    color: "darkyellow",
+    statusTexts: [
+      "Indlæser bonusser...",
+      "Analyserer bonusser...",
+      "Matcher bonusser...",
+      "Bonusser matchet!",
+    ],
+    processingText: "Matcher bonusser...",
+  },
+] as const;
 
-// Sequential animation
-const startSkillsAnimation = () => {
-  const startTime = Date.now();
-  currentStage.value = 1;
+type StageKey = (typeof stages)[number]["key"];
 
-  const animateSkills = () => {
-    const now = Date.now();
-    const elapsed = now - startTime;
-    skillsProgress.value = Math.min(elapsed / skillsTime.value, 1);
-
-    if (skillsProgress.value < 1) {
-      requestAnimationFrame(animateSkills);
-    } else {
-      // Start personality animation after skills is complete
-      setTimeout(() => startPersonalityAnimation(), 300);
-    }
-  };
-
-  requestAnimationFrame(animateSkills);
-};
-
-const startPersonalityAnimation = () => {
-  const startTime = Date.now();
-  currentStage.value = 2;
-
-  const animatePersonality = () => {
-    const now = Date.now();
-    const elapsed = now - startTime;
-    personalityProgress.value = Math.min(elapsed / personalityTime.value, 1);
-
-    if (personalityProgress.value < 1) {
-      requestAnimationFrame(animatePersonality);
-    } else {
-      // Start bonus animation after personality is complete
-      setTimeout(() => startBonusAnimation(), 300);
-    }
-  };
-
-  requestAnimationFrame(animatePersonality);
-};
-
-const startBonusAnimation = () => {
-  const startTime = Date.now();
-  currentStage.value = 3;
-
-  const animateBonus = () => {
-    const now = Date.now();
-    const elapsed = now - startTime;
-    bonusProgress.value = Math.min(elapsed / bonusTime.value, 1);
-
-    if (bonusProgress.value < 1) {
-      requestAnimationFrame(animateBonus);
-    } else {
-      // All animations complete
-      currentStage.value = 4;
-      allComplete.value = true;
-      props.onComplete();
-    }
-  };
-
-  requestAnimationFrame(animateBonus);
-};
-
-// Start the sequential animation
-onMounted(() => {
-  // Start with a small delay
-  setTimeout(() => startSkillsAnimation(), 500);
+const progress = ref<Record<StageKey, number>>({
+  skill: 0,
+  personality: 0,
+  bonus: 0,
 });
 
-const getStatusText = (category: string, progress: number) => {
-  if (category === "skills") {
-    if (progress < 0.3) return "Indlæser kompetencer...";
-    if (progress < 0.6) return "Analyserer kompetencer...";
-    if (progress < 0.9) return "Matcher kompetencer...";
-    return "Kompetencer matchet!";
-  } else if (category === "personality") {
-    if (progress < 0.3) return "Indlæser personlighed...";
-    if (progress < 0.6) return "Analyserer personlighed...";
-    if (progress < 0.9) return "Matcher personlighed...";
-    return "Personlighed matchet!";
-  } else {
-    if (progress < 0.3) return "Indlæser bonusser...";
-    if (progress < 0.6) return "Analyserer bonusser...";
-    if (progress < 0.9) return "Matcher bonusser...";
-    return "Bonusser matchet!";
-  }
+const currentStageIndex = ref(0);
+
+// Easing function for smooth progression (ease-in-out)
+const easeInOutCubic = (t: number): number => {
+  return t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
 };
 
-const handleClickNext = () => {
-  handleNextStep();
+// Calculate loading times based on selected cards
+const getStageTime = (categoryKey: StageKey) => {
+  return 2500 + cardStore.selectedCardsByCategory(categoryKey).length * 200;
 };
+
+const animateStage = (stageIndex: number) => {
+  if (stageIndex >= stages.length) {
+    loadingDone.value = true;
+    setTimeout(() => {
+      props.onComplete();
+    }, 500);
+    return;
+  }
+
+  const stage = stages[stageIndex];
+  const stageTime = getStageTime(stage.key);
+  const startTime = Date.now();
+  currentStageIndex.value = stageIndex;
+
+  const animate = () => {
+    const now = Date.now();
+    const elapsed = now - startTime;
+    const linearProgress = Math.min(elapsed / stageTime, 1);
+
+    // Apply easing and convert to 0-100 scale
+    const easedProgress = easeInOutCubic(linearProgress);
+    progress.value[stage.key] = Math.floor(easedProgress * 100);
+
+    if (linearProgress < 1) {
+      requestAnimationFrame(animate);
+    } else {
+      // Ensure it ends at exactly 100
+      progress.value[stage.key] = 100;
+      // Start next stage after a delay
+      setTimeout(() => animateStage(stageIndex + 1), 300);
+    }
+  };
+
+  requestAnimationFrame(animate);
+};
+const currentStage = computed(() => stages[currentStageIndex.value]);
+// Start the sequential animation
+onMounted(() => {
+  setTimeout(() => {
+    loadingBegun.value = true;
+    animateStage(0);
+  }, 1500);
+});
 </script>
 
 <template>
-  <div>
-    <Transition name="icon" mode="out-in">
-      <UButton
-        v-if="uiStore.matchDone"
-        key="single-button"
-        :label="cardStore.selectedCardCount > 0 ? 'Fortsæt' : 'Find ud af det'"
-        size="xl"
-        block
-        class="fixed bottom-0 left-0 py-4 md:py-6 z-10 rounded-none"
-        @click="handleClickNext"
-      />
-    </Transition>
-    <Transition name="bounce" mode="out-in" appear>
-      <div v-if="!allComplete">
-        <h3 class="mb-8 text-center">Finder det rigtige match...</h3>
-
-        <!-- Skills Progress Bar -->
-        <div class="mb-8">
-          <div class="flex justify-between mb-2">
-            <div class="flex items-center">
-              <Icon name="mdi:brain" class="mr-2 text-lightblue" />
-              <span class="font-medium">Kompetencer</span>
-            </div>
-            <div class="text-sm" :class="{ 'font-bold': currentStage === 1 }">
-              {{ getStatusText("skills", skillsProgress) }}
-            </div>
-          </div>
-          <div class="h-4 w-full bg-gray-200 rounded-full overflow-hidden">
-            <div
-              class="h-full bg-lightblue transition-all duration-300 rounded-full"
-              :style="{ width: `${skillsProgress * 100}%` }"
-            />
-          </div>
-          <div class="mt-1 text-xs text-right">
-            {{ Math.floor(skillsProgress * 100) }}%
-          </div>
-        </div>
-
-        <!-- Personality Progress Bar -->
-        <div
-          class="mb-8"
-          :class="{ 'opacity-50': currentStage < 2 && skillsProgress < 1 }"
-        >
-          <div class="flex justify-between mb-2">
-            <div class="flex items-center">
-              <Icon name="mdi:account-heart" class="mr-2 text-basered" />
-              <span class="font-medium">Personlighed</span>
-            </div>
-            <div class="text-sm" :class="{ 'font-bold': currentStage === 2 }">
-              {{
-                personalityProgress > 0
-                  ? getStatusText("personality", personalityProgress)
-                  : "Venter..."
-              }}
-            </div>
-          </div>
-          <div class="h-4 w-full bg-gray-200 rounded-full overflow-hidden">
-            <div
-              class="h-full bg-basered transition-all duration-300 rounded-full"
-              :style="{ width: `${personalityProgress * 100}%` }"
-            />
-          </div>
-          <div class="mt-1 text-xs text-right">
-            {{ Math.floor(personalityProgress * 100) }}%
-          </div>
-        </div>
-
-        <!-- Bonus Progress Bar -->
-        <div
-          class="mb-8"
-          :class="{ 'opacity-50': currentStage < 3 && personalityProgress < 1 }"
-        >
-          <div class="flex justify-between mb-2">
-            <div class="flex items-center">
-              <Icon name="mdi:star" class="mr-2 text-darkyellow" />
-              <span class="font-medium">Bonusser</span>
-            </div>
-            <div class="text-sm" :class="{ 'font-bold': currentStage === 3 }">
-              {{
-                bonusProgress > 0
-                  ? getStatusText("bonus", bonusProgress)
-                  : "Venter..."
-              }}
-            </div>
-          </div>
-          <div class="h-4 w-full bg-gray-200 rounded-full overflow-hidden">
-            <div
-              class="h-full bg-darkyellow transition-all duration-300 rounded-full"
-              :style="{ width: `${bonusProgress * 100}%` }"
-            />
-          </div>
-          <div class="mt-1 text-xs text-right">
-            {{ Math.floor(bonusProgress * 100) }}%
-          </div>
-        </div>
-
-        <!-- Current Processing Indicator -->
-        <div class="flex justify-center mt-8">
-          <div v-if="currentStage === 1" class="flex items-center">
-            <div
-              class="animate-spin h-6 w-6 border-3 border-lightblue border-t-transparent rounded-full mr-3"
-            />
-            <span>Behandler kompetencer...</span>
-          </div>
-          <div v-else-if="currentStage === 2" class="flex items-center">
-            <div
-              class="animate-spin h-6 w-6 border-3 border-basered border-t-transparent rounded-full mr-3"
-            />
-            <span>Behandler personlighed...</span>
-          </div>
-          <div v-else-if="currentStage === 3" class="flex items-center">
-            <div
-              class="animate-spin h-6 w-6 border-3 border-darkyellow border-t-transparent rounded-full mr-3"
-            />
-            <span>Behandler bonusser...</span>
-          </div>
-        </div>
-      </div>
-      <!-- Success Animation -->
-      <div v-else class="flex flex-col items-center mt-12">
-        <div class="relative flex items-center justify-center">
-          <Icon
-            name="mdi:check"
-            class="text-basered text-[20rem] absolute transform -translate-y-1/2 top-1/2"
+  <div class="w-full">
+    <div class="flex flex-col items-center">
+      <div class="flex flex-col items-center gap-2 mb-4 md:mb-8 w-full">
+        <div class="flex items-center justify-center gap-2 w-full">
+          <ElementLoadingCard
+            v-for="(stage, index) in stages"
+            :key="stage.key"
+            :color="
+              currentStageIndex >= index && loadingBegun
+                ? stage.color
+                : 'offwhite'
+            "
+            :animation-done="progress[stage.key] === 100"
+            :is-active="currentStageIndex === index && loadingBegun"
           />
-
-          <h2 class="font-secondary z-1 tracking-wide">Match fundet</h2>
         </div>
       </div>
-    </Transition>
+
+      <!-- Progress Bars -->
+      <div
+        v-for="(stage, index) in stages"
+        :key="stage.key"
+        class="mb-8 max-w-140 w-full transition-opacity duration-300"
+        :class="{
+          'opacity-50':
+            (currentStageIndex < index && progress[stage.key] < 100) ||
+            !loadingBegun,
+        }"
+      >
+        <div class="flex flex-col gap-2 items-center">
+          <div class="flex items-center justify-between w-full">
+            <p class="font-medium">{{ stage.label }}</p>
+            <div class="mt-1 text-xs text-right">
+              {{ progress[stage.key] }}%
+            </div>
+          </div>
+          <div class="h-4 w-full bg-gray-200 rounded overflow-hidden">
+            <div
+              class="h-full transition-all duration-100 rounded"
+              :class="`bg-${stage.color}`"
+              :style="{ width: `${progress[stage.key]}%` }"
+            />
+          </div>
+        </div>
+      </div>
+
+      <p v-if="!loadingBegun">Begynder...</p>
+      <p v-else>{{ currentStage.processingText }}</p>
+    </div>
   </div>
 </template>

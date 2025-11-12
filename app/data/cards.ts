@@ -1,7 +1,8 @@
 import type { Card } from "~~/shared/types";
+
 export const skillCards: Card[] = [
   {
-    id: "skill-1",
+    id: "skill-frontend_dev",
     heading: "Frontendudvikling",
     alt: "Et kort der viser færdigheden 'Frontendudvikling'",
     icon: "material-symbols:computer-rounded",
@@ -11,27 +12,27 @@ export const skillCards: Card[] = [
     step: 1,
   },
   {
-    id: "skill-2",
+    id: "skill-videoproduktion",
     heading: "Videoproduktion",
     alt: "Et kort der viser færdigheden 'Videoproduktion'",
     icon: "material-symbols:video-camera-back-rounded",
     text: "kan skyde og redigere fedt videomateriale",
     textBack:
-      "En der med rolig hånd kan varetage *videoproduktionen* fra *idé til færdigt produkt*; storyboard, optagelse og redigering.",
+      "En der med rolig hånd kan varetage *video&shy;produktionen* fra *idé til færdigt produkt*.",
     step: 1,
   },
   {
-    id: "skill-3",
+    id: "skill-ui_ux_design",
     heading: "UI/UX Design",
     alt: "Et kort der viser færdigheden 'UI/UX Design'",
     icon: "material-symbols:dashboard-rounded",
     text: "kan finde ud af at implementere den gode brugeroplevelse",
     textBack:
-      "En der *designer fede løsninger* med udgangspunkt i *smooth flow* og *sublim brugeroplevelse*.",
+      "En der *designer fede løsninger* med udgangspunkt i *smooth flow* og *sublim bruger&shy;oplevelse*.",
     step: 1,
   },
   {
-    id: "skill-4",
+    id: "skill-innovation",
     heading: "Innovation",
     alt: "Et kort der viser færdigheden 'Innovation'",
     icon: "material-symbols:lightbulb-2-rounded",
@@ -40,9 +41,8 @@ export const skillCards: Card[] = [
       "En med hovedet fuld af (hovedsageligt) *gode idéer*, der kan *tænke ud af boksen* og spotte muligheder for *innovation*.",
     step: 1,
   },
-
   {
-    id: "skill-5",
+    id: "skill-kunderelationer",
     heading: "Kunderelationer",
     alt: "Et kort der viser færdigheden 'Kunderelationer'",
     icon: "material-symbols:handshake-rounded",
@@ -52,9 +52,10 @@ export const skillCards: Card[] = [
     step: 1,
   },
 ];
+
 export const personalityCards = [
   {
-    id: "personality-1",
+    id: "personality-laerenem",
     heading: "Lærenem",
     alt: "Et kort der viser personlighedstypen 'Lærenem'",
     icon: "material-symbols:mindfulness-rounded",
@@ -64,7 +65,7 @@ export const personalityCards = [
     step: 2,
   },
   {
-    id: "personality-2",
+    id: "personality-kreativ",
     heading: "Kreativ",
     alt: "Et kort der viser personlighedstypen 'Kreativ'",
     icon: "material-symbols:toys-and-games",
@@ -74,7 +75,7 @@ export const personalityCards = [
     step: 2,
   },
   {
-    id: "personality-3",
+    id: "personality-passioneret",
     heading: "Passioneret",
     alt: "Et kort der viser personlighedstypen 'Passioneret'",
     icon: "material-symbols:favorite-rounded",
@@ -84,7 +85,7 @@ export const personalityCards = [
     step: 2,
   },
   {
-    id: "personality-4",
+    id: "personality-taalmodig",
     heading: "Tålmodig",
     alt: "Et kort der viser personlighedstypen 'Tålmodig'",
     icon: "material-symbols:cloud",
@@ -94,7 +95,7 @@ export const personalityCards = [
     step: 2,
   },
   {
-    id: "personality-5",
+    id: "personality-fokuseret",
     heading: "Fokuseret",
     alt: "Et kort der viser personlighedstypen 'Fokuseret'",
     icon: "material-symbols:local-fire-department-rounded",
@@ -104,7 +105,7 @@ export const personalityCards = [
     step: 2,
   },
   {
-    id: "personality-6",
+    id: "personality-aerlig",
     heading: "Ærlig",
     alt: "Et kort der viser personlighedstypen 'Ærlig'",
     icon: "material-symbols:thumb-up-rounded",
@@ -114,17 +115,17 @@ export const personalityCards = [
     step: 2,
   },
   {
-    id: "personality-7",
+    id: "personality-energisk",
     heading: "Energisk",
     alt: "Et kort der viser personlighedstypen 'Energisk'",
     icon: "material-symbols:bolt-rounded",
     text: "energisk",
     textBack:
-      "En der *ikke crasher* hvis kaffemaskinen, gud forbyde det, gør det.",
+      "En der *ikke crasher* hvis kaffemaskinen (gud forbyde det) gør det.",
     step: 2,
   },
   {
-    id: "personality-8",
+    id: "personality-selvstaendig",
     heading: "Selvstændig",
     alt: "Et kort der viser personlighedstypen 'Selvstændig'",
     icon: "material-symbols:person-rounded",
@@ -134,7 +135,7 @@ export const personalityCards = [
     step: 2,
   },
   {
-    id: "personality-9",
+    id: "personality-nysgerrig",
     heading: "Nysgerrig",
     alt: "Et kort der viser personlighedstypen 'Nysgerrig'",
     icon: "material-symbols:explore-rounded",
@@ -144,7 +145,7 @@ export const personalityCards = [
     step: 2,
   },
   {
-    id: "personality-10",
+    id: "personality-grineren",
     heading: "Grineren",
     alt: "Et kort der viser personlighedstypen 'Grineren'",
     icon: "material-symbols:sentiment-excited-rounded",
@@ -156,7 +157,7 @@ export const personalityCards = [
 
 export const bonusCards = [
   {
-    id: "bonus-1",
+    id: "bonus-braetspilssamling",
     heading: "Stor brætspilssamling",
     alt: "Et kort der viser bonus 'Stor brætspilssamling'",
     icon: "material-symbols:chess-rook-rounded",
@@ -166,7 +167,7 @@ export const bonusCards = [
     step: 3,
   },
   {
-    id: "bonus-2",
+    id: "bonus-filmforslag",
     heading: "Gode filmforslag",
     alt: "Et kort der viser bonus 'Gode filmforslag'",
     icon: "material-symbols:movie-rounded",
@@ -175,13 +176,23 @@ export const bonusCards = [
     step: 3,
   },
   {
-    id: "bonus-3",
+    id: "bonus-musiksmag",
     heading: "Divers musiksmag",
     alt: "Et kort der viser bonus 'Divers musiksmag'",
     icon: "material-symbols:music-note-rounded",
     text: "kan sætte bangers på, på tværs af alle genrer",
     textBack:
       "En der *kender bangers* til enhver lejlighed og *ikke disser dine sangvalg* når du har DJ-tjansen.",
+    step: 3,
+  },
+  {
+    id: "bonus-highfives",
+    heading: "Gode highfives",
+    alt: "Et kort der viser bonus 'Gode highfives'",
+    icon: "material-symbols:front-hand-rounded",
+    text: "anerkender dit gode arbejde med en ordentlig klør fem",
+    textBack:
+      "En der forstår værdien af at anerkende andres indsats - ofte med en god gammeldags klør fem.",
     step: 3,
   },
 ];

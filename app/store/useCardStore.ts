@@ -26,6 +26,22 @@ export const useCardStore = defineStore(
       );
     });
 
+    const categoriesNotSelected = computed(() => {
+      const notSelected: string[] = [];
+
+      if (selectedSkillCards.value.length === 0) {
+        notSelected.push("kompetencer");
+      }
+      if (selectedPersonalityCards.value.length === 0) {
+        notSelected.push("personlighed");
+      }
+      if (selectedBonusCards.value.length === 0) {
+        notSelected.push("bonusser");
+      }
+
+      return notSelected;
+    });
+
     const allCategoriesSelected = computed(() => {
       return (
         selectedSkillCards.value.length > 0 &&
@@ -208,6 +224,7 @@ export const useCardStore = defineStore(
       selectedSkillCards,
       selectedPersonalityCards,
       selectedBonusCards,
+      categoriesNotSelected,
       allCategoriesSelected,
       categoryColor,
     };

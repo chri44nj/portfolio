@@ -10,7 +10,7 @@ defineProps<{
 
 <template>
   <div class="text-center">
-    <h2 class="font-secondary" :class="cardStore.categoryColor">
+    <h2 class="font-special" :class="cardStore.categoryColor">
       {{ heading }}
     </h2>
     <p v-if="subHeading">{{ subHeading }}</p>

@@ -33,14 +33,4 @@ export type Profile = {
   pros: string[];
   cons: string[];
   cardMatches: string[];
-  experience: string;
-  education: string;
-  contact: ProfileContact;
-  specialties?: string[];
-  languages?: string[];
-  certificates?: string[];
-  portfolioLinks?: string[];
-  availability?: string;
-  location?: string;
-  remoteWorkPreference?: "remote" | "hybrid" | "on-site" | "flexible";
 };

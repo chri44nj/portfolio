@@ -14,6 +14,7 @@ const props = defineProps<{
   hoveredCards: Map<string, boolean>;
 }>();
 
+const { isMobileOrTablet } = useDevice();
 const emit = defineEmits(["hover-card", "leave-card", "select-card"]);
 const cardStore = useCardStore();
 
@@ -66,7 +67,7 @@ const handleSelection = (id: string) => {
 </script>
 
 <template>
-  <div class="flex md:flex-row flex-col items-center gap-2 w-full max-w-[60ch]">
+  <div class="flex md:flex-row flex-col items-center gap-2 md:gap-4 w-full">
     <p class="md:order-1">
       <template v-if="cards.length">
         {{ textFirst }}
@@ -85,8 +86,8 @@ const handleSelection = (id: string) => {
           :key="card.id"
           class="transition-all duration-200 cursor-default"
           :class="getTextClasses(card.id)"
-          @mouseenter="handleHoverCard(card.id)"
-          @mouseleave="handleLeaveCard(card.id)"
+          @mouseenter="!isMobileOrTablet && handleHoverCard(card.id)"
+          @mouseleave="!isMobileOrTablet && handleLeaveCard(card.id)"
           @click="handleSelection(card.id)"
         >
           {{

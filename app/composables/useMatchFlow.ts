@@ -1,5 +1,6 @@
 import { useCardStore } from "~/store/useCardStore";
 import { useUIStore } from "~/store/useUIStore";
+
 export function useMatchFlow() {
   const cardStore = useCardStore();
   const uiStore = useUIStore();
@@ -30,21 +31,30 @@ export function useMatchFlow() {
         return "";
     }
   };
+
+  const handlePreviousStep = () => {
+    if (uiStore.flowStep === 1) return;
+    if (uiStore.flowStep === 4) {
+      uiStore.matchDone = false;
+      uiStore.showSuperiorProfile = false;
+      uiStore.flowStep = 3;
+    } else {
+      uiStore.flowStep--;
+    }
+  };
+
   const handleNextStep = () => {
     if (uiStore.flowStep === uiStore.flowTotalSteps) return;
     uiStore.flowStep++;
   };
-  const handlePreviousStep = () => {
-    if (uiStore.flowStep === 1) return;
-    uiStore.flowStep--;
-  };
+
   const beginMatch = (customBeginMatchFn?: () => void) => {
     if (customBeginMatchFn) {
       customBeginMatchFn();
     }
   };
   const handleMatchingComplete = () => {
-    if (!uiStore.matchBegun) return;
+    if (uiStore.flowStep !== 4) return;
     uiStore.matchDone = true;
   };
 
@@ -66,11 +76,13 @@ export function useMatchFlow() {
         case "a":
         case "A":
           event.preventDefault();
+          if (uiStore.flowStep > 3) return;
           cardStore.selectAllInCategory(prefix);
           break;
         case "c":
         case "C":
           event.preventDefault();
+          if (uiStore.flowStep > 3) return;
           cardStore.clearAllInCategory(prefix);
           break;
       }
@@ -89,11 +101,13 @@ export function useMatchFlow() {
         case "c":
         case "C":
           event.preventDefault();
+          if (uiStore.flowStep > 3) return;
           cardStore.clearAllSelections();
           break;
         case "a":
         case "A":
           event.preventDefault();
+          if (uiStore.flowStep > 3) return;
           cardStore.selectAllCards();
           break;
       }

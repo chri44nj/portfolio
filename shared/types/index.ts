@@ -25,7 +25,8 @@ interface ProfileContact {
 
 export type Profile = {
   id: string;
-  name: string;
+  firstName: string;
+  lastName: string;
   title: string;
   imgSrc: string;
   alt: string;
@@ -33,4 +34,5 @@ export type Profile = {
   pros: string[];
   cons: string[];
   cardMatches: string[];
+  highlights?: { title: string; color: string; value: number }[];
 };

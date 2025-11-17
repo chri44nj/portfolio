@@ -27,16 +27,17 @@ onMounted(() => {
 
 <template>
   <section class="text-center flex flex-col items-center gap-4">
-    <h1 class="flex flex-col">
-      <span class="text-2xl font-primary font-normal">Det</span>
-      <span
-        class="font-special tracking-wide mx-4 animated-text whitespace-nowrap text-darkorange"
+    <h1 class="flex flex-col items-start text-darkorange">
+      <span class="text-2xl font-special font-normal mr-4">Det</span>
+      <span class="font-special tracking-wide animated-text whitespace-nowrap"
         >Ultimative Match</span
       >
-      <span class="text-2xl font-primary font-normal">for</span>
-      <span class="mx-4 font-special tracking-wide font-special"
-        >{{ route.params.username ? route.params.username : "dig" }}?</span
-      >
+      <span class="flex items-center justify-end w-full">
+        <span class="text-2xl font-special font-normal mr-4">for</span>
+        <span class="font-special tracking-wide font-special"
+          >{{ route.params.username ? route.params.username : "dig" }}?</span
+        >
+      </span>
     </h1>
     <p>
       Vælg de <strong>kvaliteter, du drømmer om</strong> i din næste kollega og

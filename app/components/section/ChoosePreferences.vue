@@ -4,6 +4,7 @@ import { useCardStore } from "~/store/useCardStore";
 import { useUIStore } from "~/store/useUIStore";
 import { useMatchFlow } from "~/composables/useMatchFlow";
 import { useTextAnimation } from "#imports";
+import { card } from "#build/ui";
 
 const cardStore = useCardStore();
 const uiStore = useUIStore();
@@ -45,6 +46,19 @@ const cardType = computed(() => {
   }
 });
 
+const chosenAmountInCategory = computed(() => {
+  switch (uiStore.preferencesStep) {
+    case 1:
+      return cardStore.selectedSkillCards.length;
+    case 2:
+      return cardStore.selectedPersonalityCards.length;
+    case 3:
+      return cardStore.selectedBonusCards.length;
+    default:
+      return 0;
+  }
+});
+
 useTextAnimation({
   textRef: animatedTextRef,
   watchSources: [
@@ -53,7 +67,7 @@ useTextAnimation({
   ],
   shouldAnimate: () => !cardStore.currentCategoryHasSelection,
   getOriginalText: () =>
-    `Vælg 1-${cardStore.currentCategoryCards.length} ${cardType.value}`,
+    `Vælg 1-${cardStore.currentCategoryCards.length} ${cardType.value} (${chosenAmountInCategory.value})`,
 });
 </script>
 
@@ -134,7 +148,9 @@ useTextAnimation({
         class="md:text-xl animated-text"
         :class="cardStore.categoryColor"
       >
-        Vælg 1-{{ cardStore.currentCategoryCards.length }} {{ cardType }}
+        Vælg 1-{{ cardStore.currentCategoryCards.length }} {{ cardType }} ({{
+          chosenAmountInCategory
+        }})
       </p>
     </div>
 

@@ -4,28 +4,33 @@ const cardStore = useCardStore();
 </script>
 
 <template>
-  <p
-    class="p-4 bg-matteblack mx-4 text-center rounded ring transition-color duration-1000 absolute bottom-full ring-offwhite"
+  <div
+    class="transition-color duration-1000 absolute bottom-full bg-darkred p-[2px] rounded text-sm"
   >
-    Vælg <strong>minimum 1 kvalitet</strong> i hver kategori. Du mangler at
-    vælge i
-    <span v-for="(card, index) in cardStore.categoriesNotSelected" :key="card">
+    <p class="p-4 bg-matteblack text-center rounded">
+      Vælg <strong>minimum 1 kvalitet</strong> i hver kategori. Du mangler at
+      vælge i
       <span
-        :class="
-          card === 'kompetencer'
-            ? 'text-lightblue'
-            : card === 'personlighed'
-            ? 'text-basered'
-            : 'text-darkyellow'
-        "
-        >{{ card }} </span
-      ><span>{{
-        index === 0 && cardStore.categoriesNotSelected.length === 3
-          ? ", "
-          : index + 1 !== cardStore.categoriesNotSelected.length
-          ? " og "
-          : "."
-      }}</span>
-    </span>
-  </p>
+        v-for="(card, index) in cardStore.categoriesNotSelected"
+        :key="card"
+      >
+        <span
+          :class="
+            card === 'kompetencer'
+              ? 'text-lightblue'
+              : card === 'personlighed'
+              ? 'text-basered'
+              : 'text-darkyellow'
+          "
+          >{{ card }} </span
+        ><span>{{
+          index === 0 && cardStore.categoriesNotSelected.length === 3
+            ? ", "
+            : index + 1 !== cardStore.categoriesNotSelected.length
+            ? " og "
+            : "."
+        }}</span>
+      </span>
+    </p>
+  </div>
 </template>

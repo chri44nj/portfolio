@@ -52,7 +52,13 @@ h6 {
 }
 
 h1 {
-  font-size: clamp(2rem, 5vw + 1rem, 4rem);
+  font-size: clamp(1.5rem, 4vw + 1rem, 3rem);
+}
+
+@media (width >= 48rem) {
+  h1 {
+    font-size: clamp(2rem, 5vw + 1rem, 4rem);
+  }
 }
 
 h2 {
@@ -71,6 +77,7 @@ h6 {
 
 p {
   max-width: 60ch;
+  line-height: 1.8;
 }
 
 button {

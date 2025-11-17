@@ -2,7 +2,8 @@ import type { Profile } from "~~/shared/types";
 
 export const superiorProfile: Profile = {
   id: "profile-1",
-  name: "Christian Valentin",
+  firstName: "Christian",
+  lastName: "Valentin",
   title: "Multimediedesigner",
   imgSrc: "img/profile-1.jpg",
   alt: "En profil der beskriver det ultimative match for din virksomhed.",
@@ -23,7 +24,8 @@ export const superiorProfile: Profile = {
 export const inferiorProfiles: Profile[] = [
   {
     id: "profile-2",
-    name: "Christian Gates",
+    firstName: "Christian",
+    lastName: "Gates",
     title: "Frontendudvikler",
     imgSrc: "img/profile-2.jpg",
     alt: "En profil der beskriver et muligt match: frontendudvikleren.",
@@ -51,10 +53,17 @@ export const inferiorProfiles: Profile[] = [
       "bonus-musiksmag",
       "umulig-1",
     ],
+    highlights: [
+      { title: "HTML, CSS, JS", color: "lightblue", value: 90 },
+      { title: "Vue + Nuxt", color: "lightblue", value: 85 },
+      { title: "React + Next", color: "lightblue", value: 70 },
+      { title: "GIT", color: "lightblue", value: 80 },
+    ],
   },
   {
     id: "profile-3",
-    name: "Christian Scorsese",
+    firstName: "Christian",
+    lastName: "Scorsese",
     title: "Filmproducent",
     imgSrc: "img/profile-4.jpg",
     alt: "En profil der beskriver et muligt match: filmproducenten.",
@@ -85,10 +94,25 @@ export const inferiorProfiles: Profile[] = [
       "umulig-1",
       "umulig-2",
     ],
+    highlights: [
+      {
+        title: "Optagelse og redigering",
+        color: "lightblue",
+        value: 85,
+      },
+      { title: "Idé og storyboarding", color: "lightblue", value: 80 },
+      {
+        title: "Adobe Premiere Pro",
+        color: "lightblue",
+        value: 70,
+      },
+      { title: "Davinci Resolve", color: "lightblue", value: 80 },
+    ],
   },
   {
     id: "profile-4",
-    name: "Christian Van Gogh",
+    firstName: "Christian",
+    lastName: "Van Gogh",
     title: "UI/UX Designer",
     imgSrc: "img/profile-3.jpg",
     alt: "En profil der beskriver et muligt match: UI/UX Designeren.",
@@ -119,7 +143,8 @@ export const inferiorProfiles: Profile[] = [
   },
   {
     id: "profile-5",
-    name: "Christian Jobs",
+    firstName: "Christian",
+    lastName: "Jobs",
     title: "Innovatør",
     imgSrc: "img/profile-5.jpg",
     alt: "En profil der beskriver et muligt match: innovatøren.",

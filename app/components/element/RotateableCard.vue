@@ -1,0 +1,96 @@
+<script lang="ts" setup>
+import { inferiorProfiles } from "~/data/profiles";
+import { useUIStore } from "~/store/useUIStore";
+import { createAnimatable, utils } from "animejs";
+
+const uiStore = useUIStore();
+
+const cardRef = ref<HTMLElement | null>(null);
+let animatableCard: any;
+let bounds: DOMRect;
+
+onMounted(() => {
+  if (!cardRef.value) return;
+
+  bounds = cardRef.value.getBoundingClientRect();
+  const refreshBounds = () => (bounds = cardRef.value!.getBoundingClientRect());
+
+  animatableCard = createAnimatable(cardRef.value, {
+    x: 500,
+    y: 500,
+    rotateX: 500,
+    rotateY: 500,
+    ease: "out(3)",
+  });
+
+  const onMouseMove = (e: MouseEvent) => {
+    const { width, height, left, top } = bounds;
+    const hw = width / 2;
+    const hh = height / 2;
+    const x = utils.clamp(e.clientX - left - hw, -hw, hw);
+    const y = utils.clamp(e.clientY - top - hh, -hh, hh);
+
+    const tiltX = (y / hh) * -10;
+    const tiltY = (x / hw) * 10;
+
+    animatableCard.x(x * 0.1);
+    animatableCard.y(y * 0.1);
+    animatableCard.rotateX(tiltX);
+    animatableCard.rotateY(tiltY);
+  };
+
+  window.addEventListener("mousemove", onMouseMove);
+  window.addEventListener("resize", refreshBounds);
+
+  onUnmounted(() => {
+    window.removeEventListener("mousemove", onMouseMove);
+    window.removeEventListener("resize", refreshBounds);
+  });
+});
+</script>
+
+<template>
+  <div
+    ref="cardRef"
+    class="flex flex-col items-center justify-center bg-baseparchment p-4 border border-matteblack h-[400px] relative rounded-xl aspect-2/3 text-matteblack shadow-lg will-change-transform"
+  >
+    <div class="flex flex-col items-center gap-1 left-2 top-2 absolute">
+      <Icon
+        name="material-symbols:star-rounded"
+        class="text-2xl text-darkorange"
+      />
+      <p class="text-xl font-bold">{{ inferiorProfiles.length }}</p>
+    </div>
+
+    <div class="flex flex-col items-center gap-1 right-2 bottom-2 absolute">
+      <p class="text-xl font-bold rotate-180">{{ inferiorProfiles.length }}</p>
+      <Icon
+        name="material-symbols:star-rounded"
+        class="text-2xl rotate-180 text-darkorange"
+      />
+    </div>
+
+    <p class="text-center text-2xl">
+      Matches
+      <span
+        :class="
+          uiStore.showSuperiorProfile
+            ? 'line-through decoration-darkorange'
+            : ''
+        "
+      >
+        fundet
+      </span>
+
+      <span v-if="uiStore.showSuperiorProfile" class="block">
+        <span class="text-darkorange">kombineret</span> til det ultimative match
+      </span>
+    </p>
+  </div>
+</template>
+
+<style scoped>
+div[ref="cardRef"] {
+  transform-style: preserve-3d;
+}
+</style>

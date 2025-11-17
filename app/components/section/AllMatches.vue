@@ -137,23 +137,70 @@ const getCardStyle = (index: number, total: number) => {
           class="w-full overflow-auto p-4 hide-scrollbar"
         >
           <div class="min-w-min flex justify-center gap-6">
-            <div
+            <ElementFlippableCard
               v-for="(profile, index) in inferiorProfiles"
               :key="profile.id"
               :style="getCardStyle(index, inferiorProfiles.length)"
-              class="card-shake bg-gray-200 aspect-2/3 rounded flex flex-col items-center justify-center text-matteblack shadow-md hover:shadow-lg transition-all duration-300 transform hover:-translate-y-1"
-              :class="profile.id === 'profile-1' ? 'h-[325px]' : 'h-[300px]'"
+              :hide-title="progress > 0"
+              class="card-shake"
             >
-              <div
-                class="rounded-full bg-gray-300 mb-4 flex items-center justify-center overflow-hidden"
-              >
-                <Icon name="mdi:account" class="text-6xl text-gray-500" />
-              </div>
-              <p class="font-bold text-xl mb-1">{{ profile.name }}</p>
-              <p class="text-sm text-gray-600">
-                {{ calculateMatchPercentage(profile) }}% match
-              </p>
-            </div>
+              <template #back>
+                <div
+                  class="flex flex-col h-full w-full text-start text-matteblack"
+                >
+                  <p class="font-bold">Highlights</p>
+                  <ul class="list-none flex flex-col gap-2 text-xs">
+                    <li v-for="highlight in profile.highlights" class="">
+                      <p>{{ highlight.title }}</p>
+                      <div
+                        class="w-full border"
+                        :class="`border-${highlight.color}`"
+                      >
+                        <div
+                          class="h-4"
+                          :class="`bg-${highlight.color}`"
+                          :style="{ width: `${highlight.value}%` }"
+                        />
+                      </div>
+                    </li>
+                  </ul>
+                </div>
+              </template>
+
+              <template #front-top-left>
+                <Icon name="mdi:star" class="text-darkorange text-xl" />
+                <p class="text-vertical text-matteblack font-bold">
+                  {{ profile.firstName }}
+                </p>
+              </template>
+
+              <template #front-center>
+                <NuxtImg
+                  src="/img/facecard.png"
+                  alt="Superior Profile"
+                  class="w-1/2"
+                />
+              </template>
+
+              <template #front-bottom-right>
+                <p class="text-vertical text-darkorange font-bold">
+                  {{ profile.lastName }}
+                </p>
+                <Icon
+                  name="mdi:star"
+                  class="text-darkorange text-xl rotate-180"
+                />
+              </template>
+
+              <template #title-beneath>
+                <div class="text-sm">
+                  <p>{{ profile.firstName }} {{ profile.lastName }}</p>
+                  <p class="font-bold">
+                    {{ `${calculateMatchPercentage(profile)}% match` }}
+                  </p>
+                </div>
+              </template>
+            </ElementFlippableCard>
           </div>
         </div>
       </div>
@@ -185,7 +232,7 @@ const getCardStyle = (index: number, total: number) => {
       {{ inferiorProfiles.length }} fine kandidater... Men hvad nu, hvis du
       kunne <strong class="text-darkorange animate-pulse">kombinere</strong> dem
       alle og skabe det
-      <strong class="text-darkorange">ultimative match</strong>?
+      <strong class="text-darkorange">ultimative match</strong> for dig?
     </p>
     <p v-else class="text-center text-lg">
       <strong>Boom!</strong> Alle dine ønskede kvaliteter, kombineret i én

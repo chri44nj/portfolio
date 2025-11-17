@@ -26,7 +26,7 @@ export const skillCards: Card[] = [
     heading: "UI/UX Design",
     alt: "Et kort der viser færdigheden 'UI/UX Design'",
     icon: "material-symbols:dashboard-rounded",
-    text: "kan finde ud af at implementere den gode brugeroplevelse",
+    text: "kan finde ud af at skabe en god brugeroplevelse",
     textBack:
       "En der *designer fede løsninger* med udgangspunkt i *smooth flow* og *sublim bruger&shy;oplevelse*.",
     step: 1,

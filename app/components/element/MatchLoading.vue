@@ -160,9 +160,10 @@ onMounted(() => {
           </div>
         </div>
       </div>
-
-      <p v-if="!loadingBegun">Begynder...</p>
-      <p v-else>{{ currentStage.processingText }}</p>
+      <Transition name="icon">
+        <p v-if="!loadingBegun" class="animate-pulse">Begynder...</p>
+        <p v-else class="animate-pulse">{{ currentStage.processingText }}</p>
+      </Transition>
     </div>
   </div>
 </template>

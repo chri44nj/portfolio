@@ -52,26 +52,34 @@ onMounted(() => {
 <template>
   <div
     ref="cardRef"
-    class="flex flex-col items-center justify-center bg-baseparchment p-4 border border-matteblack h-[400px] relative rounded-xl aspect-2/3 text-matteblack shadow-lg will-change-transform"
+    class="flex flex-col items-center justify-center bg-baseparchment p-4 border border-matteblack h-[400px] relative rounded-xl aspect-2/3 text-matteblack shadow-lg will-change-transform z-1"
   >
     <div class="flex flex-col items-center gap-1 left-2 top-2 absolute">
       <Icon
         name="material-symbols:star-rounded"
         class="text-2xl text-darkorange"
       />
-      <p class="text-xl font-bold">{{ inferiorProfiles.length }}</p>
+      <p class="!text-xl/[1] font-bold">
+        {{ uiStore.showSuperiorProfile ? "1" : inferiorProfiles.length }}
+      </p>
     </div>
-
+    <p
+      class="font-special absolute -translate-y-1/2 top-1/2 text-darkorange/50 text-[10rem] z-0"
+    >
+      {{ uiStore.showSuperiorProfile ? "1" : inferiorProfiles.length }}
+    </p>
     <div class="flex flex-col items-center gap-1 right-2 bottom-2 absolute">
-      <p class="text-xl font-bold rotate-180">{{ inferiorProfiles.length }}</p>
+      <p class="!text-xl/[1] font-bold rotate-180">
+        {{ uiStore.showSuperiorProfile ? "1" : inferiorProfiles.length }}
+      </p>
       <Icon
         name="material-symbols:star-rounded"
         class="text-2xl rotate-180 text-darkorange"
       />
     </div>
 
-    <p class="text-center text-2xl">
-      Matches
+    <p class="text-center text-xl z-1 font-bold">
+      {{ uiStore.showSuperiorProfile ? "Alle matches" : "Matches" }}
       <span
         :class="
           uiStore.showSuperiorProfile

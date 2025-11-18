@@ -23,7 +23,7 @@ const handleMouseLeave = () => {
 <template>
   <div>
     <div
-      class="flip-card aspect-2/3 h-[250px] md:h-[300px] bg-transparent perspective-1000 relative group cursor-pointer group"
+      class="flip-card aspect-2/3 border rounded-xl border-matteblack h-[250px] md:h-[300px] bg-transparent perspective-1000 relative group cursor-pointer group z-1"
       :class="{ flipped }"
       tabindex="0"
       @mouseleave="handleMouseLeave"

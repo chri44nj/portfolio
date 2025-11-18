@@ -58,6 +58,10 @@ export const inferiorProfiles: Profile[] = [
       { title: "Vue + Nuxt", color: "lightblue", value: 85 },
       { title: "React + Next", color: "lightblue", value: 70 },
       { title: "GIT", color: "lightblue", value: 80 },
+      { title: "Tailwind", color: "lightblue", value: 90 },
+      { title: "Lærer hurtigt", color: "basered", value: 95 },
+      { title: "Dedikation", color: "basered", value: 85 },
+      { title: "Musisk smag", color: "darkyellow", value: 90 },
     ],
   },
   {
@@ -107,6 +111,9 @@ export const inferiorProfiles: Profile[] = [
         value: 70,
       },
       { title: "Davinci Resolve", color: "lightblue", value: 80 },
+      { title: "Kreativitet", color: "basered", value: 100 },
+      { title: "Nysgerrighed", color: "basered", value: 90 },
+      { title: "Filmisk viden", color: "darkyellow", value: 95 },
     ],
   },
   {
@@ -139,6 +146,24 @@ export const inferiorProfiles: Profile[] = [
       "personality-nysgerrig",
       "umulig-1",
       "umulig-2",
+    ],
+    highlights: [
+      {
+        title: "UX design",
+        color: "lightblue",
+        value: 90,
+      },
+      {
+        title: "UI design",
+        color: "lightblue",
+        value: 80,
+      },
+      { title: "Figma", color: "lightblue", value: 80 },
+      {
+        title: "Adobe XD",
+        color: "lightblue",
+        value: 70,
+      },
     ],
   },
   {
@@ -175,6 +200,20 @@ export const inferiorProfiles: Profile[] = [
       "umulig-1",
       "umulig-2",
       "umulig-3",
+    ],
+    highlights: [
+      {
+        title: "Optagelse og redigering",
+        color: "lightblue",
+        value: 85,
+      },
+      { title: "Idé og storyboarding", color: "lightblue", value: 80 },
+      {
+        title: "Adobe Premiere Pro",
+        color: "lightblue",
+        value: 70,
+      },
+      { title: "Davinci Resolve", color: "lightblue", value: 80 },
     ],
   },
 ];

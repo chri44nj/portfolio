@@ -265,6 +265,31 @@ button {
   display: none; /* Chrome, Safari, and Opera */
 }
 
+.nice-scrollbar {
+  --sb-size: 4px;
+  padding-right: 1rem;
+}
+
+.nice-scrollbar::-webkit-scrollbar {
+  width: var(--sb-size);
+}
+
+.nice-scrollbar::-webkit-scrollbar-track {
+  background: var(--color-baseparchment);
+  border-radius: 2px;
+}
+
+.nice-scrollbar::-webkit-scrollbar-thumb {
+  background: var(--color-darkparchment);
+  border-radius: 2px;
+}
+
+@supports not selector(::-webkit-scrollbar) {
+  .nice-scrollbar {
+    scrollbar-color: var(--color-darkparchment) var(--color-baseparchment);
+  }
+}
+
 .text-vertical {
   writing-mode: vertical-rl;
   text-orientation: upright;

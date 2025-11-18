@@ -12,7 +12,11 @@ const flowStepText = computed(() => {
     case 4:
       return "Find de bedste matches";
     case 5:
-      return "Hiv fat i det ultimative match";
+      if (!uiStore.showSuperiorProfile) {
+        return "Dit ultimative match?";
+      } else {
+        return "Dit ultimative match";
+      }
     default:
       return "";
   }

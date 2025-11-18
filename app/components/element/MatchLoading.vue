@@ -74,7 +74,7 @@ const animateStage = (stageIndex: number) => {
     loadingDone.value = true;
     setTimeout(() => {
       props.onComplete();
-    }, 500);
+    }, 1000);
     return;
   }
 
@@ -98,7 +98,7 @@ const animateStage = (stageIndex: number) => {
       // Ensure it ends at exactly 100
       progress.value[stage.key] = 100;
       // Start next stage after a delay
-      setTimeout(() => animateStage(stageIndex + 1), 300);
+      setTimeout(() => animateStage(stageIndex + 1), 500);
     }
   };
 

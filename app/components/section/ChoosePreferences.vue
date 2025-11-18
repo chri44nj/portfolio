@@ -189,7 +189,9 @@ useTextAnimation({
             />
           </UButtonGroup>
           <p v-else class="w-full cursor-default">
-            <span v-if="cardStore.selectedCardCount === cardStore.amountOfCards"
+            <span
+              v-if="cardStore.selectedCardCount === cardStore.amountOfCards"
+              class="text-darkorange font-bold"
               >Alle </span
             >{{ cardStore.selectedCardCount }}
             {{ cardStore.selectedCardCount === 1 ? "kvalitet" : "kvaliteter" }}

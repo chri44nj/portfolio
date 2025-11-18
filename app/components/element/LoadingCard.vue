@@ -7,7 +7,8 @@ const props = defineProps<{
 
 const animationElement = ref<HTMLElement>();
 const shouldStop = ref(props.animationDone);
-const isStopped = ref(props.animationDone);
+// Initialize as stopped (not animating) unless the card is already active
+const isStopped = ref(!props.isActive || props.animationDone);
 
 const backgroundColor = computed(() => {
   switch (props.color) {
@@ -23,11 +24,23 @@ const backgroundColor = computed(() => {
   }
 });
 
+// Start animation when isActive becomes true
+watch(
+  () => props.isActive,
+  (active) => {
+    if (active && !shouldStop.value) {
+      isStopped.value = false;
+    }
+  }
+);
+
+// Stop animation only when animationDone becomes true
 watch(
   () => props.animationDone,
   (done) => {
-    shouldStop.value = done;
-    if (done) isStopped.value = true;
+    if (done) {
+      shouldStop.value = true;
+    }
   }
 );
 
@@ -42,11 +55,11 @@ const onAnimationIteration = () => {
   <div class="perspective">
     <div
       ref="animationElement"
-      class="h-12 aspect-2/3 rounded transition-all duration-300"
+      class="h-12 aspect-2/3 rounded transition-all duration-300 opacity-50"
       :class="[
         backgroundColor,
-        props.isActive && !isStopped ? 'flipping' : 'flipping-stopped',
-        !isStopped ? 'opacity-50' : 'opacity-100',
+        !isStopped ? 'flipping' : 'flipping-stopped',
+        animationDone && isStopped ? 'opacity-100' : '',
       ]"
       @animationiteration="onAnimationIteration"
     ></div>
@@ -60,7 +73,7 @@ const onAnimationIteration = () => {
 
 .flipping {
   transform: rotate(0);
-  animation: flip 2s infinite;
+  animation: flip 1.5s infinite;
 }
 
 .flipping-stopped {

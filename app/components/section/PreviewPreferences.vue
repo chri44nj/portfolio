@@ -28,7 +28,7 @@ const handleLeaveCard = (id: string) => {
     class="grid md:grid-cols-2 gap-8 md:gap-16 justify-center md:justify-start place-self-start md:grow"
   >
     <div class="flex flex-col text-center md:text-start w-fit gap-4">
-      <h3 class="text-center md:text-start text-lg">Du søger</h3>
+      <h3 class="text-center md:text-start !text-xl">Du søger</h3>
       <TransitionGroup name="fade" appear>
         <ElementMatchText
           key="1"
@@ -83,13 +83,13 @@ const handleLeaveCard = (id: string) => {
     </div>
     <div class="flex flex-col items-center text-center w-full gap-4 md:gap-8">
       <div>
-        <h3 class="mb-4">Valgte &nbsp;kvaliteter</h3>
+        <h3 class="mb-4 !text-xl">Valgte &nbsp;kvaliteter</h3>
         <div class="flex gap-4 flex-wrap justify-center">
           <TransitionGroup name="list" appear>
             <div
               v-for="card in cardStore.selectedCards"
               :key="card.id"
-              class="md:text-[1.25rem] md:px-4 md:py-2 px-2 py-1 rounded cursor-default transition-all duration-200 hover:opacity-75"
+              class="!md:text-[1.25rem] md:px-4 md:py-2 px-2 py-1 rounded cursor-default transition-all duration-200 hover:opacity-75"
               :class="[
                 card.step === 1
                   ? 'bg-lightblue'
@@ -112,7 +112,7 @@ const handleLeaveCard = (id: string) => {
         </div>
       </div>
       <div v-if="cardStore.notSelectedCardIds.length">
-        <p class="mb-4 text-lg">
+        <p class="mb-4 !text-lg">
           Ikke valgt{{ cardStore.notSelectedCardIds.length > 1 ? "e" : "" }}
         </p>
         <div class="flex gap-4 flex-wrap justify-center">
@@ -120,7 +120,7 @@ const handleLeaveCard = (id: string) => {
             <div
               v-for="card in cardStore.notSelectedCards"
               :key="card.id"
-              class="md:text-[1rem] md:px-4 md:py-2 px-2 py-1 rounded opacity-50 hover:opacity-75 transition-all duration-200 border-1 cursor-default"
+              class="!md:text-[1rem] md:px-4 md:py-2 px-2 py-1 rounded opacity-50 hover:opacity-75 transition-all duration-200 border-1 cursor-default"
               :class="
                 card.step === 1
                   ? 'border-lightblue hover:bg-lightblue'

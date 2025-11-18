@@ -14,9 +14,6 @@ const flippedCards = ref<string[]>([]);
 
 const handleClick = (id: string) => {
   emit("toggle-select-card", id);
-  if (flippedCards.value.includes(id)) {
-    flippedCards.value = flippedCards.value.filter((cardId) => cardId !== id);
-  }
   if (import.meta.client && window.matchMedia("(max-width: 1024px)").matches) {
     flippedCards.value = flippedCards.value.filter((cardId) => cardId === id);
   }

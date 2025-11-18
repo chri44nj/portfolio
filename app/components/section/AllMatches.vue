@@ -121,7 +121,7 @@ const getCardStyle = (index: number, total: number) => {
   <section
     class="flex flex-col gap-4 items-center justify-center w-full h-full"
   >
-    <h2 class="text-center font-special text-darkorange">
+    <h2 class="text-center font-special text-darkorange z-1">
       {{
         !uiStore.showSuperiorProfile ? `Dine matches` : "Dit ultimative match"
       }}
@@ -142,14 +142,16 @@ const getCardStyle = (index: number, total: number) => {
               :key="profile.id"
               :style="getCardStyle(index, inferiorProfiles.length)"
               :hide-title="progress > 0"
-              class="card-shake"
+              class="card-shake z-1"
             >
               <template #back>
                 <div
                   class="flex flex-col h-full w-full text-start text-matteblack"
                 >
                   <p class="font-bold">Highlights</p>
-                  <ul class="list-none flex flex-col gap-2 text-xs">
+                  <ul
+                    class="list-none flex flex-col gap-2 text-xs overflow-auto nice-scrollbar pb-1"
+                  >
                     <li v-for="highlight in profile.highlights" class="">
                       <p>{{ highlight.title }}</p>
                       <div
@@ -157,7 +159,7 @@ const getCardStyle = (index: number, total: number) => {
                         :class="`border-${highlight.color}`"
                       >
                         <div
-                          class="h-4"
+                          class="h-2"
                           :class="`bg-${highlight.color}`"
                           :style="{ width: `${highlight.value}%` }"
                         />
@@ -205,27 +207,60 @@ const getCardStyle = (index: number, total: number) => {
         </div>
       </div>
 
-      <div
-        v-else
-        key="superior"
-        class="w-full flex flex-col gap-4 items-center"
-      >
-        <div class="flex justify-center p-4">
-          <div
-            class="bg-gradient-to-br from-purple-200 to-pink-200 aspect-2/3 h-[300px] rounded-lg flex flex-col items-center justify-center text-matteblack shadow-xl text-center"
-          >
-            <div
-              class="rounded-full bg-gradient-to-br from-purple-300 to-pink-300 mb-4 flex items-center justify-center overflow-hidden w-32 h-32"
+      <ElementFlippableCard v-else :key="superiorProfile.id">
+        <template #back>
+          <div class="flex flex-col h-full w-full text-start text-matteblack">
+            <p class="font-bold">Highlights</p>
+            <ul
+              class="list-none flex flex-col gap-2 text-xs overflow-auto nice-scrollbar pb-1"
             >
-              <Icon name="mdi:account" class="text-8xl text-purple-600" />
-            </div>
-            <p class="font-bold text-2xl mb-1">{{ superiorProfile.name }}</p>
-            <p class="text-lg text-gray-700">
-              {{ calculateMatchPercentage(superiorProfile) }}% match
+              <li v-for="highlight in superiorProfile.highlights" class="">
+                <p>{{ highlight.title }}</p>
+                <div class="w-full border" :class="`border-${highlight.color}`">
+                  <div
+                    class="h-2"
+                    :class="`bg-${highlight.color}`"
+                    :style="{ width: `${highlight.value}%` }"
+                  />
+                </div>
+              </li>
+            </ul>
+          </div>
+        </template>
+
+        <template #front-top-left>
+          <Icon name="mdi:star" class="text-darkorange text-xl" />
+          <p class="text-vertical text-matteblack font-bold">
+            {{ superiorProfile.firstName }}
+          </p>
+        </template>
+
+        <template #front-center>
+          <NuxtImg
+            src="/img/facecard.png"
+            alt="Superior Profile"
+            class="w-1/2"
+          />
+        </template>
+
+        <template #front-bottom-right>
+          <p class="text-vertical text-darkorange font-bold">
+            {{ superiorProfile.lastName }}
+          </p>
+          <Icon name="mdi:star" class="text-darkorange text-xl rotate-180" />
+        </template>
+
+        <template #title-beneath>
+          <div class="text-sm">
+            <p>
+              {{ superiorProfile.firstName }} {{ superiorProfile.lastName }}
+            </p>
+            <p class="font-bold">
+              {{ `${calculateMatchPercentage(superiorProfile)}% match` }}
             </p>
           </div>
-        </div>
-      </div>
+        </template>
+      </ElementFlippableCard>
     </Transition>
 
     <p v-if="!uiStore.showSuperiorProfile" class="text-center">
@@ -234,9 +269,12 @@ const getCardStyle = (index: number, total: number) => {
       alle og skabe det
       <strong class="text-darkorange">ultimative match</strong> for dig?
     </p>
-    <p v-else class="text-center text-lg">
-      <strong>Boom!</strong> Alle dine ønskede kvaliteter, kombineret i én
-      person.
+    <p v-else class="text-center text-lg z-1">
+      <strong class="text-darkorange">Boom!</strong> Alle dine efterspurgte
+      kvaliteter, kombineret i <span class="underline">én person</span>. Et 100%
+      match. A once in a lifetime opportunity.
+      <strong class="text-darkorange">Dit ultimative match.</strong>
+      <br />Godt gået - og nej, du drømmer ikke.
     </p>
     <div
       v-if="!uiStore.showSuperiorProfile"
@@ -262,6 +300,9 @@ const getCardStyle = (index: number, total: number) => {
         >
       </UButton>
     </div>
+    <NuxtLink v-else to="/" class="fixed bottom-4 z-10 overflow-hidden">
+      <UButton size="xl" label="Jeg vil vide mere!" />
+    </NuxtLink>
   </section>
 </template>
 

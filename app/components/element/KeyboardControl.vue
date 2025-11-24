@@ -10,9 +10,9 @@ defineProps<{
 
 <template>
   <div
-    class="flex items-center justify-between w-full flex-col md:flex-row gap-2"
+    class="flex items-center justify-between w-full flex-col md:flex-row gap-4"
   >
-    <div class="flex items-center gap-2 h-8">
+    <div class="flex items-center gap-2 h-6 text-sm">
       <template v-for="(control, index) in controls" :key="index">
         <!-- For regular elements (text or icon) with background -->
         <div
@@ -39,6 +39,6 @@ defineProps<{
       </template>
     </div>
 
-    <p v-if="text">{{ text }}</p>
+    <p v-if="text" class="text-right text-sm">{{ text }}</p>
   </div>
 </template>

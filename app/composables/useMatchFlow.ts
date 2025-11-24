@@ -38,6 +38,8 @@ export function useMatchFlow() {
       uiStore.matchDone = false;
       uiStore.showSuperiorProfile = false;
       uiStore.flowStep = 3;
+      uiStore.visitedAllMatches = false;
+      uiStore.visitedUltimateMatch = false;
     } else {
       uiStore.flowStep--;
     }

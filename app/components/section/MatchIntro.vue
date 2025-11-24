@@ -206,7 +206,7 @@ const cardsTurned = ref(false);
           class="text-sm md:text-base transition-opacity duration-2000"
           :class="linesActivated ? 'opacity-100' : 'opacity-0'"
         >
-          Vær hilset
+          Vær hilset,
           {{
             route.params.username
               ? `repræsentant fra det noble hus ${username} `
@@ -229,7 +229,7 @@ const cardsTurned = ref(false);
         <UButton
           key="single-button"
           :label="cardStore.selectedCardCount > 0 ? 'Fortsæt' : 'Begynd'"
-          size="xl"
+          size="lg"
           block
           class="fixed left-0 py-4 md:py-6 z-10 ease-in-out rounded-none animate-pulse transition-[bottom] duration-3500"
           :class="userMayContinue ? 'bottom-0' : '-bottom-full'"

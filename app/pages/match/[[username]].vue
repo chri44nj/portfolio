@@ -130,13 +130,13 @@ onMounted(() => {
         <UButton
           label="Tilbage"
           variant="outline"
-          size="xl"
+          size="lg"
           class="px-8"
           @click="handlePreviousStep"
         />
         <UButton
           :label="buttonLabelPrimary"
-          size="xl"
+          size="lg"
           class="px-8"
           :class="
             !cardStore.allCategoriesSelected

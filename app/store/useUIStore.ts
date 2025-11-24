@@ -9,6 +9,8 @@ export const useUIStore = defineStore(
     const matchDone = ref(false);
     const showSuperiorProfile = ref(false);
     const showMissingCategoriesTooltip = ref(false);
+    const visitedAllMatches = ref(false);
+    const visitedUltimateMatch = ref(false);
 
     return {
       preferencesStep,
@@ -19,6 +21,8 @@ export const useUIStore = defineStore(
       matchDone,
       showSuperiorProfile,
       showMissingCategoriesTooltip,
+      visitedAllMatches,
+      visitedUltimateMatch,
     };
   },
   {

@@ -22,10 +22,16 @@ const flowStepText = computed(() => {
   }
 });
 
-const handleClickFlowStep2 = () => {
+const resetMatchProgress = () => {
   uiStore.matchDone = false;
   uiStore.matchBegun = false;
   uiStore.showSuperiorProfile = false;
+  uiStore.visitedAllMatches = false;
+  uiStore.visitedUltimateMatch = false;
+};
+
+const handleClickFlowStep2 = () => {
+  resetMatchProgress();
   uiStore.flowStep = 2;
 };
 
@@ -34,9 +40,7 @@ const handleClickFlowStep3 = () => {
     uiStore.showMissingCategoriesTooltip = true;
     return;
   }
-  uiStore.matchDone = false;
-  uiStore.matchBegun = false;
-  uiStore.showSuperiorProfile = false;
+  resetMatchProgress();
   uiStore.flowStep = 3;
 };
 

@@ -9,8 +9,6 @@ const cardStore = useCardStore();
 const uiStore = useUIStore();
 const isHolding = ref(false);
 const progress = ref(0);
-const ultimateMatchJustCreated = ref(false);
-
 const showTextPartOne = ref(false);
 const showTextPartTwo = ref(false);
 const showButtonHold = ref(false);
@@ -73,19 +71,22 @@ const handleHoldEnd = () => {
 };
 
 const handleHoldComplete = () => {
-  console.log("Hold complete! Combine triggered.");
-  ultimateMatchJustCreated.value = true;
+  console.log("Ultimate match created!");
   uiStore.showSuperiorProfile = true;
-  showSuccessTextPartOne.value = true;
-  setTimeout(() => {
-    showSuccessTextPartTwo.value = true;
+  requestAnimationFrame(() => {
+    showSuccessTextPartOne.value = true;
+
     setTimeout(() => {
-      showSuccessTextPartThree.value = true;
+      showSuccessTextPartTwo.value = true;
       setTimeout(() => {
-        showButtonMore.value = true;
-      }, 2000);
-    }, 4000);
-  }, 2000);
+        showSuccessTextPartThree.value = true;
+        setTimeout(() => {
+          showButtonMore.value = true;
+          uiStore.visitedUltimateMatch = true;
+        }, 2000);
+      }, 4000);
+    }, 3000);
+  });
 };
 
 const calculateMatchPercentage = (profile: Profile) => {
@@ -193,6 +194,7 @@ onMounted(() => {
       showTextPartTwo.value = true;
       setTimeout(() => {
         showButtonHold.value = true;
+        if (!uiStore.visitedAllMatches) uiStore.visitedAllMatches = true;
       }, 1000);
     }, 2000);
   }, 1750);
@@ -384,14 +386,22 @@ onBeforeUnmount(() => {
     <p
       v-if="!uiStore.showSuperiorProfile"
       class="text-center transition-opacity duration-2000"
-      :class="showTextPartOne ? 'opacity-100' : 'opacity-0'"
+      :class="
+        showTextPartOne || uiStore.visitedAllMatches
+          ? 'opacity-100'
+          : 'opacity-0'
+      "
     >
-      {{ inferiorProfiles.length }} udemærkede kandidater...
+      {{ inferiorProfiles.length }} udemærkede matches...
       <span
         class="transition-opacity duration-2000"
-        :class="showTextPartTwo ? 'opacity-100' : 'opacity-0'"
-        >Men du var her for at finde dit
-        <strong class="text-darkorange font-bold">ultimative match</strong>, var
+        :class="
+          showTextPartTwo || uiStore.visitedAllMatches
+            ? 'opacity-100'
+            : 'opacity-0'
+        "
+        >Men du er her for at finde dit
+        <strong class="text-darkorange font-bold">ultimative match</strong>, er
         du ikke? Hvad hvis jeg fortalte dig, at du har evnen til
         <strong class="animate-pulse">kombinere dem alle</strong>
         og skabe netop det?</span
@@ -399,29 +409,51 @@ onBeforeUnmount(() => {
     </p>
     <p
       v-else
-      class="text-center z-1 transition-opacity duration-2000"
-      :class="showSuccessTextPartOne ? 'opacity-100' : 'opacity-0'"
+      class="text-center z-1 transition-opacity duration-3000"
+      :class="
+        showSuccessTextPartOne || uiStore.visitedUltimateMatch
+          ? 'opacity-100'
+          : 'opacity-0'
+      "
     >
       Sweet mother of... Det lykkedes dig!
       <span
         class="transition-opacity duration-2000"
-        :class="showSuccessTextPartTwo ? 'opacity-100' : 'opacity-0'"
-        >Mellem os to, har jeg i årenes løb kaldt mange for
+        :class="
+          showSuccessTextPartTwo || uiStore.visitedUltimateMatch
+            ? 'opacity-100'
+            : 'opacity-0'
+        "
+        >Bare mellem os to, så har jeg i årenes løb kaldt mange for
         <span class="font-bold">The Chosen One</span>, men du lever i sandhed op
-        til titlen. Alle dine ønskede kvaliteter, kombineret i én person - et
-        100% match. A once in a lifetime opportunity!
+        til titlen! Alle dine ønskede kvaliteter, kombineret i én person - et
+        sandt 100% match. A once in a lifetime opportunity.
       </span>
-      <span
-        class="transition-opacity duration-2000"
-        :class="showSuccessTextPartThree ? 'opacity-100' : 'opacity-0'"
+
+      <strong
+        class="transition-opacity duration-2000 text-darkorange"
+        :class="
+          showSuccessTextPartThree || uiStore.visitedUltimateMatch
+            ? 'opacity-100'
+            : 'opacity-0'
+        "
       >
-        <strong class="text-darkorange"> Dit ultimative match</strong>...</span
+        Dit ultimative match,
+        <NuxtLink
+          to="https://www.linkedin.com/in/christian-valentin-262206226/"
+          target="_blank"
+          >Christian Valentin!</NuxtLink
+        ></strong
       >
     </p>
     <div
       v-if="!uiStore.showSuperiorProfile"
       class="fixed left-0 w-full z-10 transition-[bottom] ease-in-out duration-3500"
-      :class="showButtonHold ? 'bottom-0' : '-bottom-full'"
+      :class="
+        showButtonHold || uiStore.visitedAllMatches
+          ? 'bottom-0'
+          : '-bottom-full'
+      "
       @mousedown="handleHoldStart"
       @mouseup="handleHoldEnd"
       @mouseleave="handleHoldEnd"
@@ -430,7 +462,7 @@ onBeforeUnmount(() => {
       @touchcancel="handleHoldEnd"
     >
       <UButton
-        size="xl"
+        size="lg"
         block
         class="absolute bottom-0 left-0 py-4 md:py-6 rounded-none overflow-hidden select-none"
         :class="isHolding ? '' : 'animate-pulse'"
@@ -453,12 +485,11 @@ onBeforeUnmount(() => {
       </UButton>
     </div>
     <NuxtLink
-      v-else-if="showButtonMore"
+      v-else-if="showButtonMore || uiStore.visitedUltimateMatch"
       to="/"
-      class="fixed bottom-4 z-10"
-      :class="ultimateMatchJustCreated ? 'slide-and-tip' : ''"
+      class="fixed bottom-4 z-10 slide-and-tip"
     >
-      <UButton size="xl" label="Jeg vil vide mere!" />
+      <UButton size="lg" label="Vis mig mere!" />
     </NuxtLink>
   </section>
 </template>

@@ -114,7 +114,7 @@ const formatTextContent = (text: string): string => {
         @mouseleave="!$device.isMobileOrTablet && hoverFlip(card.id, false)"
       >
         <div
-          class="flip-card aspect-2/3 h-[250px] md:h-[300px] bg-transparent perspective-1000"
+          class="flip-card aspect-2/3 h-[250px] bg-transparent perspective-1000"
           :class="{
             flipped: flippedCards.includes(card.id),
             'hover-flip': !$device.isMobileOrTablet,
@@ -135,7 +135,7 @@ const formatTextContent = (text: string): string => {
               <Icon
                 v-if="card.icon"
                 :name="card.icon"
-                class="absolute top-1/2 left-1/2 transform transition-all duration-200 -translate-x-1/2 -translate-y-1/2 text-[3rem]"
+                class="absolute top-1/2 left-1/2 transform transition-all duration-200 -translate-x-1/2 -translate-y-1/2 text-[2.5rem]"
                 :class="[
                   cardStore.isCardSelected(card.id)
                     ? cardStore.categoryColor
@@ -152,9 +152,9 @@ const formatTextContent = (text: string): string => {
               >
                 <Icon
                   name="material-symbols:refresh-rounded"
-                  class="text-xl shrink-0 opacity-50 group-hover:opacity-100 group-focus-visible:opacity-100 text-matteblack transition-all duration-200"
+                  class="text-xl shrink-0 opacity-50 group-hover:opacity-100 group-focus-visible:opacity-100 text-matteblack transition-opacity duration-200"
                   :class="{
-                    'group-hover:text-2xl group-focus-visible:text-2xl':
+                    'group-hover:rotate-360 group-focus-visible:rotate-360 transition-transform duration-750':
                       !cardStore.isCardSelected(card.id),
                   }"
                 />
@@ -186,7 +186,7 @@ const formatTextContent = (text: string): string => {
                 ]"
               />
               <p
-                class="text-matteblack text-left text-xs md:text-base italic break-normal"
+                class="text-matteblack text-left text-xs italic break-normal"
                 v-html="formatTextContent(card.textBack)"
               />
 

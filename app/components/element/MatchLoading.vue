@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { inferiorProfiles } from "~/data/profiles";
 import { useCardStore } from "~/store/useCardStore";
 
 const props = defineProps<{
@@ -9,42 +10,23 @@ const cardStore = useCardStore();
 const loadingBegun = ref(false);
 const loadingDone = ref(false);
 
-// Define the stages configuration
 const stages = [
   {
     key: "skill",
     label: "Kompetencer",
     color: "lightblue",
-    statusTexts: [
-      "Indlæser kompetencer...",
-      "Analyserer kompetencer...",
-      "Matcher kompetencer...",
-      "Kompetencer matchet!",
-    ],
     processingText: "Matcher kompetencer...",
   },
   {
     key: "personality",
     label: "Personlighed",
     color: "basered",
-    statusTexts: [
-      "Indlæser personlighed...",
-      "Analyserer personlighed...",
-      "Matcher personlighed...",
-      "Personlighed matchet!",
-    ],
     processingText: "Matcher personlighed...",
   },
   {
     key: "bonus",
     label: "Bonusser",
     color: "darkyellow",
-    statusTexts: [
-      "Indlæser bonusser...",
-      "Analyserer bonusser...",
-      "Matcher bonusser...",
-      "Bonusser matchet!",
-    ],
     processingText: "Matcher bonusser...",
   },
 ] as const;
@@ -59,17 +41,38 @@ const progress = ref<Record<StageKey, number>>({
 
 const currentStageIndex = ref(0);
 
-// Easing function for smooth progression (ease-in-out)
+const stoppedResolvers: Record<number, ((val?: any) => void) | null> = {};
+const STOP_FALLBACK_TIMEOUT = 2000;
+
 const easeInOutCubic = (t: number): number => {
   return t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
 };
 
-// Calculate loading times based on selected cards
 const getStageTime = (categoryKey: StageKey) => {
   return 2500 + cardStore.selectedCardsByCategory(categoryKey).length * 200;
 };
 
-const animateStage = (stageIndex: number) => {
+const waitForCardStopped = (index: number) => {
+  return new Promise((resolve) => {
+    stoppedResolvers[index] = resolve;
+    const t = setTimeout(() => {
+      if (stoppedResolvers[index]) {
+        stoppedResolvers[index]?.();
+        stoppedResolvers[index] = null;
+      }
+      clearTimeout(t);
+    }, STOP_FALLBACK_TIMEOUT);
+  });
+};
+
+const onCardStopped = (index: number) => {
+  if (stoppedResolvers[index]) {
+    stoppedResolvers[index]?.();
+    stoppedResolvers[index] = null;
+  }
+};
+
+const animateStage = async (stageIndex: number) => {
   if (stageIndex >= stages.length) {
     loadingDone.value = true;
     setTimeout(() => {
@@ -88,24 +91,22 @@ const animateStage = (stageIndex: number) => {
     const elapsed = now - startTime;
     const linearProgress = Math.min(elapsed / stageTime, 1);
 
-    // Apply easing and convert to 0-100 scale
     const easedProgress = easeInOutCubic(linearProgress);
-    progress.value[stage.key] = Math.floor(easedProgress * 100);
+    progress.value[stage.key] = easedProgress * 100;
 
     if (linearProgress < 1) {
       requestAnimationFrame(animate);
     } else {
-      // Ensure it ends at exactly 100
       progress.value[stage.key] = 100;
-      // Start next stage after a delay
-      setTimeout(() => animateStage(stageIndex + 1), 500);
+      waitForCardStopped(stageIndex).then(() => {
+        animateStage(stageIndex + 1);
+      });
     }
   };
 
   requestAnimationFrame(animate);
 };
 const currentStage = computed(() => stages[currentStageIndex.value]);
-// Start the sequential animation
 onMounted(() => {
   setTimeout(() => {
     loadingBegun.value = true;
@@ -129,11 +130,11 @@ onMounted(() => {
             "
             :animation-done="progress[stage.key] === 100"
             :is-active="currentStageIndex === index && loadingBegun"
+            @stopped="onCardStopped(index)"
           />
         </div>
       </div>
 
-      <!-- Progress Bars -->
       <div
         v-for="(stage, index) in stages"
         :key="stage.key"
@@ -148,21 +149,24 @@ onMounted(() => {
           <div class="flex items-center justify-between w-full">
             <p class="font-medium">{{ stage.label }}</p>
             <div class="mt-1 text-xs text-right">
-              {{ progress[stage.key] }}%
+              {{ Math.floor(progress[stage.key]) }}%
             </div>
           </div>
           <div class="h-4 w-full bg-gray-200 rounded overflow-hidden">
             <div
-              class="h-full transition-all duration-100 rounded"
+              class="h-full transition-[width] duration-75 ease-out rounded"
               :class="`bg-${stage.color}`"
-              :style="{ width: `${progress[stage.key]}%` }"
+              :style="{ width: progress[stage.key] + '%' }"
             />
           </div>
         </div>
       </div>
       <Transition name="icon">
         <p v-if="!loadingBegun" class="animate-pulse">Begynder...</p>
-        <p v-else class="animate-pulse">{{ currentStage.processingText }}</p>
+        <p v-else-if="!loadingDone" class="animate-pulse">
+          {{ currentStage?.processingText }}
+        </p>
+        <p v-else>{{ inferiorProfiles.length }} matches fundet!</p>
       </Transition>
     </div>
   </div>

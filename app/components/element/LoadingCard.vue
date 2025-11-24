@@ -5,10 +5,14 @@ const props = defineProps<{
   isActive: boolean;
 }>();
 
-const animationElement = ref<HTMLElement>();
+const emit = defineEmits<{
+  (e: "stopped"): void;
+}>();
+
+const animationElement = ref<HTMLElement | null>(null);
 const shouldStop = ref(props.animationDone);
-// Initialize as stopped (not animating) unless the card is already active
 const isStopped = ref(!props.isActive || props.animationDone);
+const emittedStop = ref(false);
 
 const backgroundColor = computed(() => {
   switch (props.color) {
@@ -24,7 +28,6 @@ const backgroundColor = computed(() => {
   }
 });
 
-// Start animation when isActive becomes true
 watch(
   () => props.isActive,
   (active) => {
@@ -34,12 +37,15 @@ watch(
   }
 );
 
-// Stop animation only when animationDone becomes true
 watch(
   () => props.animationDone,
   (done) => {
     if (done) {
       shouldStop.value = true;
+    }
+    if (done && isStopped.value && !emittedStop.value) {
+      emittedStop.value = true;
+      emit("stopped");
     }
   }
 );
@@ -47,8 +53,19 @@ watch(
 const onAnimationIteration = () => {
   if (shouldStop.value) {
     isStopped.value = true;
+    if (!emittedStop.value) {
+      emittedStop.value = true;
+      emit("stopped");
+    }
   }
 };
+
+onMounted(() => {
+  if (props.animationDone && isStopped.value && !emittedStop.value) {
+    emittedStop.value = true;
+    nextTick(() => emit("stopped"));
+  }
+});
 </script>
 
 <template>
@@ -59,7 +76,7 @@ const onAnimationIteration = () => {
       :class="[
         backgroundColor,
         !isStopped ? 'flipping' : 'flipping-stopped',
-        animationDone && isStopped ? 'opacity-100' : '',
+        props.animationDone && isStopped ? 'opacity-100' : '',
       ]"
       @animationiteration="onAnimationIteration"
     ></div>

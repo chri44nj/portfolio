@@ -13,9 +13,6 @@ const handleOnComplete = () => {
   <section
     class="flex flex-col gap-4 items-center justify-center w-full h-full"
   >
-    <!-- Fireworks background layer -->
-
-    <!-- Foreground UI -->
     <Transition name="fade" mode="out-in">
       <ElementMatchLoading
         v-if="!uiStore.matchDone"

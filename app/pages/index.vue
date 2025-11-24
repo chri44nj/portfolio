@@ -8,3 +8,5 @@
     <NuxtLink to="match/fakecorp"><UButton label="Til matchmaking" /></NuxtLink>
   </div>
 </template>
+
+<style></style>

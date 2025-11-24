@@ -96,6 +96,17 @@ button {
   opacity: 0;
 }
 
+/* Fade-out */
+.fade-out-enter-active,
+.fade-out-leave-active {
+  transition: opacity 1.5s ease-in-out;
+}
+
+.fade-out-enter-from,
+.fade-out-leave-to {
+  opacity: 0;
+}
+
 /* Bounce */
 .bounce-enter-active {
   animation: bounce-custom 0.3s;
@@ -103,6 +114,7 @@ button {
 .bounce-leave-active {
   animation: bounce-custom 0.3s reverse;
 }
+
 @keyframes bounce-custom {
   0% {
     transform: scale(0.75);

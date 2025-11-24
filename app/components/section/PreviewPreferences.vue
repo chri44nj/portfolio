@@ -25,7 +25,7 @@ const handleLeaveCard = (id: string) => {
 
 <template>
   <section
-    class="grid md:grid-cols-2 gap-8 md:gap-16 justify-center md:justify-start place-self-start md:grow"
+    class="grid md:grid-cols-2 gap-8 pt-2 md:gap-16 justify-center md:grow"
   >
     <div class="flex flex-col text-center md:text-start w-fit gap-4">
       <h3 class="text-center md:text-start !text-xl">Du søger</h3>

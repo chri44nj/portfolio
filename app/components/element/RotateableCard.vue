@@ -52,7 +52,7 @@ onMounted(() => {
 <template>
   <div
     ref="cardRef"
-    class="flex flex-col items-center justify-center bg-baseparchment p-4 border border-matteblack h-[400px] relative rounded-xl aspect-2/3 text-matteblack shadow-lg will-change-transform z-1"
+    class="flex flex-col items-center justify-center bg-baseparchment p-4 border border-matteblack h-[400px] relative rounded-xl aspect-2/3 text-matteblack shadow-lg will-change-transform z-1 select-none"
   >
     <div class="flex flex-col items-center gap-1 left-2 top-2 absolute">
       <Icon

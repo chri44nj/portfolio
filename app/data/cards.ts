@@ -192,7 +192,17 @@ export const bonusCards = [
     icon: "material-symbols:front-hand-rounded",
     text: "anerkender dit gode arbejde med en ordentlig klør fem",
     textBack:
-      "En der forstår værdien af at anerkende andres indsats - ofte med en god gammeldags klør fem.",
+      "En der forstår værdien af at anerkende andres indsats - ofte med en *god gammeldags klør fem*.",
+    step: 3,
+  },
+  {
+    id: "bonus-laeser",
+    heading: "Læser bøger",
+    alt: "Et kort der viser bonus 'Læser bøger'",
+    icon: "material-symbols:book-5-rounded",
+    text: "(sandsynligvis) gerne vil være en del af din bogklub",
+    textBack:
+      'En der glædeligt suger *andres geniale, nedskrevne tanker* til sig (og deler ud af dem, indtil du siger "Hold nu kæft...").',
     step: 3,
   },
 ];

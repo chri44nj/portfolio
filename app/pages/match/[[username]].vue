@@ -87,7 +87,7 @@ onMounted(() => {
 </script>
 <template>
   <div
-    class="flex flex-col items-center justify-center h-full my-[3.5rem] md:my-[4.5rem] grow"
+    class="flex flex-col items-center justify-center h-full py-[3.5rem] grow"
   >
     <Transition name="fade" mode="out-in">
       <SectionMatchIntro v-if="uiStore.flowStep === 1" />
@@ -99,7 +99,7 @@ onMounted(() => {
 
     <div
       v-if="uiStore.flowStep > 1"
-      class="fixed top-0 left-0 flex items-center justify-center w-full bg-matteblack/90 p-4 z-10"
+      class="fixed top-0 left-0 flex items-center justify-center w-full bg-matteblack/90 p-4 z-100"
     >
       <UButton
         variant="outline"

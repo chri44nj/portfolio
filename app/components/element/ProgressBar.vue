@@ -13,9 +13,9 @@ const flowStepText = computed(() => {
       return "Find de bedste matches";
     case 5:
       if (!uiStore.showSuperiorProfile) {
-        return "Dit ultimative match?";
+        return "... Men vi skal længere ind!";
       } else {
-        return "Dit ultimative match";
+        return "Dit ultimative match!";
       }
     default:
       return "";
@@ -98,9 +98,18 @@ const handleClickFlowStep5 = () => {
         @click="handleClickFlowStep5"
       />
     </div>
-    <p class="px-10 text-xs md:text-sm opacity-75">
-      {{ flowStepText }}
-    </p>
+    <NuxtLink
+      :to="
+        uiStore.flowStep === 5 && !uiStore.showSuperiorProfile
+          ? 'https://www.youtube.com/watch?v=vyCbIDhLepE'
+          : ''
+      "
+      target="_blank"
+    >
+      <p class="px-10 text-xs md:text-sm opacity-75">
+        {{ flowStepText }}
+      </p>
+    </NuxtLink>
   </div>
 </template>
 

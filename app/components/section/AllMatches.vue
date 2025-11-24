@@ -9,128 +9,230 @@ const cardStore = useCardStore();
 const uiStore = useUIStore();
 const isHolding = ref(false);
 const progress = ref(0);
-let interval: number | null = null;
-let interval2: number | null = null;
+const ultimateMatchJustCreated = ref(false);
+
+const showTextPartOne = ref(false);
+const showTextPartTwo = ref(false);
+const showButtonHold = ref(false);
+const showButtonMore = ref(false);
+const showSuccessTextPartOne = ref(false);
+const showSuccessTextPartTwo = ref(false);
+const showSuccessTextPartThree = ref(false);
+
+let holdStartTime: number | null = null;
+let decayStartProgress = 0;
+let animFrame: number | null = null;
+
+const HOLD_DURATION = 5000; // ms
+const DECAY_DURATION = 1000; // ms
+
+const updateProgress = (timestamp: number) => {
+  if (typeof window === "undefined") return;
+
+  if (isHolding.value && holdStartTime !== null) {
+    const elapsed = timestamp - holdStartTime;
+    progress.value = Math.min((elapsed / HOLD_DURATION) * 100, 100);
+
+    if (progress.value >= 100) {
+      isHolding.value = false;
+      holdStartTime = null;
+      handleHoldComplete();
+    }
+  } else if (!isHolding.value && decayStartProgress > 0) {
+    if (!holdStartTime) return; // prevent NaN or crash
+    const elapsed = timestamp - holdStartTime;
+    const fraction = elapsed / DECAY_DURATION;
+    progress.value = Math.max(decayStartProgress * (1 - fraction), 0);
+
+    if (progress.value <= 0) {
+      decayStartProgress = 0;
+      holdStartTime = null;
+    }
+  }
+
+  animFrame = window.requestAnimationFrame(updateProgress);
+};
 
 const handleHoldStart = () => {
   if (isHolding.value) return;
 
-  // Clear the decay interval if user starts holding again
-  if (interval2) {
-    clearInterval(interval2);
-    interval2 = null;
-  }
-
   isHolding.value = true;
-  // Don't reset progress - continue from current value
-
-  const duration = 3000;
-  const intervalTime = 20;
-  const step = (intervalTime / duration) * 100;
-
-  interval = window.setInterval(() => {
-    progress.value += step;
-    if (progress.value >= 100) {
-      progress.value = 100;
-      clearInterval(interval!);
-      isHolding.value = false;
-      handleHoldComplete();
-    }
-  }, intervalTime);
+  if (typeof window !== "undefined") {
+    holdStartTime = performance.now() - (progress.value / 100) * HOLD_DURATION;
+  }
 };
 
 const handleHoldEnd = () => {
-  if (progress.value >= 100) return; // Don't reset if completed
+  if (progress.value >= 100) return;
 
   isHolding.value = false;
-  clearInterval(interval!);
-  const duration = 1000;
-  const intervalTime = 20;
-  const step = (intervalTime / duration) * 100;
-
-  interval2 = window.setInterval(() => {
-    progress.value -= step;
-    if (progress.value <= 0) {
-      progress.value = 0;
-      clearInterval(interval2!);
-    }
-  }, intervalTime);
+  decayStartProgress = progress.value;
+  if (typeof window !== "undefined") {
+    holdStartTime = performance.now();
+  }
 };
 
 const handleHoldComplete = () => {
   console.log("Hold complete! Combine triggered.");
+  ultimateMatchJustCreated.value = true;
   uiStore.showSuperiorProfile = true;
+  showSuccessTextPartOne.value = true;
+  setTimeout(() => {
+    showSuccessTextPartTwo.value = true;
+    setTimeout(() => {
+      showSuccessTextPartThree.value = true;
+      setTimeout(() => {
+        showButtonMore.value = true;
+      }, 2000);
+    }, 4000);
+  }, 2000);
 };
 
 const calculateMatchPercentage = (profile: Profile) => {
-  if (!cardStore.selectedCardIds.length) return 0;
+  // Always include altid-1 in the virtual selection
+  const selected = new Set(cardStore.selectedCardIds);
+  selected.add("altid-1");
 
+  // Superior profile remains 100%
   if (profile.id === "profile-1") return 100;
 
-  const matchingCards = cardStore.selectedCardIds.filter((cardId) =>
-    profile.cardMatches.includes(cardId)
-  );
+  // Count how many of this profile's required cards are present in the selection
+  const matchingCount = profile.cardMatches.filter((id) =>
+    selected.has(id)
+  ).length;
 
-  const cardsNotMatched = profile.cardMatches.length - matchingCards.length;
+  // Use the profile's total required cards as denominator (avoid division by 0)
+  const total = Math.max(1, profile.cardMatches.length);
 
-  const percentageMatched = Math.max(
-    0,
-    (1 - cardsNotMatched / matchingCards.length) * 100
-  );
+  const rawPercent = Math.round((matchingCount / total) * 100);
 
-  return Math.round(percentageMatched);
+  // Ensure no profile shows 0% (change this if you'd rather show 0)
+  return Math.max(1, rawPercent);
 };
 
 // Calculate dynamic styles based on progress
+const initialScrollPosition = ref(0);
+
 const getCardStyle = (index: number, total: number) => {
   const progressDecimal = progress.value / 100;
 
   // Shake intensity increases with progress
   const shakeIntensity = progressDecimal * 5;
 
-  // Calculate movement - cards move toward center (desktop) or left (mobile)
-  // Center index for desktop centering
+  // Calculate movement - cards move toward center OF THEIR CONTAINER
   const centerIndex = (total - 1) / 2;
   const distanceFromCenter = index - centerIndex;
 
-  // Card width is aspect-2/3 with h-[300px] = width ~200px
-  // Gap between cards is 24px (gap-6)
-  // Need to move each card: (cardWidth + gap) * distance from center
-  const cardWidth = 200; // approximate width based on aspect ratio
+  const cardWidth = 200;
   const gap = 24;
   const unitDistance = cardWidth + gap;
 
-  // On desktop: move toward center, accounting for card width + gaps
-  const movementDesktop = -distanceFromCenter * unitDistance * progressDecimal;
+  // Move toward the center - but stop when cards meet (distance becomes 0)
+  // On mobile, cards might over-converge, so we clamp the movement
+  const maxMovement = Math.abs(distanceFromCenter) * unitDistance;
+  const calculatedMovement =
+    -distanceFromCenter * unitDistance * progressDecimal;
 
-  // On mobile: stack all cards to the left position (first card's position)
-  const movementMobile = -index * unitDistance * progressDecimal;
+  // Clamp to prevent over-convergence
+  const movement =
+    distanceFromCenter > 0
+      ? Math.max(calculatedMovement, -maxMovement) // Moving left
+      : Math.min(calculatedMovement, maxMovement); // Moving right
 
   return {
-    transform: `translateX(var(--movement)) rotate(${
+    transform: `translateX(${movement}px) rotate(${
       Math.sin(Date.now() / 100 + index) * shakeIntensity
     }deg)`,
-    "--movement-desktop": `${movementDesktop}px`,
-    "--movement-mobile": `${movementMobile}px`,
     transition: "transform 0.1s ease-out",
   };
 };
+
+watch(isHolding, (holding) => {
+  if (!scrollContainerRef.value) return;
+
+  const container = scrollContainerRef.value;
+
+  if (holding) {
+    // Save position and scroll to center
+    initialScrollPosition.value = container.scrollLeft;
+    const maxScroll = container.scrollWidth - container.clientWidth;
+    const centerScroll = maxScroll / 2;
+    container.scrollTo({ left: centerScroll, behavior: "smooth" });
+  } else if (progress.value < 100) {
+    // Scroll back to initial position (unless we completed)
+    container.scrollTo({
+      left: initialScrollPosition.value,
+      behavior: "smooth",
+    });
+  }
+});
+
+const resetCardStyle = () => {
+  // Cancel running rAF if present (SSR-safe)
+  if (typeof window !== "undefined" && animFrame !== null) {
+    window.cancelAnimationFrame(animFrame);
+    animFrame = null;
+  }
+
+  isHolding.value = false;
+  progress.value = 0;
+  holdStartTime = null;
+  decayStartProgress = 0;
+
+  if (scrollContainerRef.value) {
+    scrollContainerRef.value.scrollLeft = initialScrollPosition.value;
+  }
+};
+
+onMounted(() => {
+  animFrame = window.requestAnimationFrame(updateProgress);
+
+  setTimeout(() => {
+    showTextPartOne.value = true;
+    setTimeout(() => {
+      showTextPartTwo.value = true;
+      setTimeout(() => {
+        showButtonHold.value = true;
+      }, 1000);
+    }, 2000);
+  }, 1750);
+});
+
+onBeforeUnmount(() => {
+  if (animFrame) cancelAnimationFrame(animFrame);
+});
 </script>
 
 <template>
   <section
     class="flex flex-col gap-4 items-center justify-center w-full h-full"
   >
-    <h2 class="text-center font-special text-darkorange z-1">
-      {{
-        !uiStore.showSuperiorProfile ? `Dine matches` : "Dit ultimative match"
-      }}
-    </h2>
+    <Transition name="bounce" mode="out-in">
+      <h2
+        v-if="!uiStore.showSuperiorProfile"
+        class="text-center font-special z-1"
+      >
+        <ElementColorChangingText text="D" :change-color="progress >= 9" />
+        <ElementColorChangingText text="i" :change-color="progress >= 18" />
+        <ElementColorChangingText text="n" :change-color="progress >= 27" />
+        <ElementColorChangingText text="e " :change-color="progress >= 36" />
+        <ElementColorChangingText text="M" :change-color="progress >= 45" />
+        <ElementColorChangingText text="a" :change-color="progress >= 54" />
+        <ElementColorChangingText text="t" :change-color="progress >= 63" />
+        <ElementColorChangingText text="c" :change-color="progress >= 72" />
+        <ElementColorChangingText text="h" :change-color="progress >= 81" />
+        <ElementColorChangingText text="e" :change-color="progress >= 90" />
+        <ElementColorChangingText text="s" :change-color="progress >= 99" />
+      </h2>
+      <h2 v-else class="text-center font-special z-1 text-darkorange">
+        Christian Valentin
+      </h2>
+    </Transition>
     <Transition name="bounce" mode="out-in">
       <div
         v-if="!uiStore.showSuperiorProfile"
         key="inferior"
-        class="w-full flex flex-col gap-4 items-center"
+        class="w-full flex flex-col gap-4 items-center overflow-hidden"
       >
         <div
           ref="scrollContainerRef"
@@ -140,9 +242,12 @@ const getCardStyle = (index: number, total: number) => {
             <ElementFlippableCard
               v-for="(profile, index) in inferiorProfiles"
               :key="profile.id"
-              :style="getCardStyle(index, inferiorProfiles.length)"
-              :hide-title="progress > 0"
-              class="card-shake z-1"
+              :hide-title="isHolding"
+              class="card-shake"
+              :style="{
+                zIndex: calculateMatchPercentage(profile),
+                ...getCardStyle(index, inferiorProfiles.length),
+              }"
             >
               <template #back>
                 <div
@@ -168,9 +273,18 @@ const getCardStyle = (index: number, total: number) => {
                   </ul>
                 </div>
               </template>
+              <template #title-top>
+                <p>
+                  {{ profile.firstName }}
+                  <span class="font-bold">{{ profile.lastName }}</span>
+                </p>
+              </template>
 
               <template #front-top-left>
-                <Icon name="mdi:star" class="text-darkorange text-xl" />
+                <Icon
+                  name="material-symbols:star-rounded"
+                  class="text-matteblack text-xl"
+                />
                 <p class="text-vertical text-matteblack font-bold">
                   {{ profile.firstName }}
                 </p>
@@ -185,22 +299,19 @@ const getCardStyle = (index: number, total: number) => {
               </template>
 
               <template #front-bottom-right>
-                <p class="text-vertical text-darkorange font-bold">
+                <p class="text-vertical text-matteblack font-bold">
                   {{ profile.lastName }}
                 </p>
                 <Icon
-                  name="mdi:star"
-                  class="text-darkorange text-xl rotate-180"
+                  name="material-symbols:star-rounded"
+                  class="text-matteblack text-xl rotate-180"
                 />
               </template>
 
               <template #title-beneath>
-                <div class="text-sm">
-                  <p>{{ profile.firstName }} {{ profile.lastName }}</p>
-                  <p class="font-bold">
-                    {{ `${calculateMatchPercentage(profile)}% match` }}
-                  </p>
-                </div>
+                <p class="font-bold text-sm">
+                  {{ `${calculateMatchPercentage(profile)}% match` }}
+                </p>
               </template>
             </ElementFlippableCard>
           </div>
@@ -229,7 +340,16 @@ const getCardStyle = (index: number, total: number) => {
         </template>
 
         <template #front-top-left>
-          <Icon name="mdi:star" class="text-darkorange text-xl" />
+          <Icon
+            name="material-symbols:star-rounded"
+            class="text-darkorange text-xl cursor-pointer"
+            @click="
+              () => {
+                uiStore.showSuperiorProfile = false;
+                resetCardStyle();
+              }
+            "
+          />
           <p class="text-vertical text-matteblack font-bold">
             {{ superiorProfile.firstName }}
           </p>
@@ -247,60 +367,97 @@ const getCardStyle = (index: number, total: number) => {
           <p class="text-vertical text-darkorange font-bold">
             {{ superiorProfile.lastName }}
           </p>
-          <Icon name="mdi:star" class="text-darkorange text-xl rotate-180" />
+          <Icon
+            name="material-symbols:star-rounded"
+            class="text-darkorange text-xl rotate-180"
+          />
         </template>
 
         <template #title-beneath>
-          <div class="text-sm">
-            <p>
-              {{ superiorProfile.firstName }} {{ superiorProfile.lastName }}
-            </p>
-            <p class="font-bold">
-              {{ `${calculateMatchPercentage(superiorProfile)}% match` }}
-            </p>
-          </div>
+          <p class="font-bold">
+            {{ `${calculateMatchPercentage(superiorProfile)}% match` }}
+          </p>
         </template>
       </ElementFlippableCard>
     </Transition>
 
-    <p v-if="!uiStore.showSuperiorProfile" class="text-center">
-      {{ inferiorProfiles.length }} fine kandidater... Men hvad nu, hvis du
-      kunne <strong class="text-darkorange animate-pulse">kombinere</strong> dem
-      alle og skabe det
-      <strong class="text-darkorange">ultimative match</strong> for dig?
+    <p
+      v-if="!uiStore.showSuperiorProfile"
+      class="text-center transition-opacity duration-2000"
+      :class="showTextPartOne ? 'opacity-100' : 'opacity-0'"
+    >
+      {{ inferiorProfiles.length }} udemærkede kandidater...
+      <span
+        class="transition-opacity duration-2000"
+        :class="showTextPartTwo ? 'opacity-100' : 'opacity-0'"
+        >Men du var her for at finde dit
+        <strong class="text-darkorange font-bold">ultimative match</strong>, var
+        du ikke? Hvad hvis jeg fortalte dig, at du har evnen til
+        <strong class="animate-pulse">kombinere dem alle</strong>
+        og skabe netop det?</span
+      >
     </p>
-    <p v-else class="text-center text-lg z-1">
-      <strong class="text-darkorange">Boom!</strong> Alle dine efterspurgte
-      kvaliteter, kombineret i <span class="underline">én person</span>. Et 100%
-      match. A once in a lifetime opportunity.
-      <strong class="text-darkorange">Dit ultimative match.</strong>
-      <br />Godt gået - og nej, du drømmer ikke.
+    <p
+      v-else
+      class="text-center z-1 transition-opacity duration-2000"
+      :class="showSuccessTextPartOne ? 'opacity-100' : 'opacity-0'"
+    >
+      Sweet mother of... Det lykkedes dig!
+      <span
+        class="transition-opacity duration-2000"
+        :class="showSuccessTextPartTwo ? 'opacity-100' : 'opacity-0'"
+        >Mellem os to, har jeg i årenes løb kaldt mange for
+        <span class="font-bold">The Chosen One</span>, men du lever i sandhed op
+        til titlen. Alle dine ønskede kvaliteter, kombineret i én person - et
+        100% match. A once in a lifetime opportunity!
+      </span>
+      <span
+        class="transition-opacity duration-2000"
+        :class="showSuccessTextPartThree ? 'opacity-100' : 'opacity-0'"
+      >
+        <strong class="text-darkorange"> Dit ultimative match</strong>...</span
+      >
     </p>
     <div
       v-if="!uiStore.showSuperiorProfile"
-      class="fixed bottom-0 left-0 w-full z-10"
+      class="fixed left-0 w-full z-10 transition-[bottom] ease-in-out duration-3500"
+      :class="showButtonHold ? 'bottom-0' : '-bottom-full'"
       @mousedown="handleHoldStart"
       @mouseup="handleHoldEnd"
       @mouseleave="handleHoldEnd"
-      @touchstart.prevent="handleHoldStart"
-      @touchend.prevent="handleHoldEnd"
+      @touchstart="handleHoldStart"
+      @touchend="handleHoldEnd"
+      @touchcancel="handleHoldEnd"
     >
       <UButton
         size="xl"
         block
-        class="fixed bottom-0 left-0 py-4 md:py-6 rounded-none overflow-hidden animate-pulse"
+        class="absolute bottom-0 left-0 py-4 md:py-6 rounded-none overflow-hidden select-none"
+        :class="isHolding ? '' : 'animate-pulse'"
       >
         <div
-          class="absolute top-0 left-0 h-full bg-darkorange transition-all duration-[0.02s] ease-linear"
-          :style="{ width: progress + '%' }"
+          class="absolute top-0 left-0 h-full bg-baseorange transition-all ease-linear pointer-events-none"
+          :style="{
+            width: progress + '%',
+            transitionDuration: isHolding ? '100ms' : '0ms',
+          }"
         ></div>
-        <span class="relative z-10"
-          >{{ $device.isMobileOrTablet ? "Tryk" : "Klik" }} og hold for at
-          kombinere</span
-        >
+        <Transition name="bounce" mode="out-in">
+          <span v-if="!isHolding" class="relative z-10 pointer-events-none"
+            >{{ $device.isMobileOrTablet ? "Tryk" : "Klik" }} og hold</span
+          >
+          <span v-else class="relative z-10 pointer-events-none"
+            >Kombinerer...</span
+          >
+        </Transition>
       </UButton>
     </div>
-    <NuxtLink v-else to="/" class="fixed bottom-4 z-10 overflow-hidden">
+    <NuxtLink
+      v-else-if="showButtonMore"
+      to="/"
+      class="fixed bottom-4 z-10"
+      :class="ultimateMatchJustCreated ? 'slide-and-tip' : ''"
+    >
       <UButton size="xl" label="Jeg vil vide mere!" />
     </NuxtLink>
   </section>
@@ -308,12 +465,29 @@ const getCardStyle = (index: number, total: number) => {
 
 <style scoped>
 .card-shake {
-  --movement: var(--movement-mobile);
+  --movement: var(--movement);
 }
 
-@media (min-width: 768px) {
-  .card-shake {
-    --movement: var(--movement-desktop);
+.slide-and-tip {
+  animation: slideAndTip 6s ease-in-out forwards;
+  transform-origin: bottom right;
+}
+
+@keyframes slideAndTip {
+  0% {
+    transform: translateX(-100vw) rotate(0deg);
+  }
+
+  40% {
+    transform: rotate(50deg);
+  }
+
+  45% {
+    transform: translateX(0);
+  }
+
+  80% {
+    transform: translateX(0) rotate(0deg);
   }
 }
 </style>

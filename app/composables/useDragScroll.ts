@@ -24,7 +24,6 @@ export function useDragScroll(scrollContainerRef: Ref<HTMLElement | null>) {
     lastX.value = e.pageX;
     lastTime.value = Date.now();
     velocity.value = 0;
-    scrollContainerRef.value.style.cursor = "grabbing";
     scrollContainerRef.value.style.userSelect = "none";
   };
 
@@ -66,7 +65,6 @@ export function useDragScroll(scrollContainerRef: Ref<HTMLElement | null>) {
   const handleMouseUp = (e: MouseEvent) => {
     if (!scrollContainerRef.value) return;
     isDragging.value = false;
-    scrollContainerRef.value.style.cursor = "grab";
     scrollContainerRef.value.style.userSelect = "";
 
     if (Math.abs(velocity.value) > 0.5) {
@@ -83,7 +81,6 @@ export function useDragScroll(scrollContainerRef: Ref<HTMLElement | null>) {
   const handleMouseLeave = () => {
     if (!scrollContainerRef.value) return;
     isDragging.value = false;
-    scrollContainerRef.value.style.cursor = "grab";
     scrollContainerRef.value.style.userSelect = "";
 
     if (Math.abs(velocity.value) > 0.5) {
@@ -100,7 +97,6 @@ export function useDragScroll(scrollContainerRef: Ref<HTMLElement | null>) {
   onMounted(() => {
     const container = scrollContainerRef.value;
     if (!container) return;
-    container.style.cursor = "grab";
     container.addEventListener("mousedown", handleMouseDown);
     window.addEventListener("mousemove", handleMouseMove);
     window.addEventListener("mouseup", handleMouseUp);

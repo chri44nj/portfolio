@@ -25,7 +25,7 @@ const handleLeaveCard = (id: string) => {
 
 <template>
   <section
-    class="grid md:grid-cols-2 gap-8 pt-2 md:gap-16 justify-center md:grow"
+    class="grid md:grid-cols-2 gap-8 pt-2 md:gap-16 justify-center md:grow items-center"
   >
     <div class="flex flex-col text-center md:text-start w-fit gap-4">
       <h3 class="text-center md:text-start !text-xl">Du søger</h3>
@@ -81,7 +81,9 @@ const handleLeaveCard = (id: string) => {
         />
       </TransitionGroup>
     </div>
-    <div class="flex flex-col items-center text-center w-full gap-4 md:gap-8">
+    <div
+      class="flex flex-col items-center text-center w-full gap-4 md:gap-8 grow"
+    >
       <div>
         <h3 class="mb-4 !text-xl">Valgte &nbsp;kvaliteter</h3>
         <div class="flex gap-4 flex-wrap justify-center">

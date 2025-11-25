@@ -320,7 +320,7 @@ onBeforeUnmount(() => {
         </div>
       </div>
 
-      <ElementFlippableCard v-else :key="superiorProfile.id">
+      <ElementFlippableCard v-else :key="superiorProfile.id" :glow="true">
         <template #back>
           <div class="flex flex-col h-full w-full text-start text-matteblack">
             <p class="font-bold">Highlights</p>
@@ -438,11 +438,10 @@ onBeforeUnmount(() => {
             : 'opacity-0'
         "
       >
-        Dit ultimative match,
         <NuxtLink
           to="https://www.linkedin.com/in/christian-valentin-262206226/"
           target="_blank"
-          >Christian Valentin!</NuxtLink
+          >Dit ultimative match!</NuxtLink
         ></strong
       >
     </p>

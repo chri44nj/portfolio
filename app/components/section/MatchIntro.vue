@@ -1,4 +1,3 @@
-section
 <script lang="ts" setup>
 import { animate, stagger, splitText } from "animejs";
 import { useCardStore } from "~/store/useCardStore";
@@ -41,22 +40,23 @@ watch(cardsCombined, async (val) => {
 });
 
 onMounted(() => {
-  introGreetingVisible.value = true;
   if (cardStore.selectedCardCount === 0) {
-    introGreetingVisible.value = true;
     setTimeout(() => {
-      cardsTurned.value = true;
+      introGreetingVisible.value = true;
       setTimeout(() => {
-        introGreetingVisible.value = false;
-        cardsCombined.value = true;
+        cardsTurned.value = true;
         setTimeout(() => {
-          linesActivated.value = true;
-        }, 1500);
-        setTimeout(() => {
-          userMayContinue.value = true;
-        }, 5000);
-      }, 2500);
-    }, 1750);
+          introGreetingVisible.value = false;
+          cardsCombined.value = true;
+          setTimeout(() => {
+            linesActivated.value = true;
+          }, 1500);
+          setTimeout(() => {
+            userMayContinue.value = true;
+          }, 5000);
+        }, 2500);
+      }, 1750);
+    }, 50);
   } else {
     introGreetingVisible.value = false;
     cardsCombined.value = true;
@@ -72,10 +72,10 @@ const cardsTurned = ref(false);
   <div>
     <div
       v-if="!userMayContinue"
-      class="w-full h-full absolute top-0 left-0 flex items-center gap-3 justify-center text-center overflow-hidden"
+      class="w-full h-full absolute top-0 left-0 flex items-center gap-3 justify-center md:text-center overflow-hidden"
     >
       <div
-        class="absolute h-1/2 w-1/2 transition-all duration-1500"
+        class="absolute h-1/2 w-1/2 !transition-all !duration-1500"
         :class="
           introGreetingVisible
             ? 'top-0 left-0'
@@ -83,22 +83,34 @@ const cardsTurned = ref(false);
         "
       >
         <div
-          class="absolute transition-all duration-1000 h-24 aspect-2/3 rounded z-100 border-t-2 border-l-2"
+          class="absolute !transition-all !duration-1000 h-[125px] aspect-2/3 z-100 border-t-2 border-l-2 rounded-tl-xl overflow-hidden"
           :class="
             cardsTurned
-              ? '-bottom-1 -right-1 bg-baseparchment border-darkorange'
-              : 'bottom-8 right-8 -rotate-[225deg] bg-darkparchment border-transparent'
+              ? 'bottom-0 right-0 bg-baseparchment border-darkorange'
+              : 'bottom-12 right-24 -rotate-[225deg] bg-darkparchment border-transparent rounded-lg'
           "
         >
-          <Icon
-            name="material-symbols:star-rounded"
-            class="absolute top-2 left-2 text-darkorange !transition-opacity !duration-1000"
+          <div
+            class="bg-matteblack/75 !transition-opacity !duration-1000 absolute bottom-0 right-0 w-4 h-6 rounded-tl-full z-100"
             :class="cardsTurned ? 'opacity-100' : 'opacity-0'"
           />
+          <div
+            class="flex flex-col items-center absolute h-[75%] top-1 left-1 gap-1"
+          >
+            <Icon
+              name="material-symbols:star-rounded"
+              class="text-darkorange text-xl !transition-opacity !duration-1000"
+              :class="cardsTurned ? 'opacity-100' : 'opacity-0'"
+            />
+            <div
+              class="w-1 h-full bg-matteblack !transition-opacity !duration-1000"
+              :class="cardsTurned ? 'opacity-100' : 'opacity-0'"
+            />
+          </div>
         </div>
       </div>
       <div
-        class="absolute h-1/2 w-1/2 transition-all duration-1500"
+        class="absolute h-1/2 w-1/2 !transition-all !duration-1500"
         :class="
           introGreetingVisible
             ? 'top-0 right-0'
@@ -106,16 +118,20 @@ const cardsTurned = ref(false);
         "
       >
         <div
-          class="absolute transition-all duration-1000 h-24 aspect-2/3 rounded z-100 border-t-2 border-r-2"
+          class="absolute !transition-all !duration-1000 h-[125px] aspect-2/3 z-100 border-t-2 border-r-2 rounded-tr-xl overflow-hidden"
           :class="
             cardsTurned
-              ? '-bottom-1 -left-1 bg-baseparchment border-darkorange'
-              : 'bottom-8 left-8 rotate-[225deg] bg-darkparchment border-transparent'
+              ? 'bottom-0 left-0 bg-baseparchment border-darkorange'
+              : 'bottom-12 left-24 rotate-[225deg] bg-darkparchment border-transparent rounded-lg'
           "
+        />
+        <div
+          class="bg-matteblack/75 !transition-opacity !duration-1000 absolute bottom-0 left-0 w-4 h-6 rounded-tr-full z-100"
+          :class="cardsTurned ? 'opacity-100' : 'opacity-0'"
         />
       </div>
       <div
-        class="absolute h-1/2 w-1/2 transition-all duration-1500"
+        class="absolute h-1/2 w-1/2 !transition-all !duration-1500"
         :class="
           introGreetingVisible
             ? 'bottom-0 right-0 '
@@ -123,22 +139,35 @@ const cardsTurned = ref(false);
         "
       >
         <div
-          class="absolute transition-all duration-1000 h-24 aspect-2/3 rounded z-100 border-b-2 border-r-2"
+          class="absolute !transition-all !duration-1000 h-[125px] aspect-2/3 z-100 border-b-2 border-r-2 rounded-br-xl overflow-hidden"
           :class="
             cardsTurned
-              ? '-top-1 -left-1 bg-baseparchment  border-darkorange'
-              : 'top-8 left-8  -rotate-[225deg] bg-darkparchment border-transparent'
+              ? 'top-0 left-0 bg-baseparchment  border-darkorange'
+              : 'top-12 left-24  -rotate-[225deg] bg-darkparchment border-transparent rounded-lg'
           "
         >
-          <Icon
-            name="material-symbols:star-rounded"
-            class="absolute bottom-2 right-2 rotate-180 text-darkorange !transition-opacity !duration-1000"
+          <div
+            class="bg-matteblack/75 !transition-opacity !duration-1000 absolute top-0 left-0 w-4 h-6 rounded-br-full z-100"
             :class="cardsTurned ? 'opacity-100' : 'opacity-0'"
           />
+
+          <div
+            class="flex flex-col items-center absolute h-[75%] bottom-1 right-1 gap-1"
+          >
+            <div
+              class="w-1 h-full bg-darkorange !transition-opacity !duration-1000"
+              :class="cardsTurned ? 'opacity-100' : 'opacity-0'"
+            />
+            <Icon
+              name="material-symbols:star-rounded"
+              class="text-xl rotate-180 text-darkorange !transition-opacity !duration-1000"
+              :class="cardsTurned ? 'opacity-100' : 'opacity-0'"
+            />
+          </div>
         </div>
       </div>
       <div
-        class="absolute h-1/2 w-1/2 transition-all duration-1500"
+        class="absolute h-1/2 w-1/2 !transition-all !duration-1500"
         :class="
           introGreetingVisible
             ? 'bottom-0 left-0 '
@@ -146,19 +175,23 @@ const cardsTurned = ref(false);
         "
       >
         <div
-          class="absolute transition-all duration-1000 h-24 aspect-2/3 rounded z-100 border-b-2 border-l-2"
+          class="absolute !transition-all !duration-1000 h-[125px] aspect-2/3 z-100 border-b-2 border-l-2 rounded-bl-xl overflow-hidden"
           :class="
             cardsTurned
-              ? '-top-1 -right-1 bg-baseparchment border-darkorange'
-              : 'top-8 right-8 rotate-[225deg] bg-darkparchment border-transparent'
+              ? 'top-0 right-0 bg-baseparchment border-darkorange'
+              : 'top-12 right-24 rotate-[225deg] bg-darkparchment border-transparent rounded-lg'
           "
+        />
+        <div
+          class="bg-matteblack/75 !transition-opacity !duration-1000 absolute top-0 right-0 w-4 h-6 rounded-bl-full z-100"
+          :class="cardsTurned ? 'opacity-100' : 'opacity-0'"
         />
       </div>
     </div>
     <Transition name="fade-out" mode="out-in">
       <section
         v-show="cardsCombined"
-        class="text-center flex flex-col items-center gap-4"
+        class="md:text-center flex flex-col items-center gap-4"
       >
         <h1 class="flex flex-col items-start text-darkorange">
           <span class="flex items-center w-full mb-2 md:mb-4">
@@ -190,12 +223,12 @@ const cardsTurned = ref(false);
               "
             ></div>
             <span
-              class="md:text-2xl transition-opacity duration-2000 text-base font-special font-normal mr-4 text-offwhite"
+              class="md:text-2xl !transition-opacity duration-2000 text-base font-special font-normal mr-4 text-offwhite"
               :class="linesActivated ? 'opacity-100' : 'opacity-0'"
               >for</span
             >
             <span
-              class="font-special tracking-wide font-special text-offwhite transition-opacity duration-2000"
+              class="font-special tracking-wide font-special text-offwhite !transition-opacity duration-2000"
               :class="linesActivated ? 'opacity-100' : 'opacity-0'"
               >{{ route.params.username ? username : "dig" }}?</span
             >
@@ -203,7 +236,7 @@ const cardsTurned = ref(false);
         </h1>
 
         <p
-          class="text-sm md:text-base transition-opacity duration-2000"
+          class="text-sm md:text-base !transition-opacity duration-2000"
           :class="linesActivated ? 'opacity-100' : 'opacity-0'"
         >
           Vær hilset,

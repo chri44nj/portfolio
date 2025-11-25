@@ -99,7 +99,7 @@ onMounted(() => {
 
     <div
       v-if="uiStore.flowStep > 1"
-      class="fixed top-0 left-0 flex items-center justify-center w-full bg-matteblack/90 p-4 z-100"
+      class="fixed top-0 left-0 flex items-center justify-center w-full bg-matteblack/90 p-4 backdrop-blur z-100"
     >
       <UButton
         variant="outline"
@@ -117,7 +117,7 @@ onMounted(() => {
       <div
         v-if="showButtons"
         key="double-buttons"
-        class="flex items-center gap-4 fixed bottom-0 left-0 w-full justify-center bg-matteblack/90 p-4 z-10"
+        class="flex items-center gap-4 fixed backdrop-blur bottom-0 left-0 w-full justify-center bg-matteblack/90 p-4 z-10"
       >
         <Transition name="bounce-in" mode="out-in">
           <ElementMissingCategoriesTooltip

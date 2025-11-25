@@ -33,6 +33,7 @@ export function useMatchFlow() {
   };
 
   const handlePreviousStep = () => {
+    uiStore.showMissingCategoriesTooltip = false;
     if (uiStore.flowStep === 1) return;
     if (uiStore.flowStep === 4) {
       uiStore.matchDone = false;
@@ -47,6 +48,13 @@ export function useMatchFlow() {
 
   const handleNextStep = () => {
     if (uiStore.flowStep === uiStore.flowTotalSteps) return;
+    if (
+      !cardStore.allCategoriesSelected &&
+      (uiStore.flowStep === 2 || uiStore.flowStep === 3)
+    ) {
+      uiStore.showMissingCategoriesTooltip = true;
+      return;
+    }
     uiStore.flowStep++;
   };
 

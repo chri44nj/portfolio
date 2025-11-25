@@ -57,7 +57,10 @@ onMounted(() => {
     <div class="flex flex-col items-center gap-1 left-2 top-2 absolute">
       <Icon
         name="material-symbols:star-rounded"
-        class="text-2xl text-darkorange"
+        class="text-2xl"
+        :class="
+          uiStore.showSuperiorProfile ? 'text-darkorange' : 'text-matteblack'
+        "
       />
       <p class="!text-xl/[1] font-bold">
         {{ uiStore.showSuperiorProfile ? "1" : inferiorProfiles.length }}
@@ -74,7 +77,10 @@ onMounted(() => {
       </p>
       <Icon
         name="material-symbols:star-rounded"
-        class="text-2xl rotate-180 text-darkorange"
+        class="text-2xl rotate-180"
+        :class="
+          uiStore.showSuperiorProfile ? 'text-darkorange' : 'text-matteblack'
+        "
       />
     </div>
 

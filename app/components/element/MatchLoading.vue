@@ -15,19 +15,19 @@ const stages = [
     key: "skill",
     label: "Kompetencer",
     color: "lightblue",
-    processingText: "Matcher kompetencer...",
+    processingText: "kompetencer",
   },
   {
     key: "personality",
     label: "Personlighed",
     color: "basered",
-    processingText: "Matcher personlighed...",
+    processingText: "personlighed",
   },
   {
     key: "bonus",
     label: "Bonusser",
     color: "darkyellow",
-    processingText: "Matcher bonusser...",
+    processingText: "bonusser",
   },
 ] as const;
 
@@ -164,7 +164,11 @@ onMounted(() => {
       <Transition name="icon">
         <p v-if="!loadingBegun" class="animate-pulse">Begynder...</p>
         <p v-else-if="!loadingDone" class="animate-pulse">
-          {{ currentStage?.processingText }}
+          Matcher
+          <span :class="`text-${currentStage?.color} font-bold`">{{
+            currentStage?.processingText
+          }}</span
+          >...
         </p>
         <p v-else>{{ inferiorProfiles.length }} matches fundet!</p>
       </Transition>

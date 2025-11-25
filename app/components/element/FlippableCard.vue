@@ -136,9 +136,9 @@ const handleMouseLeave = () => {
 
 .glow-layer {
   position: absolute;
-  inset: 0;
+  inset: 10px;
   border-radius: 1rem;
-  filter: blur(30px);
+  filter: blur(20px);
   opacity: 0.7;
 }
 

@@ -9,25 +9,25 @@
   --color-matteblack: #2b2b2b;
   --color-offwhite: #f8f9fa;
   --color-whitesilver: #e5e7e9;
-  --color-lightgreen: #83d6c1;
-  --color-basegreen: #2a9d8f;
-  --color-darkgreen: #1e6e64;
+  --color-lightgreen: #9be3ab; /* bright, fresh spring green */
+  --color-basegreen: #38a747; /* your tuned anchor green */
+  --color-darkgreen: #23692f; /* deep forest green */
   --color-lightred: #f28b82;
   --color-basered: #e63946;
   --color-darkred: #b22234;
   --color-lightyellow: #ffe29a;
   --color-baseyellow: #ffd166;
   --color-darkyellow: #cdaa3d;
-  --color-lightblue: #5c80bc;
-  --color-baseblue: #1d3557;
-  --color-darkblue: #0b2239;
+  --color-lightblue: #4f78e6; /* bright electrical blue */
+  --color-baseblue: #1f4ddb; /* true accent blue – high contrast */
+  --color-darkblue: #11296b; /* deep anchor blue */
   --color-lightparchment: #f4e1c1;
   --color-baseparchment: #d9c6a3;
   --color-darkparchment: #94876e;
   --color-lightorange: #ffb380;
   --color-baseorange: #ff8c42;
   --color-darkorange: #d96a2e;
-  --ui-primary: var(--color-baseorange);
+  --ui-primary: var(--color-basegreen);
 }
 
 /** GENERAL STYLING **/

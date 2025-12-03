@@ -226,7 +226,7 @@ onBeforeUnmount(() => {
         <ElementColorChangingText text="e" :change-color="progress >= 90" />
         <ElementColorChangingText text="s" :change-color="progress >= 99" />
       </h2>
-      <h2 v-else class="text-center font-special z-1 text-darkorange">
+      <h2 v-else class="text-center font-special z-1 text-basegreen">
         Christian Valentin
       </h2>
     </Transition>
@@ -344,7 +344,7 @@ onBeforeUnmount(() => {
         <template #front-top-left>
           <Icon
             name="material-symbols:star-rounded"
-            class="text-darkorange text-xl cursor-pointer"
+            class="text-basegreen text-xl cursor-pointer"
             @click="
               () => {
                 uiStore.showSuperiorProfile = false;
@@ -366,17 +366,17 @@ onBeforeUnmount(() => {
         </template>
 
         <template #front-bottom-right>
-          <p class="text-vertical text-darkorange font-bold">
+          <p class="text-vertical text-basegreen font-bold">
             {{ superiorProfile.lastName }}
           </p>
           <Icon
             name="material-symbols:star-rounded"
-            class="text-darkorange text-xl rotate-180"
+            class="text-basegreen text-xl rotate-180"
           />
         </template>
 
         <template #title-beneath>
-          <p class="font-bold">
+          <p class="font-bold z-100 relative">
             {{ `${calculateMatchPercentage(superiorProfile)}% match` }}
           </p>
         </template>
@@ -401,7 +401,7 @@ onBeforeUnmount(() => {
             : 'opacity-0'
         "
         >Men du er her for at finde dit
-        <strong class="text-darkorange font-bold">ultimative match</strong>, er
+        <strong class="text-basegreen font-bold">ultimative match</strong>, er
         du ikke? Hvad hvis jeg fortalte dig, at du har evnen til
         <strong class="animate-pulse">kombinere dem alle</strong>
         og skabe netop det?</span
@@ -431,7 +431,7 @@ onBeforeUnmount(() => {
       </span>
 
       <strong
-        class="transition-opacity duration-2000 text-darkorange"
+        class="transition-opacity duration-2000 text-basegreen"
         :class="
           showSuccessTextPartThree || uiStore.visitedUltimateMatch
             ? 'opacity-100'
@@ -467,7 +467,7 @@ onBeforeUnmount(() => {
         :class="isHolding ? '' : 'animate-pulse'"
       >
         <div
-          class="absolute top-0 left-0 h-full bg-baseorange transition-all ease-linear pointer-events-none"
+          class="absolute top-0 left-0 h-full bg-basegreen transition-all ease-linear pointer-events-none"
           :style="{
             width: progress + '%',
             transitionDuration: isHolding ? '100ms' : '0ms',

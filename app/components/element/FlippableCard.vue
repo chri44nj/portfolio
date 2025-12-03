@@ -145,8 +145,8 @@ const handleMouseLeave = () => {
 .glow-layer-1 {
   background: radial-gradient(
     ellipse 140% 100% at 50% 50%,
-    rgba(217, 106, 46, 0.9) 0%,
-    rgba(217, 106, 46, 0.6) 35%,
+    rgba(56, 167, 71, 0.9) 0%,
+    /* basegreen */ rgba(56, 167, 71, 0.6) 35%,
     transparent 70%
   );
   animation: glow-pulse-1 1.5s ease-in-out infinite;
@@ -155,8 +155,8 @@ const handleMouseLeave = () => {
 .glow-layer-2 {
   background: radial-gradient(
     ellipse 130% 95% at 50% 50%,
-    rgba(255, 130, 70, 0.8) 0%,
-    rgba(217, 106, 46, 0.5) 40%,
+    rgba(155, 227, 171, 0.8) 0%,
+    /* lightgreen */ rgba(56, 167, 71, 0.5) 40%,
     transparent 70%
   );
   animation: glow-pulse-2 1.5s ease-in-out infinite;
@@ -166,8 +166,8 @@ const handleMouseLeave = () => {
 .glow-layer-3 {
   background: radial-gradient(
     ellipse 135% 98% at 50% 50%,
-    rgba(217, 106, 46, 0.7) 0%,
-    rgba(255, 140, 80, 0.4) 38%,
+    rgba(155, 227, 171, 0.7) 0%,
+    /* lightgreen */ rgba(56, 167, 71, 0.4) 38%,
     transparent 68%
   );
   animation: glow-pulse-3 1.5s ease-in-out infinite;

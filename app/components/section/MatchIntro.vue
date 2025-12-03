@@ -86,7 +86,7 @@ const cardsTurned = ref(false);
           class="absolute !transition-all !duration-1000 h-[125px] aspect-2/3 z-100 border-t-2 border-l-2 rounded-tl-xl overflow-hidden"
           :class="
             cardsTurned
-              ? 'bottom-0 right-0 bg-baseparchment border-darkorange'
+              ? 'bottom-0 right-0 bg-baseparchment border-basegreen'
               : 'bottom-12 right-24 -rotate-[225deg] bg-darkparchment border-transparent rounded-lg'
           "
         >
@@ -99,7 +99,7 @@ const cardsTurned = ref(false);
           >
             <Icon
               name="material-symbols:star-rounded"
-              class="text-darkorange text-xl !transition-opacity !duration-1000"
+              class="text-basegreen text-xl !transition-opacity !duration-1000"
               :class="cardsTurned ? 'opacity-100' : 'opacity-0'"
             />
             <div
@@ -121,7 +121,7 @@ const cardsTurned = ref(false);
           class="absolute !transition-all !duration-1000 h-[125px] aspect-2/3 z-100 border-t-2 border-r-2 rounded-tr-xl overflow-hidden"
           :class="
             cardsTurned
-              ? 'bottom-0 left-0 bg-baseparchment border-darkorange'
+              ? 'bottom-0 left-0 bg-baseparchment border-basegreen'
               : 'bottom-12 left-24 rotate-[225deg] bg-darkparchment border-transparent rounded-lg'
           "
         />
@@ -142,7 +142,7 @@ const cardsTurned = ref(false);
           class="absolute !transition-all !duration-1000 h-[125px] aspect-2/3 z-100 border-b-2 border-r-2 rounded-br-xl overflow-hidden"
           :class="
             cardsTurned
-              ? 'top-0 left-0 bg-baseparchment  border-darkorange'
+              ? 'top-0 left-0 bg-baseparchment  border-basegreen'
               : 'top-12 left-24  -rotate-[225deg] bg-darkparchment border-transparent rounded-lg'
           "
         >
@@ -155,12 +155,12 @@ const cardsTurned = ref(false);
             class="flex flex-col items-center absolute h-[75%] bottom-1 right-1 gap-1"
           >
             <div
-              class="w-1 h-full bg-darkorange !transition-opacity !duration-1000"
+              class="w-1 h-full bg-basegreen !transition-opacity !duration-1000"
               :class="cardsTurned ? 'opacity-100' : 'opacity-0'"
             />
             <Icon
               name="material-symbols:star-rounded"
-              class="text-xl rotate-180 text-darkorange !transition-opacity !duration-1000"
+              class="text-xl rotate-180 text-basegreen !transition-opacity !duration-1000"
               :class="cardsTurned ? 'opacity-100' : 'opacity-0'"
             />
           </div>
@@ -178,7 +178,7 @@ const cardsTurned = ref(false);
           class="absolute !transition-all !duration-1000 h-[125px] aspect-2/3 z-100 border-b-2 border-l-2 rounded-bl-xl overflow-hidden"
           :class="
             cardsTurned
-              ? 'top-0 right-0 bg-baseparchment border-darkorange'
+              ? 'top-0 right-0 bg-baseparchment border-basegreen'
               : 'top-12 right-24 rotate-[225deg] bg-darkparchment border-transparent rounded-lg'
           "
         />
@@ -193,7 +193,7 @@ const cardsTurned = ref(false);
         v-show="cardsCombined"
         class="md:text-center flex flex-col items-center gap-4"
       >
-        <h1 class="flex flex-col items-start text-darkorange">
+        <h1 class="flex flex-col items-start text-basegreen">
           <span class="flex items-center w-full mb-2 md:mb-4">
             <span
               class="md:text-2xl text-base font-special font-normal mr-4 text-offwhite"
@@ -242,8 +242,8 @@ const cardsTurned = ref(false);
           Vær hilset,
           {{
             route.params.username
-              ? `repræsentant fra det noble hus ${username} `
-              : "noble gæst"
+              ? `ærede medlem af hus ${username} `
+              : "ærede gæst"
           }}
           - eller skulle jeg kalde dig...
           <span class="font-bold">The Chosen One? </span
@@ -254,9 +254,8 @@ const cardsTurned = ref(false);
             <strong
               >Marker de kvaliteter, du drømmer om i din næste kollega</strong
             >
-            og få
-            <strong class="text-darkorange">dit ultimative match</strong>,
-            baseret på <strong>dine præferencer</strong>.</span
+            og se dit ultimative match, baseret på
+            <strong>dine præferencer</strong>.</span
           >
         </p>
         <UButton

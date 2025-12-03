@@ -19,6 +19,16 @@ export const superiorProfile: Profile = {
     "Har tendens til at overarbejde når projektet er spændende",
   ],
   cardMatches: [],
+  highlights: [
+    { title: "HTML, CSS, JS", color: "lightblue", value: 90 },
+    { title: "Vue + Nuxt", color: "lightblue", value: 85 },
+    { title: "React + Next", color: "lightblue", value: 70 },
+    { title: "GIT", color: "lightblue", value: 80 },
+    { title: "Tailwind", color: "lightblue", value: 90 },
+    { title: "Lærer hurtigt", color: "basered", value: 95 },
+    { title: "Dedikation", color: "basered", value: 85 },
+    { title: "Musisk smag", color: "darkyellow", value: 90 },
+  ],
 };
 
 export const inferiorProfiles: Profile[] = [
@@ -121,11 +131,11 @@ export const inferiorProfiles: Profile[] = [
   {
     id: "profile-4",
     firstName: "Christian",
-    lastName: "Van Gogh",
+    lastName: "da Vinci",
     title: "UI/UX Designer",
     imgSrc: "img/profile-3.jpg",
     alt: "En profil der beskriver et muligt match: UI/UX Designeren.",
-    bio: "Christian Van Gogh har et skarpt øje for æstetik og brugeroplevelse. Han skaber intuitive og visuelt tiltalende designs, der både er funktionelle og smukke.",
+    bio: "Christian da Vinci har et skarpt øje for æstetik og brugeroplevelse. Han skaber intuitive og visuelt tiltalende designs, der både er funktionelle og smukke.",
     pros: [
       "Designer lækkert UI med udgangspunkt i god brugeroplevelse",
       "Ekspert i designsystemer og komponenter",
@@ -152,12 +162,12 @@ export const inferiorProfiles: Profile[] = [
     ],
     highlights: [
       {
-        title: "UX design",
+        title: "UX-design",
         color: "lightblue",
         value: 90,
       },
       {
-        title: "UI design",
+        title: "UI-design",
         color: "lightblue",
         value: 80,
       },

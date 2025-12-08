@@ -285,9 +285,9 @@ onBeforeUnmount(() => {
               <template #front-top-left>
                 <Icon
                   name="material-symbols:star-rounded"
-                  class="text-matteblack text-xl"
+                  class="text-darkparchment text-xl"
                 />
-                <p class="text-vertical text-matteblack font-bold">
+                <p class="text-vertical text-darkparchment font-bold">
                   {{ profile.firstName }}
                 </p>
               </template>
@@ -301,12 +301,12 @@ onBeforeUnmount(() => {
               </template>
 
               <template #front-bottom-right>
-                <p class="text-vertical text-matteblack font-bold">
+                <p class="text-vertical text-darkparchment font-bold">
                   {{ profile.lastName }}
                 </p>
                 <Icon
                   name="material-symbols:star-rounded"
-                  class="text-matteblack text-xl rotate-180"
+                  class="text-darkparchment text-xl rotate-180"
                 />
               </template>
 
@@ -344,7 +344,7 @@ onBeforeUnmount(() => {
         <template #front-top-left>
           <Icon
             name="material-symbols:star-rounded"
-            class="text-darkparchment text-xl cursor-pointer"
+            class="text-matteblack text-xl cursor-pointer"
             @click="
               () => {
                 uiStore.showSuperiorProfile = false;
@@ -366,12 +366,12 @@ onBeforeUnmount(() => {
         </template>
 
         <template #front-bottom-right>
-          <p class="text-vertical text-darkparchment font-bold">
+          <p class="text-vertical text-matteblack font-bold">
             {{ superiorProfile.lastName }}
           </p>
           <Icon
             name="material-symbols:star-rounded"
-            class="text-darkparchment text-xl rotate-180"
+            class="text-matteblack text-xl rotate-180"
           />
         </template>
 

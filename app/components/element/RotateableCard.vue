@@ -54,34 +54,37 @@ onMounted(() => {
     ref="cardRef"
     class="flex flex-col items-center justify-center bg-baseparchment p-4 border border-matteblack h-[400px] relative rounded-xl aspect-2/3 text-matteblack shadow-lg will-change-transform z-1 select-none"
   >
-    <div class="flex flex-col items-center gap-1 left-2 top-2 absolute">
-      <Icon
-        name="material-symbols:star-rounded"
-        class="text-2xl"
-        :class="
-          uiStore.showSuperiorProfile ? 'text-baseparchment' : 'text-matteblack'
-        "
-      />
+    <div
+      class="flex flex-col items-center gap-1 left-2 top-2 absolute"
+      :class="
+        uiStore.showSuperiorProfile ? 'text-matteblack' : 'text-darkparchment'
+      "
+    >
+      <Icon name="material-symbols:star-rounded" class="text-2xl" />
       <p class="!text-xl/[1] font-bold">
         {{ uiStore.showSuperiorProfile ? "1" : inferiorProfiles.length }}
       </p>
     </div>
     <p
-      class="font-special absolute -translate-y-1/2 top-1/2 text-baseparchment/50 text-[10rem] z-0"
+      class="font-special absolute -translate-y-1/2 top-1/2 text-[10rem] z-0"
+      :class="
+        uiStore.showSuperiorProfile
+          ? 'text-offwhite/50'
+          : 'text-darkparchment/50'
+      "
     >
       {{ uiStore.showSuperiorProfile ? "1" : inferiorProfiles.length }}
     </p>
-    <div class="flex flex-col items-center gap-1 right-2 bottom-2 absolute">
+    <div
+      class="flex flex-col items-center gap-1 right-2 bottom-2 absolute"
+      :class="
+        uiStore.showSuperiorProfile ? 'text-matteblack' : 'text-darkparchment'
+      "
+    >
       <p class="!text-xl/[1] font-bold rotate-180">
         {{ uiStore.showSuperiorProfile ? "1" : inferiorProfiles.length }}
       </p>
-      <Icon
-        name="material-symbols:star-rounded"
-        class="text-2xl rotate-180"
-        :class="
-          uiStore.showSuperiorProfile ? 'text-baseparchment' : 'text-matteblack'
-        "
-      />
+      <Icon name="material-symbols:star-rounded" class="text-2xl rotate-180" />
     </div>
 
     <p class="text-center text-xl z-1 font-bold">
@@ -89,7 +92,7 @@ onMounted(() => {
       <span
         :class="
           uiStore.showSuperiorProfile
-            ? 'line-through decoration-baseparchment'
+            ? 'line-through decoration-offwhite decoration-4'
             : ''
         "
       >
@@ -97,8 +100,8 @@ onMounted(() => {
       </span>
 
       <span v-if="uiStore.showSuperiorProfile" class="block">
-        <span class="text-baseparchment">kombineret</span> til det ultimative
-        match
+        <span class="text-offwhite font-pacifico">kombineret</span> til det
+        ultimative match
       </span>
     </p>
   </div>

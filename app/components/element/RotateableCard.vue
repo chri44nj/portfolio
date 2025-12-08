@@ -3,6 +3,11 @@ import { inferiorProfiles } from "~/data/profiles";
 import { useUIStore } from "~/store/useUIStore";
 import { createAnimatable, utils } from "animejs";
 
+const { handleNextStep } = useMatchFlow();
+const handleClickNext = () => {
+  handleNextStep();
+};
+
 const uiStore = useUIStore();
 
 const cardRef = ref<HTMLElement | null>(null);
@@ -53,6 +58,7 @@ onMounted(() => {
   <div
     ref="cardRef"
     class="flex flex-col items-center justify-center bg-baseparchment p-4 border border-matteblack h-[400px] relative rounded-xl aspect-2/3 text-matteblack shadow-lg will-change-transform z-1 select-none"
+    @click="handleClickNext"
   >
     <div
       class="flex flex-col items-center gap-1 left-2 top-2 absolute"

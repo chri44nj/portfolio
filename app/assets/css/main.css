@@ -52,7 +52,8 @@ h6 {
   font-kerning: normal;
 }
 
-h1 {
+h1,
+.h1-size {
   font-size: clamp(1.5rem, 4vw + 1rem, 3rem);
 }
 

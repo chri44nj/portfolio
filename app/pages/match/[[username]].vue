@@ -87,7 +87,7 @@ onMounted(() => {
 </script>
 <template>
   <div
-    class="flex flex-col items-center justify-center h-full py-[3.5rem] grow"
+    class="items-center justify-center h-full py-[5rem] grow container mx-auto flex flex-col px-4 min-h-screen w-full"
   >
     <Transition name="fade" mode="out-in">
       <SectionMatchIntro v-if="uiStore.flowStep === 1" />

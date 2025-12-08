@@ -67,7 +67,7 @@ useTextAnimation({
   ],
   shouldAnimate: () => !cardStore.currentCategoryHasSelection,
   getOriginalText: () =>
-    `Vælg 1-${cardStore.currentCategoryCards.length} ${cardType.value} (${chosenAmountInCategory.value})`,
+    `Vælg 1-${cardStore.currentCategoryCards.length} ${cardType.value}`,
 });
 </script>
 
@@ -143,14 +143,15 @@ useTextAnimation({
           />
         </Transition>
       </div>
-      <p
-        ref="animatedTextRef"
-        class="md:text-xl animated-text"
-        :class="cardStore.categoryColor"
-      >
-        Vælg 1-{{ cardStore.currentCategoryCards.length }} {{ cardType }} ({{
-          chosenAmountInCategory
-        }})
+      <p class="md:text-xl animated-text" :class="cardStore.categoryColor">
+        <span ref="animatedTextRef"
+          >Vælg 1-{{ cardStore.currentCategoryCards.length }} {{ cardType }}
+        </span>
+        <span v-if="chosenAmountInCategory > 0">
+          ({{ chosenAmountInCategory }}/{{
+            cardStore.currentCategoryCards.length
+          }})</span
+        >
       </p>
     </div>
 

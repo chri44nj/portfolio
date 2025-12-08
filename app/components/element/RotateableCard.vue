@@ -59,7 +59,7 @@ onMounted(() => {
         name="material-symbols:star-rounded"
         class="text-2xl"
         :class="
-          uiStore.showSuperiorProfile ? 'text-basegreen' : 'text-matteblack'
+          uiStore.showSuperiorProfile ? 'text-baseparchment' : 'text-matteblack'
         "
       />
       <p class="!text-xl/[1] font-bold">
@@ -67,7 +67,7 @@ onMounted(() => {
       </p>
     </div>
     <p
-      class="font-special absolute -translate-y-1/2 top-1/2 text-basegreen/50 text-[10rem] z-0"
+      class="font-special absolute -translate-y-1/2 top-1/2 text-baseparchment/50 text-[10rem] z-0"
     >
       {{ uiStore.showSuperiorProfile ? "1" : inferiorProfiles.length }}
     </p>
@@ -79,7 +79,7 @@ onMounted(() => {
         name="material-symbols:star-rounded"
         class="text-2xl rotate-180"
         :class="
-          uiStore.showSuperiorProfile ? 'text-basegreen' : 'text-matteblack'
+          uiStore.showSuperiorProfile ? 'text-baseparchment' : 'text-matteblack'
         "
       />
     </div>
@@ -88,14 +88,17 @@ onMounted(() => {
       {{ uiStore.showSuperiorProfile ? "Alle matches" : "Matches" }}
       <span
         :class="
-          uiStore.showSuperiorProfile ? 'line-through decoration-basegreen' : ''
+          uiStore.showSuperiorProfile
+            ? 'line-through decoration-baseparchment'
+            : ''
         "
       >
         fundet
       </span>
 
       <span v-if="uiStore.showSuperiorProfile" class="block">
-        <span class="text-basegreen">kombineret</span> til det ultimative match
+        <span class="text-baseparchment">kombineret</span> til det ultimative
+        match
       </span>
     </p>
   </div>

@@ -226,7 +226,7 @@ onBeforeUnmount(() => {
         <ElementColorChangingText text="e" :change-color="progress >= 90" />
         <ElementColorChangingText text="s" :change-color="progress >= 99" />
       </h2>
-      <h2 v-else class="text-center font-special z-1 text-basegreen">
+      <h2 v-else class="text-center font-special z-1 text-baseparchment">
         Christian Valentin
       </h2>
     </Transition>
@@ -344,7 +344,7 @@ onBeforeUnmount(() => {
         <template #front-top-left>
           <Icon
             name="material-symbols:star-rounded"
-            class="text-basegreen text-xl cursor-pointer"
+            class="text-darkparchment text-xl cursor-pointer"
             @click="
               () => {
                 uiStore.showSuperiorProfile = false;
@@ -366,12 +366,12 @@ onBeforeUnmount(() => {
         </template>
 
         <template #front-bottom-right>
-          <p class="text-vertical text-basegreen font-bold">
+          <p class="text-vertical text-darkparchment font-bold">
             {{ superiorProfile.lastName }}
           </p>
           <Icon
             name="material-symbols:star-rounded"
-            class="text-basegreen text-xl rotate-180"
+            class="text-darkparchment text-xl rotate-180"
           />
         </template>
 
@@ -401,8 +401,8 @@ onBeforeUnmount(() => {
             : 'opacity-0'
         "
         >Men du er her for at finde dit
-        <strong class="text-basegreen font-bold">ultimative match</strong>, er
-        du ikke? Hvad hvis jeg fortalte dig, at du har evnen til
+        <strong class="text-baseparchment font-bold">ultimative match</strong>,
+        er du ikke? Hvad hvis jeg fortalte dig, at du har evnen til
         <strong class="animate-pulse">kombinere dem alle</strong>
         og skabe netop det?</span
       >
@@ -424,14 +424,14 @@ onBeforeUnmount(() => {
             ? 'opacity-100'
             : 'opacity-0'
         "
-        >Bare mellem os to, så har jeg i årenes løb kaldt mange for
+        >Mellem os to, så har jeg i årenes løb kaldt mange for
         <span class="font-bold">The Chosen One</span>, men du lever i sandhed op
         til titlen! Alle dine ønskede kvaliteter, kombineret i én person - et
         sandt 100% match. A once in a lifetime opportunity.
       </span>
 
       <strong
-        class="transition-opacity duration-2000 text-basegreen"
+        class="transition-opacity duration-2000 text-baseparchment"
         :class="
           showSuccessTextPartThree || uiStore.visitedUltimateMatch
             ? 'opacity-100'
@@ -439,9 +439,9 @@ onBeforeUnmount(() => {
         "
       >
         <NuxtLink
-          to="https://www.linkedin.com/in/christian-valentin-262206226/"
+          to="https://www.linkedin.com/in/christ-valentin/"
           target="_blank"
-          >Dit ultimative match!</NuxtLink
+          >Dit ultimative match(s LinkedIn)!</NuxtLink
         ></strong
       >
     </p>
@@ -467,7 +467,7 @@ onBeforeUnmount(() => {
         :class="isHolding ? '' : 'animate-pulse'"
       >
         <div
-          class="absolute top-0 left-0 h-full bg-basegreen transition-all ease-linear pointer-events-none"
+          class="absolute top-0 left-0 h-full bg-baseparchment transition-all ease-linear pointer-events-none"
           :style="{
             width: progress + '%',
             transitionDuration: isHolding ? '100ms' : '0ms',

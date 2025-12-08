@@ -63,16 +63,16 @@ const handleClickFlowStep5 = () => {
   <div class="flex flex-col items-center gap-3 text-center">
     <div class="flex items-center">
       <UButton
-        class="rounded w-4 h-6 transition-all duration-200 bg-basegreen"
+        class="rounded w-4 h-6 transition-all duration-200 bg-baseparchment"
         :class="uiStore.flowStep >= 2 ? 'opacity-100' : 'opacity-25'"
         @click="handleClickFlowStep2"
       />
       <div
-        class="h-[1px] w-8 transition-all duration-200 bg-basegreen"
+        class="h-[1px] w-8 transition-all duration-200 bg-baseparchment"
         :class="uiStore.flowStep >= 3 ? 'opacity-100' : 'opacity-25'"
       />
       <UButton
-        class="rounded w-4 h-6 transition-all duration-200 bg-basegreen"
+        class="rounded w-4 h-6 transition-all duration-200 bg-baseparchment"
         :class="[
           !cardStore.allCategoriesSelected ? 'cursor-not-allowed' : '',
           uiStore.flowStep >= 3 ? 'opacity-100' : 'opacity-25',
@@ -80,11 +80,11 @@ const handleClickFlowStep5 = () => {
         @click.stop="handleClickFlowStep3"
       />
       <div
-        class="h-[1px] w-8 transition-all duration-200 bg-basegreen"
+        class="h-[1px] w-8 transition-all duration-200 bg-baseparchment"
         :class="uiStore.flowStep >= 4 ? 'opacity-100' : 'opacity-25'"
       />
       <UButton
-        class="rounded w-4 h-6 transition-all duration-200 bg-basegreen"
+        class="rounded w-4 h-6 transition-all duration-200 bg-baseparchment"
         :class="[
           !cardStore.allCategoriesSelected ? 'cursor-not-allowed' : '',
           uiStore.flowStep >= 4 ? 'opacity-100' : 'opacity-25',
@@ -92,11 +92,11 @@ const handleClickFlowStep5 = () => {
         @click.stop="handleClickFlowStep4"
       />
       <div
-        class="h-[1px] w-8 transition-all duration-200 bg-basegreen"
+        class="h-[1px] w-8 transition-all duration-200 bg-baseparchment"
         :class="uiStore.flowStep >= 5 ? 'opacity-100' : 'opacity-25'"
       />
       <UButton
-        class="rounded w-4 h-6 transition-all duration-200 bg-basegreen"
+        class="rounded w-4 h-6 transition-all duration-200 bg-baseparchment"
         :class="uiStore.flowStep >= 5 ? 'opacity-100' : 'opacity-25'"
         :disabled="!cardStore.allCategoriesSelected || !uiStore.matchDone"
         @click="handleClickFlowStep5"

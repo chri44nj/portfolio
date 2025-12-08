@@ -27,7 +27,7 @@
   --color-lightorange: #ffb380;
   --color-baseorange: #ff8c42;
   --color-darkorange: #d96a2e;
-  --ui-primary: var(--color-basegreen);
+  --ui-primary: var(--color-baseparchment);
 }
 
 /** GENERAL STYLING **/

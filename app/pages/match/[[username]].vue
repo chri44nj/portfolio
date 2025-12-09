@@ -1,7 +1,6 @@
 <script lang="ts" setup>
 import { useCardStore } from "~/store/useCardStore";
 import { useUIStore } from "~/store/useUIStore";
-import Fireworks from "@fireworks-js/vue";
 
 useHead({
   title: "Det Ultimative Match",
@@ -122,11 +121,7 @@ onMounted(() => {
     </Transition>
 
     <ClientOnly>
-      <Fireworks
-        v-if="uiStore.showSuperiorProfile"
-        :autoresize="true"
-        class="absolute inset-0 h-screen pointer-events-none z-0"
-      />
+      <ElementFireworksScreen v-if="uiStore.showSuperiorProfile" />
     </ClientOnly>
   </div>
 </template>

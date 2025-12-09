@@ -1,5 +1,4 @@
 <script lang="ts" setup>
-import Fireworks from "@fireworks-js/vue";
 const companyName = ref("");
 const teamWorkChoice = ref<string | null>("");
 
@@ -153,11 +152,7 @@ const reset = () => {
         ></span>
       </div>
       <ClientOnly>
-        <Fireworks
-          v-if="teamWorkChoice === 'yes'"
-          :autoresize="true"
-          class="absolute inset-0 h-screen pointer-events-none z-0"
-        />
+        <ElementFireworksScreen v-if="teamWorkChoice === 'yes'" />
       </ClientOnly>
       <div
         class="absolute bg-gradient-to-b top-0 left-0 h-screen w-screen z-50 pointer-events-none ease-in-out transition-colors duration-2000"

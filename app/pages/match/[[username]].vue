@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import { useCardStore } from "~/store/useCardStore";
 import { useUIStore } from "~/store/useUIStore";
-import { Fireworks } from "@fireworks-js/vue";
+import Fireworks from "@fireworks-js/vue";
 
 useHead({
   title: "Det Ultimative Match",
@@ -45,43 +45,12 @@ const showButtons = computed(() => {
 
   return false;
 });
-const container = ref<HTMLElement | null>(null);
-
-let fireworks: any = null;
-
-onMounted(() => {
-  if (container.value) {
-    fireworks = new Fireworks(container.value, {
-      autoresize: true,
-      opacity: 0.4,
-      intensity: 25,
-      friction: 0.97,
-      gravity: 1.4,
-      traceLength: 3,
-      traceSpeed: 10,
-      explosion: 4,
-    });
-  }
-});
-
-watch(
-  () => uiStore.matchDone,
-  (isDone) => {
-    if (isDone && fireworks) {
-      fireworks.start();
-    } else {
-      fireworks?.stop(true);
-    }
-  }
-);
 
 onMounted(() => {
   window.addEventListener("click", handleGlobalClick);
 
   onBeforeUnmount(() => {
     window.removeEventListener("click", handleGlobalClick);
-    fireworks?.stop(true);
-    fireworks = null;
   });
 });
 </script>

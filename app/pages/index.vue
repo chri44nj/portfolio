@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { Fireworks } from "@fireworks-js/vue";
+import Fireworks from "@fireworks-js/vue";
 const companyName = ref("");
 const teamWorkChoice = ref<string | null>("");
 
@@ -48,33 +48,6 @@ function stopRain() {
 const reset = () => {
   teamWorkChoice.value = null;
 };
-
-const fireworksContainer = ref<HTMLElement | null>(null);
-let fireworks: any = null;
-
-onMounted(() => {
-  if (fireworksContainer.value) {
-    fireworks = new Fireworks(fireworksContainer.value, {
-      autoresize: true,
-      opacity: 0.5,
-      intensity: 30,
-      explosion: 4,
-    });
-  }
-});
-
-watch(teamWorkChoice, (choice) => {
-  if (choice === "yes") {
-    fireworks?.start();
-  } else {
-    fireworks?.stop(true);
-  }
-});
-
-onBeforeUnmount(() => {
-  fireworks?.stop(true);
-  fireworks = null;
-});
 </script>
 
 <template>
@@ -212,7 +185,7 @@ onBeforeUnmount(() => {
       <NuxtImg
         src="/img/right-arm.png"
         alt="Right arm pointing at button"
-        class="w-1/2 max-w-[800px] absolute bottom-8 z-[100] transition-all ease-in-out duration-2000"
+        class="w-1/2 max-w-[800px] absolute bottom-8 z-[100] transition-all ease-in-out duration-2000 brightness-75"
         :class="
           teamWorkChoice === 'yes'
             ? 'md:-rotate-15 -rotate-10 left-[calc(50%+7.5rem)]'
@@ -222,7 +195,7 @@ onBeforeUnmount(() => {
       <NuxtImg
         src="/img/left-arm.png"
         alt="Left arm pointing at button"
-        class="w-1/2 max-w-[800px] absolute bottom-8 z-[100] transition-all ease-in-out duration-2000 rotate-12"
+        class="w-1/2 max-w-[800px] absolute bottom-8 z-[100] transition-all ease-in-out duration-2000 brightness-75 rotate-12"
         :class="
           teamWorkChoice === 'yes'
             ? 'md:rotate-18 rotate-13 right-[calc(50%+7.5rem)]'

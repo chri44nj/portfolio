@@ -164,7 +164,9 @@ const reset = () => {
 
       <NuxtLink
         class="absolute z-50 ease-in-out transition-all duration-1000 shine"
-        :class="teamWorkChoice === 'yes' ? 'bottom-8' : '-bottom-16'"
+        :class="
+          teamWorkChoice === 'yes' ? 'bottom-8 md:bottom-16' : '-bottom-16'
+        "
         to="mailto:chris_valentin@hotmail.com"
       >
         <UButton
@@ -177,7 +179,7 @@ const reset = () => {
       <NuxtImg
         src="/img/right-arm.png"
         alt="Right arm pointing at button"
-        class="w-1/2 max-w-[800px] absolute bottom-8 z-[100] transition-all ease-in-out duration-2000"
+        class="w-1/2 max-w-[800px] absolute bottom-8 md:bottom-16 z-[100] transition-all ease-in-out duration-2000"
         :class="
           teamWorkChoice === 'yes'
             ? 'md:-rotate-15 -rotate-10 left-[calc(50%+7.5rem)]'
@@ -187,7 +189,7 @@ const reset = () => {
       <NuxtImg
         src="/img/left-arm.png"
         alt="Left arm pointing at button"
-        class="w-1/2 max-w-[800px] absolute bottom-8 z-[100] transition-all ease-in-out duration-2000 rotate-12"
+        class="w-1/2 max-w-[800px] absolute bottom-8 md:bottom-16 z-[100] transition-all ease-in-out duration-2000 rotate-12"
         :class="
           teamWorkChoice === 'yes'
             ? 'md:rotate-18 rotate-13 right-[calc(50%+7.5rem)]'

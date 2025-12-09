@@ -1,11 +1,85 @@
 <script lang="ts" setup>
+import { Fireworks } from "@fireworks-js/vue";
 const companyName = ref("");
+const teamWorkChoice = ref<string | null>("");
+
+type Drop = {
+  id: number;
+  left: number;
+  delay: number;
+  duration: number;
+};
+
+const drops = ref<Drop[]>([]);
+let rainTimer: ReturnType<typeof setInterval> | null = null;
+
+function spawnDrop() {
+  drops.value.push({
+    id: Date.now() + Math.random(),
+    left: Math.random() * 100,
+    delay: Math.random(),
+    duration: 1 + Math.random() * 2,
+  });
+}
+
+watch(teamWorkChoice, (val) => {
+  if (val === "no") {
+    startRain();
+  } else {
+    stopRain();
+  }
+});
+
+function startRain() {
+  if (rainTimer) return;
+
+  rainTimer = setInterval(() => {
+    for (let i = 0; i < 6; i++) spawnDrop();
+  }, 60);
+}
+
+function stopRain() {
+  if (rainTimer) {
+    clearInterval(rainTimer);
+    rainTimer = null;
+  }
+}
+
+const reset = () => {
+  teamWorkChoice.value = null;
+};
+
+const fireworksContainer = ref<HTMLElement | null>(null);
+let fireworks: any = null;
+
+onMounted(() => {
+  if (fireworksContainer.value) {
+    fireworks = new Fireworks(fireworksContainer.value, {
+      autoresize: true,
+      opacity: 0.5,
+      intensity: 30,
+      explosion: 4,
+    });
+  }
+});
+
+watch(teamWorkChoice, (choice) => {
+  if (choice === "yes") {
+    fireworks?.start();
+  } else {
+    fireworks?.stop(true);
+  }
+});
+
+onBeforeUnmount(() => {
+  fireworks?.stop(true);
+  fireworks = null;
+});
 </script>
+
 <template>
   <div class="flex items-center justify-center flex-col text-center gap-4">
-    <section
-      class="min-h-screen py-[5rem] px-4 w-full flex flex-col gap-4 items-center justify-center"
-    >
+    <ElementFullScreenSection>
       <h1 class="font-special text-center text-baseparchment">
         <span class="relative">
           <span
@@ -35,10 +109,8 @@ const companyName = ref("");
         En ny video er under produktion. I mellemtiden byder jeg dig denne
         placeholder, jeg lavede for et par år siden :)
       </p>
-    </section>
-    <section
-      class="min-h-screen bg-darkparchment flex flex-col items-center justify-center gap-4 w-full text-matteblack"
-    >
+    </ElementFullScreenSection>
+    <ElementFullScreenSection class="bg-darkparchment text-matteblack">
       <h2>Under konstruktion</h2>
       <p class="!text-lg">
         Denne side er snart kodet færdig. <br />
@@ -56,10 +128,139 @@ const companyName = ref("");
           :disabled="!companyName"
           :class="companyName ? 'animate-pulse' : ''"
       /></NuxtLink>
-    </section>
-    <section class="min-h-screen w-full"></section>
-    <section class="min-h-screen bg-baseparchment w-full"></section>
+    </ElementFullScreenSection>
+    <ElementFullScreenSection></ElementFullScreenSection>
+    <ElementFullScreenSection
+      class="bg-darkparchment text-matteblack relative overflow-hidden"
+    >
+      <h2 class="z-100">Vil du være min kollega?</h2>
+
+      <div class="flex items-center gap-4">
+        <ElementRadioButton
+          id="ja"
+          name="samarbejde"
+          value="yes"
+          label="Ja"
+          v-model="teamWorkChoice"
+          class="w-20"
+        />
+
+        <ElementRadioButton
+          id="nej"
+          name="samarbejde"
+          value="no"
+          label="Nej"
+          v-model="teamWorkChoice"
+          class="w-20"
+        />
+
+        <ElementRadioButton
+          id="måske"
+          name="samarbejde"
+          value="maybe"
+          label="Måske"
+          v-model="teamWorkChoice"
+          class="w-20"
+        />
+      </div>
+      <UButton type="button" variant="link" class="z-100" @click="reset"
+        >Nulstil</UButton
+      >
+      <div class="rain">
+        <span
+          v-for="drop in drops"
+          :key="drop.id"
+          class="drop"
+          :style="{
+            left: drop.left + 'vw',
+            animationDelay: drop.delay + 's',
+            animationDuration: drop.duration + 's',
+          }"
+          @animationend="drops = drops.filter((d) => d.id !== drop.id)"
+        ></span>
+      </div>
+      <ClientOnly>
+        <Fireworks
+          v-if="teamWorkChoice === 'yes'"
+          :autoresize="true"
+          class="absolute inset-0 h-screen pointer-events-none z-0"
+        />
+      </ClientOnly>
+      <div
+        class="absolute bg-gradient-to-b top-0 left-0 h-screen w-screen z-50 pointer-events-none ease-in-out transition-colors duration-2000"
+        :class="
+          teamWorkChoice === 'yes'
+            ? 'from-lightparchment/75 to-darkparchment/50'
+            : teamWorkChoice === 'no'
+            ? ' from-matteblack/75 to-lightblue/50'
+            : 'from-transparent to-transparent'
+        "
+      ></div>
+
+      <NuxtLink
+        class="absolute z-50 ease-in-out transition-all duration-1000 shine"
+        :class="teamWorkChoice === 'yes' ? 'bottom-8' : '-bottom-16'"
+        to="mailto:chris_valentin@hotmail.com"
+      >
+        <UButton
+          label="Send mig en mail!"
+          icon="material-symbols:mail-rounded"
+          size="xl"
+        />
+      </NuxtLink>
+
+      <NuxtImg
+        src="/img/right-arm.png"
+        alt="Right arm pointing at button"
+        class="w-1/2 max-w-[800px] absolute bottom-8 z-[100] transition-all ease-in-out duration-2000"
+        :class="
+          teamWorkChoice === 'yes'
+            ? 'md:-rotate-15 -rotate-10 left-[calc(50%+7.5rem)]'
+            : ' left-full'
+        "
+      />
+      <NuxtImg
+        src="/img/left-arm.png"
+        alt="Left arm pointing at button"
+        class="w-1/2 max-w-[800px] absolute bottom-8 z-[100] transition-all ease-in-out duration-2000 rotate-12"
+        :class="
+          teamWorkChoice === 'yes'
+            ? 'md:rotate-18 rotate-13 right-[calc(50%+7.5rem)]'
+            : ' right-full'
+        "
+      />
+    </ElementFullScreenSection>
   </div>
 </template>
 
-<style></style>
+<style scoped>
+.rain {
+  pointer-events: none;
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  z-index: 100;
+}
+
+.drop {
+  position: absolute;
+  top: -8vh;
+  z-index: 100;
+  width: 2px;
+  height: 14px;
+
+  background: linear-gradient(#ffffff22, #ffffffaa);
+  border-radius: 2px;
+
+  animation-name: fall;
+  animation-timing-function: linear;
+  animation-fill-mode: forwards;
+}
+
+@keyframes fall {
+  to {
+    transform: translateY(110vh);
+    opacity: 0;
+  }
+}
+</style>

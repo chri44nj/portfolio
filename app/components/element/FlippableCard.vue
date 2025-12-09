@@ -41,7 +41,7 @@ const handleMouseLeave = () => {
         <div class="glow-layer glow-layer-2"></div>
         <div class="glow-layer glow-layer-3"></div>
       </div>
-
+      <div v-if="glow" class="shine-absolute rounded-xl"></div>
       <div
         class="flip-card-inner relative w-full h-full text-center transition-transform duration-700 transform-style-3d"
       >
@@ -126,91 +126,6 @@ const handleMouseLeave = () => {
   z-index: 2;
 }
 
-/* Glow effect styles */
-.glow-container {
-  position: absolute;
-  inset: -20px;
-  pointer-events: none;
-  z-index: 0;
-}
-
-.glow-layer {
-  position: absolute;
-  inset: 10px;
-  border-radius: 1rem;
-  filter: blur(20px);
-  opacity: 0.7;
-}
-
-.glow-layer-1 {
-  background: radial-gradient(
-    ellipse 140% 100% at 50% 50%,
-    rgba(217, 198, 163, 0.85) 0%,
-    /* baseparchment */ rgba(217, 198, 163, 0.55) 35%,
-    transparent 70%
-  );
-  animation: glow-pulse-1 1.5s ease-in-out infinite;
-}
-
-.glow-layer-2 {
-  background: radial-gradient(
-    ellipse 130% 95% at 50% 50%,
-    rgba(244, 225, 193, 0.75) 0%,
-    /* lightparchment */ rgba(217, 198, 163, 0.45) 40%,
-    transparent 70%
-  );
-  animation: glow-pulse-2 1.5s ease-in-out infinite;
-  animation-delay: -1s;
-}
-
-.glow-layer-3 {
-  background: radial-gradient(
-    ellipse 135% 98% at 50% 50%,
-    rgba(148, 135, 110, 0.6) 0%,
-    /* darkparchment */ rgba(217, 198, 163, 0.35) 38%,
-    transparent 68%
-  );
-  animation: glow-pulse-3 1.5s ease-in-out infinite;
-  animation-delay: -2s;
-}
-
-@keyframes glow-pulse-1 {
-  0%,
-  100% {
-    transform: scale(1);
-    opacity: 0.7;
-  }
-  50% {
-    transform: scale(1.08);
-    opacity: 0.9;
-  }
-}
-
-@keyframes glow-pulse-2 {
-  0%,
-  100% {
-    transform: scale(1);
-    opacity: 0.6;
-  }
-  50% {
-    transform: scale(1.12);
-    opacity: 0.85;
-  }
-}
-
-@keyframes glow-pulse-3 {
-  0%,
-  100% {
-    transform: scale(1);
-    opacity: 0.65;
-  }
-  50% {
-    transform: scale(1.1);
-    opacity: 0.8;
-  }
-}
-
-/* Ensure glow appears behind the card */
 .has-glow .flip-card-inner {
   position: relative;
   z-index: 1;

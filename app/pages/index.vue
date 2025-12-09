@@ -101,10 +101,7 @@ const reset = () => {
           :class="companyName ? 'animate-pulse' : ''"
       /></NuxtLink>
     </ElementFullScreenSection>
-    <ElementFullScreenSection></ElementFullScreenSection>
-    <ElementFullScreenSection
-      class="bg-darkparchment text-matteblack relative overflow-hidden"
-    >
+    <ElementFullScreenSection class="relative overflow-hidden">
       <h2 class="z-100">Vil du være min kollega?</h2>
 
       <div class="flex items-center gap-4">
@@ -158,7 +155,7 @@ const reset = () => {
         class="absolute bg-gradient-to-b top-0 left-0 h-screen w-screen z-50 pointer-events-none ease-in-out transition-colors duration-2000"
         :class="
           teamWorkChoice === 'yes'
-            ? 'from-lightparchment/75 to-darkparchment/50'
+            ? 'from-transparent to-transparent'
             : teamWorkChoice === 'no'
             ? ' from-matteblack/75 to-lightblue/50'
             : 'from-transparent to-transparent'
@@ -180,7 +177,7 @@ const reset = () => {
       <NuxtImg
         src="/img/right-arm.png"
         alt="Right arm pointing at button"
-        class="w-1/2 max-w-[800px] absolute bottom-8 z-[100] transition-all ease-in-out duration-2000 brightness-75"
+        class="w-1/2 max-w-[800px] absolute bottom-8 z-[100] transition-all ease-in-out duration-2000"
         :class="
           teamWorkChoice === 'yes'
             ? 'md:-rotate-15 -rotate-10 left-[calc(50%+7.5rem)]'
@@ -190,7 +187,7 @@ const reset = () => {
       <NuxtImg
         src="/img/left-arm.png"
         alt="Left arm pointing at button"
-        class="w-1/2 max-w-[800px] absolute bottom-8 z-[100] transition-all ease-in-out duration-2000 brightness-75 rotate-12"
+        class="w-1/2 max-w-[800px] absolute bottom-8 z-[100] transition-all ease-in-out duration-2000 rotate-12"
         :class="
           teamWorkChoice === 'yes'
             ? 'md:rotate-18 rotate-13 right-[calc(50%+7.5rem)]'

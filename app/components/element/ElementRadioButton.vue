@@ -14,7 +14,7 @@ const emit = defineEmits<{
 
 <template>
   <div class="flex items-center justify-center z-100">
-    <label :for="id" class="flex flex-col gap-2 items-center cursor-pointer">
+    <label :for="id" class="flex flex-col gap-2 items-center cursor-default">
       <span class="font-medium">{{ label }}</span>
 
       <div class="radio-wrapper">

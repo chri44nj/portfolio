@@ -6,10 +6,20 @@ const { handleNextStep } = useMatchFlow();
 const route = useRoute();
 const username = computed(() => {
   const u = route.params.username;
-  if (!u) return "dig";
   const name = Array.isArray(u) ? u[0] : u;
-  return name!.charAt(0).toUpperCase() + name!.slice(1);
+  if (!name) return "dig";
+  else
+    return name
+      .split(" ")
+      .map((part) =>
+        part
+          .split("-")
+          .map((w) => w.charAt(0).toUpperCase() + w.slice(1))
+          .join("-")
+      )
+      .join(" ");
 });
+
 const introGreetingVisible = ref(false);
 const cardsCombined = ref(false);
 const userMayContinue = ref(false);
@@ -242,10 +252,9 @@ const cardsTurned = ref(false);
           Vær hilset,
           {{
             route.params.username
-              ? `ærede medlem af hus ${username} `
+              ? `ærede medlem af ${username}`
               : "ærede gæst"
-          }}
-          - eller skulle jeg kalde dig...
+          }}. Eller skulle jeg kalde dig...
           <span class="font-bold">The Chosen One? </span
           ><span
             class="transition-opacity duration-2000"

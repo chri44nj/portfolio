@@ -86,11 +86,6 @@ const emit = defineEmits<{
   background: var(--color-lightparchment);
 }
 
-.radio-input:focus + .radio-box {
-  outline: 2px solid var(--color-baseparchment);
-  outline-offset: 2px;
-}
-
 .radio-input:checked + .radio-box {
   background: var(--color-baseparchment);
   border-color: var(--color-darkparchment);

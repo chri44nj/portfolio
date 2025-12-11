@@ -109,7 +109,7 @@ onMounted(() => {
           :class="
             !cardStore.allCategoriesSelected
               ? 'opacity-25 cursor-not-allowed'
-              : 'animate-pulse'
+              : ''
           "
           @click.stop="
             cardStore.allCategoriesSelected

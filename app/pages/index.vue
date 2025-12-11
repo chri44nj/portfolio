@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 const companyName = ref("");
-const teamWorkChoice = ref<string | null>("");
+const teamWorkChoice = ref<string | null>(null);
 
 type Drop = {
   id: number;
@@ -50,7 +50,7 @@ const reset = () => {
 </script>
 
 <template>
-  <div class="flex items-center justify-center flex-col text-center gap-4">
+  <div class="flex items-center justify-center flex-col text-center">
     <ElementFullScreenSection>
       <h1 class="font-special text-center text-baseparchment">
         <span class="relative">
@@ -83,9 +83,9 @@ const reset = () => {
       </p>
     </ElementFullScreenSection>
     <ElementFullScreenSection class="bg-darkparchment text-matteblack">
-      <h2>Under konstruktion</h2>
+      <h2>Profilside under konstruktion</h2>
       <p class="!text-lg">
-        Denne side er snart kodet færdig. <br />
+        Denne side er næsten klar til produktion!<br />
         Kom snart tilbage og tjek i mellemtiden om vi er et match:
       </p>
       <UInput
@@ -102,14 +102,19 @@ const reset = () => {
       /></NuxtLink>
     </ElementFullScreenSection>
     <ElementFullScreenSection class="relative overflow-hidden">
-      <h2 class="z-100">Vil du være min kollega?</h2>
+      <Transition name="fade" mode="out-in">
+        <h2 v-if="teamWorkChoice !== 'maybe'" class="z-100">
+          Vil du være min kollega?
+        </h2>
+        <h2 v-else class="z-100">Min kollega vil du være, hmm?</h2>
+      </Transition>
 
       <div class="flex items-center gap-4">
         <ElementRadioButton
           id="ja"
           name="samarbejde"
           value="yes"
-          label="Ja"
+          :label="teamWorkChoice === 'maybe' ? 'Do' : 'Ja'"
           v-model="teamWorkChoice"
           class="w-20"
         />
@@ -118,7 +123,7 @@ const reset = () => {
           id="nej"
           name="samarbejde"
           value="no"
-          label="Nej"
+          :label="teamWorkChoice === 'maybe' ? 'Do not' : 'Nej'"
           v-model="teamWorkChoice"
           class="w-20"
         />
@@ -127,13 +132,22 @@ const reset = () => {
           id="måske"
           name="samarbejde"
           value="maybe"
-          label="Måske"
+          :label="teamWorkChoice === 'maybe' ? 'Try' : 'Måske'"
           v-model="teamWorkChoice"
           class="w-20"
         />
       </div>
-      <UButton type="button" variant="link" class="z-100" @click="reset"
-        >Nulstil</UButton
+      <UButton
+        type="button"
+        variant="link"
+        class="z-100 transition-opacity duration-1000"
+        :class="
+          teamWorkChoice !== null
+            ? 'opacity-100'
+            : 'opacity-0 pointer-events-none'
+        "
+        @click="reset"
+        >{{ teamWorkChoice === "maybe" ? "Stilnul" : "Nulstil" }}</UButton
       >
       <div class="rain">
         <span
@@ -160,10 +174,39 @@ const reset = () => {
             ? ' from-matteblack/75 to-lightblue/50'
             : 'from-transparent to-transparent'
         "
-      ></div>
+      >
+        <NuxtImg
+          src="/img/yoda.webp"
+          alt="Yodas"
+          class="absolute transition-all ease-in-out duration-3000 -left-8 w-1/2 min-w-[250px] max-w-[750px]"
+          :class="
+            teamWorkChoice === 'maybe'
+              ? 'bottom-0 opacity-100'
+              : '-bottom-[200px] md:-bottom-[500px] opacity-0'
+          "
+        />
+        <div
+          class="absolute transition-all ease-in-out duration-3000 right-4 md:right-20 text-center md:text-[1.75rem] text-baseparchment z-100 p-4"
+          :class="
+            teamWorkChoice === 'maybe'
+              ? 'bottom-8 md:bottom-auto md:top-30'
+              : '-bottom-20 md:bottom-auto md:-top-20'
+          "
+        >
+          <Transition name="fade" mode="out-in">
+            <p v-if="teamWorkChoice === 'maybe'">
+              " <span>Do.</span> Or do not. There is no try. "
+            </p>
+            <p v-else-if="teamWorkChoice === 'yes'">" Mmmmm, yeeees. "</p>
+            <p v-else-if="teamWorkChoice === 'no'">
+              " Dumb you are. Leave I will. "
+            </p>
+          </Transition>
+        </div>
+      </div>
 
       <NuxtLink
-        class="absolute z-50 ease-in-out transition-all duration-1000 shine"
+        class="absolute z-50 ease-in-out transition-all duration-2000 shine"
         :class="
           teamWorkChoice === 'yes' ? 'bottom-8 md:bottom-16' : '-bottom-16'
         "
@@ -177,23 +220,23 @@ const reset = () => {
       </NuxtLink>
 
       <NuxtImg
-        src="/img/right-arm.png"
+        src="/img/right-arm.webp"
         alt="Right arm pointing at button"
-        class="w-1/2 max-w-[800px] absolute bottom-8 md:bottom-16 z-[100] transition-all ease-in-out duration-2000"
+        class="w-1/2 max-w-[800px] absolute bottom-8 md:bottom-16 z-99 transition-all ease-in-out duration-3000"
         :class="
           teamWorkChoice === 'yes'
-            ? 'md:-rotate-15 -rotate-10 left-[calc(50%+7.5rem)]'
-            : ' left-full'
+            ? 'md:-rotate-15 -rotate-10 left-[calc(50%+7.5rem)] opacity-100'
+            : ' left-full opacity-0'
         "
       />
       <NuxtImg
-        src="/img/left-arm.png"
+        src="/img/left-arm.webp"
         alt="Left arm pointing at button"
-        class="w-1/2 max-w-[800px] absolute bottom-8 md:bottom-16 z-[100] transition-all ease-in-out duration-2000 rotate-12"
+        class="w-1/2 max-w-[800px] absolute bottom-8 md:bottom-16 z-99 transition-all ease-in-out duration-3000 rotate-12"
         :class="
           teamWorkChoice === 'yes'
-            ? 'md:rotate-18 rotate-13 right-[calc(50%+7.5rem)]'
-            : ' right-full'
+            ? 'md:rotate-18 rotate-13 right-[calc(50%+7.5rem)] opacity-100'
+            : ' right-full opacity-0'
         "
       />
     </ElementFullScreenSection>

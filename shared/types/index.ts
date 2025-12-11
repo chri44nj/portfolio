@@ -34,5 +34,10 @@ export type Profile = {
   pros: string[];
   cons: string[];
   cardMatches: string[];
-  highlights?: { title: string; color: string; value: number }[];
+  highlights?: {
+    title: string;
+    color: string;
+    value: number;
+    keywords: string[];
+  }[];
 };

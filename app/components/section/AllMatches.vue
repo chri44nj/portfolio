@@ -114,40 +114,6 @@ const calculateMatchPercentage = (profile: Profile) => {
 // Calculate dynamic styles based on progress
 const initialScrollPosition = ref(0);
 
-const getCardStyle = (index: number, total: number) => {
-  const progressDecimal = progress.value / 100;
-
-  // Shake intensity increases with progress
-  const shakeIntensity = progressDecimal * 5;
-
-  // Calculate movement - cards move toward center OF THEIR CONTAINER
-  const centerIndex = (total - 1) / 2;
-  const distanceFromCenter = index - centerIndex;
-
-  const cardWidth = 200;
-  const gap = 24;
-  const unitDistance = cardWidth + gap;
-
-  // Move toward the center - but stop when cards meet (distance becomes 0)
-  // On mobile, cards might over-converge, so we clamp the movement
-  const maxMovement = Math.abs(distanceFromCenter) * unitDistance;
-  const calculatedMovement =
-    -distanceFromCenter * unitDistance * progressDecimal;
-
-  // Clamp to prevent over-convergence
-  const movement =
-    distanceFromCenter > 0
-      ? Math.max(calculatedMovement, -maxMovement) // Moving left
-      : Math.min(calculatedMovement, maxMovement); // Moving right
-
-  return {
-    transform: `translateX(${movement}px) rotate(${
-      Math.sin(Date.now() / 100 + index) * shakeIntensity
-    }deg)`,
-    transition: "transform 0.1s ease-out",
-  };
-};
-
 watch(isHolding, (holding) => {
   if (!scrollContainerRef.value) return;
 
@@ -183,6 +149,40 @@ const resetCardStyle = () => {
   if (scrollContainerRef.value) {
     scrollContainerRef.value.scrollLeft = initialScrollPosition.value;
   }
+};
+
+const getCardStyle = (index: number, total: number) => {
+  const progressDecimal = progress.value / 100;
+
+  // Shake intensity increases with progress
+  const shakeIntensity = progressDecimal * 5;
+
+  // Calculate movement - cards move toward center OF THEIR CONTAINER
+  const centerIndex = (total - 1) / 2;
+  const distanceFromCenter = index - centerIndex;
+
+  const cardWidth = 200;
+  const gap = 24;
+  const unitDistance = cardWidth + gap;
+
+  // Move toward the center - but stop when cards meet (distance becomes 0)
+  // On mobile, cards might over-converge, so we clamp the movement
+  const maxMovement = Math.abs(distanceFromCenter) * unitDistance;
+  const calculatedMovement =
+    -distanceFromCenter * unitDistance * progressDecimal;
+
+  // Clamp to prevent over-convergence
+  const movement =
+    distanceFromCenter > 0
+      ? Math.max(calculatedMovement, -maxMovement) // Moving left
+      : Math.min(calculatedMovement, maxMovement); // Moving right
+
+  return {
+    transform: `translateX(${movement}px) rotate(${
+      Math.sin(Date.now() / 100 + index) * shakeIntensity
+    }deg)`,
+    transition: "transform 0.1s ease-out",
+  };
 };
 
 onMounted(() => {
@@ -241,110 +241,156 @@ onBeforeUnmount(() => {
           class="w-full overflow-auto p-4 hide-scrollbar"
         >
           <div class="min-w-min flex justify-center gap-6">
-            <ElementFlippableCard
-              v-for="(profile, index) in inferiorProfiles"
-              :key="profile.id"
-              :hide-title="isHolding"
-              class="card-shake"
-              :style="{
-                zIndex: calculateMatchPercentage(profile),
-                ...getCardStyle(index, inferiorProfiles.length),
-              }"
-            >
-              <template #back>
-                <div
-                  class="flex flex-col h-full w-full text-start text-matteblack"
-                >
-                  <p class="font-bold">Highlights</p>
-                  <ul
-                    class="list-none flex flex-col gap-2 text-xs overflow-auto nice-scrollbar pb-1"
+            <ClientOnly>
+              <ElementFlippableCard
+                v-for="(profile, index) in inferiorProfiles"
+                :key="profile.id"
+                :hide-title="isHolding"
+                class="card-shake"
+                :style="{
+                  zIndex: calculateMatchPercentage(profile),
+                  ...getCardStyle(index, inferiorProfiles.length),
+                }"
+              >
+                <template #back>
+                  <div
+                    class="flex flex-col h-full w-full text-start text-matteblack"
                   >
-                    <li v-for="highlight in profile.highlights" class="">
-                      <p>{{ highlight.title }}</p>
-                      <div
-                        class="w-full border"
-                        :class="`border-${highlight.color}`"
+                    <p class="font-bold">Highlights</p>
+                    <ul
+                      class="list-none flex flex-col gap-3 text-xs overflow-auto nice-scrollbar pb-1"
+                    >
+                      <li
+                        v-for="highlight in profile.highlights"
+                        class="flex flex-col gap-1 bg-lightparchment/75 p-1 rounded"
                       >
+                        <p class="font-bold">
+                          {{ highlight.title }}
+                        </p>
                         <div
-                          class="h-2"
-                          :class="`bg-${highlight.color}`"
-                          :style="{ width: `${highlight.value}%` }"
-                        />
-                      </div>
-                    </li>
-                  </ul>
-                </div>
-              </template>
-              <template #title-top>
-                <p>
-                  {{ profile.firstName }}
-                  <span class="font-bold">{{ profile.lastName }}</span>
-                </p>
-              </template>
+                          class="w-full border mb-1 rounded-xs"
+                          :class="`border-${highlight.color}`"
+                        >
+                          <div
+                            class="h-2.5 rounded-xs"
+                            :class="`bg-${highlight.color}`"
+                            :style="{ width: `${highlight.value}%` }"
+                          />
+                        </div>
+                        <ul>
+                          <li
+                            v-for="keyword in highlight.keywords"
+                            class="flex items-center gap-1"
+                          >
+                            <Icon
+                              name="material-symbols:star-rounded"
+                              class="text-sm shrink-0 text-darkparchment"
+                            />
+                            <span>{{ keyword }}</span>
+                          </li>
+                        </ul>
+                      </li>
+                    </ul>
+                  </div>
+                </template>
+                <template #title-top>
+                  <div class="flex flex-col items-center">
+                    <p>
+                      {{ profile.firstName }}
+                      <span class="font-bold">{{ profile.lastName }}</span>
+                    </p>
+                    <p class="text-xs text-darkparchment">
+                      {{ profile.title }}
+                    </p>
+                  </div>
+                </template>
 
-              <template #front-top-left>
-                <Icon
-                  name="material-symbols:star-rounded"
-                  class="text-darkparchment text-xl"
-                />
-                <p class="text-vertical text-darkparchment font-bold">
-                  {{ profile.firstName }}
-                </p>
-              </template>
+                <template #front-top-left>
+                  <Icon
+                    name="material-symbols:star-rounded"
+                    class="text-matteblack text-xl"
+                  />
+                  <p class="text-vertical text-matteblack font-bold">
+                    {{ profile.firstName }}
+                  </p>
+                </template>
 
-              <template #front-center>
-                <NuxtImg
-                  src="/img/facecard.png"
-                  alt="Superior Profile"
-                  class="w-1/2"
-                />
-              </template>
+                <template #front-center>
+                  <NuxtImg
+                    src="/img/facecard.webp"
+                    alt="Inferior Profile"
+                    class="w-1/2 opacity-50"
+                  />
+                </template>
 
-              <template #front-bottom-right>
-                <p class="text-vertical text-darkparchment font-bold">
-                  {{ profile.lastName }}
-                </p>
-                <Icon
-                  name="material-symbols:star-rounded"
-                  class="text-darkparchment text-xl rotate-180"
-                />
-              </template>
+                <template #front-bottom-right>
+                  <p class="text-vertical text-matteblack font-bold">
+                    {{ profile.lastName }}
+                  </p>
+                  <Icon
+                    name="material-symbols:star-rounded"
+                    class="text-matteblack text-xl rotate-180"
+                  />
+                </template>
 
-              <template #title-beneath>
-                <p class="font-bold text-sm">
-                  {{ `${calculateMatchPercentage(profile)}% match` }}
-                </p>
-              </template>
-            </ElementFlippableCard>
+                <template #title-beneath>
+                  <p class="font-bold text-sm">
+                    {{ `${calculateMatchPercentage(profile)}% match` }}
+                  </p>
+                </template>
+              </ElementFlippableCard>
+            </ClientOnly>
           </div>
         </div>
       </div>
 
-      <ElementFlippableCard v-else :key="superiorProfile.id" :glow="true">
+      <ElementFlippableCard
+        v-else
+        :key="superiorProfile.id"
+        :standout="true"
+        class="z-100"
+      >
         <template #back>
           <div class="flex flex-col h-full w-full text-start text-matteblack">
             <p class="font-bold">Highlights</p>
             <ul
-              class="list-none flex flex-col gap-2 text-xs overflow-auto nice-scrollbar pb-1"
+              class="list-none flex flex-col gap-3 text-xs overflow-auto nice-scrollbar pb-1"
             >
-              <li v-for="highlight in superiorProfile.highlights" class="">
-                <p>{{ highlight.title }}</p>
-                <div class="w-full border" :class="`border-${highlight.color}`">
+              <li
+                v-for="highlight in superiorProfile.highlights"
+                class="flex flex-col gap-1"
+              >
+                <p class="font-bold">
+                  {{ highlight.title }}
+                </p>
+                <div
+                  class="w-full border mb-1"
+                  :class="`border-${highlight.color}`"
+                >
                   <div
-                    class="h-2"
+                    class="h-2.5"
                     :class="`bg-${highlight.color}`"
                     :style="{ width: `${highlight.value}%` }"
                   />
                 </div>
+                <ul>
+                  <li v-for="keyword in highlight.keywords">- {{ keyword }}</li>
+                </ul>
               </li>
             </ul>
           </div>
         </template>
 
+        <template #title-top>
+          <p class="font-bold text-baseparchment z-100">
+            {{ superiorProfile.title }}
+          </p>
+        </template>
+
         <template #front-top-left>
           <Icon
             name="material-symbols:star-rounded"
-            class="text-matteblack text-xl cursor-pointer"
+            class="text-matteblack text-xl"
             @click="
               () => {
                 uiStore.showSuperiorProfile = false;
@@ -359,7 +405,7 @@ onBeforeUnmount(() => {
 
         <template #front-center>
           <NuxtImg
-            src="/img/facecard.png"
+            src="/img/facecard.webp"
             alt="Superior Profile"
             class="w-1/2"
           />
@@ -392,7 +438,8 @@ onBeforeUnmount(() => {
           : 'opacity-0'
       "
     >
-      {{ inferiorProfiles.length }} udemærkede matches...
+      {{ inferiorProfiles.length }}
+      <span class="text-darkparchment font-bold">udemærkede matches</span>...
       <span
         class="transition-opacity duration-2000"
         :class="
@@ -409,7 +456,7 @@ onBeforeUnmount(() => {
     </p>
     <p
       v-else
-      class="text-center z-1 transition-opacity duration-3000"
+      class="text-center z-99 transition-opacity duration-3000"
       :class="
         showSuccessTextPartOne || uiStore.visitedUltimateMatch
           ? 'opacity-100'
@@ -438,16 +485,12 @@ onBeforeUnmount(() => {
             : 'opacity-0'
         "
       >
-        <NuxtLink
-          to="https://www.linkedin.com/in/christ-valentin/"
-          target="_blank"
-          >Dit ultimative match(s LinkedIn)!</NuxtLink
-        ></strong
-      >
+        Dit ultimative match!
+      </strong>
     </p>
     <div
       v-if="!uiStore.showSuperiorProfile"
-      class="fixed left-0 w-full z-10 transition-[bottom] ease-in-out duration-3500"
+      class="fixed left-0 w-full z-10 transition-[bottom] ease-in-out duration-3500 z-100"
       :class="
         showButtonHold || uiStore.visitedAllMatches
           ? 'bottom-0'
@@ -488,7 +531,7 @@ onBeforeUnmount(() => {
       to="/"
       class="fixed bottom-4 z-10 slide-and-tip"
     >
-      <UButton size="lg" label="Vis mig mere!" />
+      <UButton size="lg" label="Lad os gå mere i dybden!" />
     </NuxtLink>
   </section>
 </template>

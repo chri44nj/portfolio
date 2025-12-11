@@ -10,7 +10,7 @@ const props = defineProps<Props>();
 <template>
   <span
     class="transition-colors duration-300"
-    :class="props.changeColor ? 'text-baseparchment' : ''"
+    :class="props.changeColor ? 'text-baseparchment' : 'text-darkparchment'"
   >
     {{ text }}
   </span>

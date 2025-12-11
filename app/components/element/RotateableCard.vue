@@ -57,14 +57,14 @@ onMounted(() => {
 <template>
   <div
     ref="cardRef"
-    class="flex flex-col items-center justify-center bg-baseparchment p-4 border border-matteblack h-[400px] relative rounded-xl aspect-2/3 text-matteblack shadow-lg will-change-transform z-1 select-none"
+    class="flex flex-col items-center justify-center p-4 border border-matteblack h-[400px] relative rounded-xl aspect-2/3 text-matteblack shadow-lg will-change-transform z-1 select-none"
+    :class="
+      uiStore.showSuperiorProfile ? 'bg-baseparchment' : 'bg-darkparchment'
+    "
     @click="handleClickNext"
   >
     <div
-      class="flex flex-col items-center gap-1 left-2 top-2 absolute"
-      :class="
-        uiStore.showSuperiorProfile ? 'text-matteblack' : 'text-darkparchment'
-      "
+      class="flex flex-col items-center gap-1 left-2 top-2 absolute text-matteblack"
     >
       <Icon name="material-symbols:star-rounded" class="text-2xl" />
       <p class="!text-xl/[1] font-bold">
@@ -74,18 +74,13 @@ onMounted(() => {
     <p
       class="font-special absolute -translate-y-1/2 top-1/2 text-[10rem] z-0"
       :class="
-        uiStore.showSuperiorProfile
-          ? 'text-offwhite/50'
-          : 'text-darkparchment/50'
+        uiStore.showSuperiorProfile ? 'text-offwhite/50' : 'text-matteblack/50'
       "
     >
       {{ uiStore.showSuperiorProfile ? "1" : inferiorProfiles.length }}
     </p>
     <div
-      class="flex flex-col items-center gap-1 right-2 bottom-2 absolute"
-      :class="
-        uiStore.showSuperiorProfile ? 'text-matteblack' : 'text-darkparchment'
-      "
+      class="flex flex-col items-center gap-1 right-2 bottom-2 absolute text-matteblack"
     >
       <p class="!text-xl/[1] font-bold rotate-180">
         {{ uiStore.showSuperiorProfile ? "1" : inferiorProfiles.length }}

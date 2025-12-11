@@ -1,7 +1,7 @@
 <script setup lang="ts">
 const props = defineProps<{
   hideTitle?: boolean;
-  glow?: boolean;
+  standout?: boolean;
 }>();
 
 const flipped = ref(false);
@@ -30,24 +30,27 @@ const handleMouseLeave = () => {
       <slot name="title-top"></slot>
     </p>
     <div
-      class="flip-card aspect-2/3 rounded-xl h-[250px] md:h-[300px] bg-transparent perspective-1000 relative group cursor-pointer group z-1"
-      :class="{ flipped, 'has-glow': glow }"
+      class="flip-card aspect-2/3 rounded-xl h-[250px] md:h-[300px] bg-transparent perspective-1000 relative group cursor-default group z-1"
+      :class="{ flipped, 'has-glow': standout }"
       tabindex="0"
       @mouseleave="handleMouseLeave"
     >
-      <!-- Animated glow layers -->
-      <div v-if="glow" class="glow-container">
+      <!-- Animated standout layers -->
+      <div v-if="standout" class="glow-container">
         <div class="glow-layer glow-layer-1"></div>
         <div class="glow-layer glow-layer-2"></div>
         <div class="glow-layer glow-layer-3"></div>
       </div>
-      <div v-if="glow" class="shine-absolute rounded-xl"></div>
       <div
         class="flip-card-inner relative w-full h-full text-center transition-transform duration-700 transform-style-3d"
       >
         <div
-          class="flip-card-front absolute w-full h-full backface-hidden rounded-xl bg-baseparchment flex items-center justify-center"
-          :class="glow ? '' : 'border-matteblack border'"
+          class="flip-card-front absolute w-full h-full backface-hidden rounded-xl flex items-center justify-center"
+          :class="
+            standout
+              ? 'bg-baseparchment shine'
+              : 'bg-darkparchment border-matteblack border'
+          "
         >
           <!-- Top-left slot -->
           <div class="flex flex-col items-center gap-1 absolute top-2 left-2">
@@ -78,8 +81,12 @@ const handleMouseLeave = () => {
 
         <!-- Back side -->
         <div
-          class="flip-card-back absolute w-full h-full backface-hidden rounded-xl bg-lightparchment p-4 flex flex-col justify-between transform rotate-y-180"
-          :class="glow ? '' : 'border-matteblack border'"
+          class="flip-card-back absolute w-full h-full backface-hidden rounded-xl p-4 flex flex-col justify-between transform rotate-y-180"
+          :class="
+            standout
+              ? 'bg-lightparchment shine'
+              : 'bg-baseparchment border-matteblack border'
+          "
         >
           <div
             v-if="$device.isMobileOrTablet"

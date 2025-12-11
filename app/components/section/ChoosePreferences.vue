@@ -74,10 +74,31 @@ useTextAnimation({
 <template>
   <section class="flex flex-col items-center text-center w-full">
     <div>
-      <p class="mb-2">
-        Trin {{ uiStore.preferencesStep }} af
-        {{ uiStore.preferencesTotalSteps }}
-      </p>
+      <div class="flex items-center gap-2 mb-2 justify-center">
+        <div
+          class="w-5 md:w-6 flex items-center transition-all duration-200"
+          :class="
+            cardStore.currentCategoryHasSelection ? 'opacity-100' : 'opacity-50'
+          "
+        >
+          <Transition name="icon">
+            <Icon
+              v-if="cardStore.currentCategoryHasSelection"
+              class="shrink-0 text-xl md:text-2xl"
+              :name="'material-symbols:check-circle-rounded'"
+            />
+            <Icon
+              v-else
+              class="shrink-0 text-xl md:text-2xl"
+              :name="'material-symbols:cancel-rounded'"
+            />
+          </Transition>
+        </div>
+        <p>
+          Trin {{ uiStore.preferencesStep }} af
+          {{ uiStore.preferencesTotalSteps }}
+        </p>
+      </div>
       <Transition name="fade" mode="out-in">
         <ElementCardsSwiperHeading
           v-if="uiStore.preferencesStep === 1"
@@ -158,12 +179,6 @@ useTextAnimation({
     <div class="flex items-center justify-between gap-4 w-full md:max-w-sm">
       <UButton
         icon="material-symbols:chevron-left-rounded"
-        :class="
-          cardStore.previousCategoryHasNoSelection &&
-          cardStore.currentCategoryHasSelection
-            ? 'animate-pulse'
-            : ''
-        "
         :variant="
           cardStore.previousCategoryHasNoSelection &&
           cardStore.currentCategoryHasSelection
@@ -172,6 +187,7 @@ useTextAnimation({
         "
         @click="handleStepWithScroll('previous')"
       />
+
       <div
         class="grow overflow-hidden"
         @mouseenter="hoverCardCount = true"
@@ -202,12 +218,6 @@ useTextAnimation({
       </div>
       <UButton
         icon="material-symbols:chevron-right-rounded"
-        :class="
-          cardStore.nextCategoryHasNoSelection &&
-          cardStore.currentCategoryHasSelection
-            ? 'animate-pulse'
-            : ''
-        "
         :variant="
           cardStore.nextCategoryHasNoSelection &&
           cardStore.currentCategoryHasSelection

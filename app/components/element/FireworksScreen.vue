@@ -172,7 +172,7 @@ onBeforeUnmount(() => {
 </script>
 
 <template>
-  <div class="fireworks-wrapper">
+  <div class="fireworks-wrapper pointer-events-none">
     <canvas ref="canvas" />
   </div>
 </template>

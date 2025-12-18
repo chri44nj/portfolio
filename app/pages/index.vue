@@ -51,7 +51,7 @@ const reset = () => {
 
 <template>
   <div class="flex items-center justify-center flex-col text-center">
-    <ElementFullScreenSection>
+    <!-- <ElementFullScreenSection>
       <h1 class="font-special text-center text-baseparchment">
         <span class="relative">
           <span
@@ -81,27 +81,59 @@ const reset = () => {
         En ny video er under produktion. I mellemtiden byder jeg dig denne
         placeholder, jeg lavede for et par år siden :)
       </p>
-    </ElementFullScreenSection>
-    <ElementFullScreenSection class="bg-darkparchment text-matteblack">
-      <h2>Profilside under konstruktion</h2>
-      <p class="!text-lg">
-        Denne side er næsten klar til produktion!<br />
-        Kom snart tilbage og tjek i mellemtiden om vi er et match:
-      </p>
+    </ElementFullScreenSection> -->
+    <ElementFullScreenSection>
+      <h1 class="font-special text-center text-baseparchment">
+        <span class="relative">
+          <span
+            class="font-pacifico absolute left-0 -top-4 text-xs w-full text-offwhite text-nowrap"
+          >
+            er Christian Valentin</span
+          >Dit
+        </span>
+        ultimative
+        <span class="relative">
+          match
+
+          <span
+            class="font-pacifico absolute -right-6 text-offwhite transform top-1/2 h1-size -translate-y-1/2"
+            >?</span
+          >
+        </span>
+      </h1>
+      <div>
+        <div class="flex items-center justify-center gap-2 text-baseparchment">
+          <Icon name="material-symbols:handyman" />
+          <p class="font-bold text-xl">Profilside under konstruktion</p>
+          <Icon name="material-symbols:handyman" />
+        </div>
+        <p class="!text-lg">
+          Denne side er næsten klar til produktion. Kom snart tilbage og tjek i
+          mellemtiden om vi er et match:
+        </p>
+      </div>
       <UInput
         type="text"
-        placeholder="Virksomhedsnavn..."
-        class="!text-offwhite"
+        name="company-name"
+        placeholder="Navn på din virksomhed..."
+        class="!text-offwhite w-full max-w-80"
         v-model="companyName"
       />
-      <NuxtLink :to="`/match/${companyName}`"
+      <NuxtLink :to="`/match/${companyName}`" class="w-full max-w-80"
         ><UButton
-          label="Find dit ultimative match"
+          :label="
+            !companyName
+              ? 'Indtast virksomhedsnavn'
+              : 'Find dit ultimative match'
+          "
+          class="w-full justify-center"
           :disabled="!companyName"
           :class="companyName ? 'animate-pulse' : ''"
       /></NuxtLink>
     </ElementFullScreenSection>
-    <ElementFullScreenSection class="relative overflow-hidden">
+    <ElementFullScreenSection
+      class="relative overflow-hidden bg-baseparchment text-matteblack"
+    >
       <Transition name="fade" mode="out-in">
         <h2 v-if="teamWorkChoice !== 'maybe'" class="z-100">
           Vil du være min kollega?
@@ -140,7 +172,7 @@ const reset = () => {
       <UButton
         type="button"
         variant="link"
-        class="z-100 transition-opacity duration-1000"
+        class="z-100 transition-opacity duration-1000 !text-matteblack"
         :class="
           teamWorkChoice !== null
             ? 'opacity-100'
@@ -186,7 +218,7 @@ const reset = () => {
           "
         />
         <div
-          class="absolute transition-all ease-in-out duration-3000 right-4 md:right-20 text-center md:text-[1.75rem] text-baseparchment z-100 p-4"
+          class="absolute transition-all ease-in-out duration-3000 right-4 md:right-20 text-center md:text-[1.75rem] z-100 p-4"
           :class="
             teamWorkChoice === 'maybe'
               ? 'bottom-8 md:bottom-auto md:top-30'
@@ -206,19 +238,24 @@ const reset = () => {
       </div>
 
       <NuxtLink
-        class="absolute z-50 ease-in-out transition-all duration-2000 shine"
+        to="mailto:chris_valentin@hotmail.com"
+        class="absolute z-50 ease-in-out transition-all duration-2000 group"
         :class="
           teamWorkChoice === 'yes' ? 'bottom-8 md:bottom-16' : '-bottom-16'
         "
-        to="mailto:chris_valentin@hotmail.com"
       >
         <UButton
-          label="Send mig en mail!"
-          icon="material-symbols:mail-rounded"
           size="xl"
-        />
+          class="border-matteblack md:border-darkparchment transition-border duration-500 border-2 shine relative z-100 md:group-hover:border-matteblack"
+        >
+          <Icon
+            size="1.25rem"
+            name="material-symbols:mail-rounded"
+            class="md:group-hover:rotate-360 transition-all rotate-270 duration-750 md:group-hover:text-matteblack md:text-darkparchment"
+          />
+          <span>Send mig en mail!</span>
+        </UButton>
       </NuxtLink>
-
       <NuxtImg
         src="/img/right-arm.webp"
         alt="Right arm pointing at button"

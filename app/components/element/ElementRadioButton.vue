@@ -70,7 +70,7 @@ const emit = defineEmits<{
 
 .radio-check {
   font-size: 1.5rem;
-  color: var(--color-matteblack);
+  color: var(--color-offwhite);
   opacity: 0;
   transform: scale(0);
   transition: all 0.2s ease;
@@ -82,12 +82,11 @@ const emit = defineEmits<{
 }
 
 .radio-wrapper:hover .radio-box {
-  border-color: var(--color-baseparchment);
-  background: var(--color-lightparchment);
+  background: var(--color-darkparchment);
 }
 
 .radio-input:checked + .radio-box {
-  background: var(--color-baseparchment);
-  border-color: var(--color-darkparchment);
+  background: var(--color-matteblack);
+  border-color: var(--color-matteblack);
 }
 </style>

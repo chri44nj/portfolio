@@ -37,9 +37,9 @@ const handleMouseLeave = () => {
     >
       <!-- Animated standout layers -->
       <div v-if="standout" class="glow-container">
-        <div class="glow-layer glow-layer-1"></div>
-        <div class="glow-layer glow-layer-2"></div>
-        <div class="glow-layer glow-layer-3"></div>
+        <div class="glow-layer glow-parchment-1"></div>
+        <div class="glow-layer glow-parchment-2"></div>
+        <div class="glow-layer glow-parchment-3"></div>
       </div>
       <div
         class="flip-card-inner relative w-full h-full text-center transition-transform duration-700 transform-style-3d"

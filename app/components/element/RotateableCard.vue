@@ -101,7 +101,7 @@ onMounted(() => {
       </span>
 
       <span v-if="uiStore.showSuperiorProfile" class="block">
-        <span class="text-offwhite font-pacifico">kombineret</span> til det
+        <span class="text-offwhite font-satisfy">kombineret</span> til det
         ultimative match
       </span>
     </p>

@@ -55,7 +55,7 @@ const reset = () => {
       <h1 class="font-special text-center text-baseparchment">
         <span class="relative">
           <span
-            class="font-pacifico absolute left-0 -top-4 text-xs w-full text-offwhite text-nowrap"
+            class="font-satisfy absolute left-0 -top-4 text-xs w-full text-offwhite text-nowrap"
           >
             er Christian Valentin</span
           >Dit
@@ -65,7 +65,7 @@ const reset = () => {
           match
 
           <span
-            class="font-pacifico absolute -right-6 text-offwhite transform top-1/2 h1-size -translate-y-1/2"
+            class="font-satisfy absolute -right-6 text-offwhite transform top-1/2 h1-size -translate-y-1/2"
             >?</span
           >
         </span>
@@ -86,20 +86,11 @@ const reset = () => {
       <h1 class="font-special text-center text-baseparchment">
         <span class="relative">
           <span
-            class="font-pacifico absolute left-0 -top-4 text-xs w-full text-offwhite text-nowrap"
+            class="font-satisfy absolute left-0 -top-4 md:text-lg text-sm w-full text-offwhite text-nowrap"
           >
-            er Christian Valentin</span
-          >Dit
-        </span>
-        ultimative
-        <span class="relative">
-          match
-
-          <span
-            class="font-pacifico absolute -right-6 text-offwhite transform top-1/2 h1-size -translate-y-1/2"
-            >?</span
-          >
-        </span>
+            Er Christian Valentin</span
+          >DIT </span
+        >ULTIMATIVE<span class="relative"> MATCH? </span>
       </h1>
       <div>
         <div class="flex items-center justify-center gap-2 text-baseparchment">

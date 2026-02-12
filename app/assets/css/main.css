@@ -52,8 +52,7 @@ h6 {
   font-kerning: normal;
 }
 
-h1,
-.h1-size {
+h1 {
   font-size: clamp(1.5rem, 4vw + 1rem, 3rem);
 }
 
@@ -135,7 +134,9 @@ button {
 
 /* Leave (flip out) */
 .bounce-in-leave-active {
-  transition: opacity 0.4s ease, transform 0.4s ease;
+  transition:
+    opacity 0.4s ease,
+    transform 0.4s ease;
 }
 
 .bounce-in-leave-to {

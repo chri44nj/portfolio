@@ -15,7 +15,7 @@ const username = computed(() => {
         part
           .split("-")
           .map((w) => w.charAt(0).toUpperCase() + w.slice(1))
-          .join("-")
+          .join("-"),
       )
       .join(" ");
 });
@@ -225,7 +225,7 @@ const cardsTurned = ref(false);
           >
           <span class="flex items-center justify-end w-full">
             <div
-              class="border h-[4px] mr-4 rounded-l relative origin-left transform transition-transform duration-2000 ease-in-out w-full"
+              class="border h-[4px] mr-4 rounded-l relative origin-left transform transition-transform duration-2000 ease-in-out flex-[1_1_10%] min-w-[10%]"
               :class="
                 linesActivated
                   ? 'scale-x-100 border-offwhite/80'
@@ -238,7 +238,7 @@ const cardsTurned = ref(false);
               >for</span
             >
             <span
-              class="font-special tracking-wide font-special text-offwhite !transition-opacity duration-2000"
+              class="font-special tracking-wide text-offwhite md:whitespace-nowrap shrink min-w-0 !transition-opacity duration-2000 text-[clamp(2rem,min(2vw,3rem),4rem)] md:text-[clamp(2rem,max(2vw,2.5rem),4rem)]"
               :class="linesActivated ? 'opacity-100' : 'opacity-0'"
               >{{ route.params.username ? username : "dig" }}?</span
             >
@@ -246,7 +246,7 @@ const cardsTurned = ref(false);
         </h1>
 
         <p
-          class="text-sm md:text-base !transition-opacity duration-2000"
+          class="text-sm md:text-base text-center !transition-opacity duration-2000"
           :class="linesActivated ? 'opacity-100' : 'opacity-0'"
         >
           Vær hilset,

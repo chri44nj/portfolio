@@ -91,7 +91,7 @@ export const personalityCards = [
     icon: "material-symbols:cloud",
     text: "tålmodig",
     textBack:
-      "En der er tålmodig når der skal *læres og læres fra sig*, med *stædigheden* til at blive når _udfordringerne_ ringer på dørklokken.",
+      "En der er tålmodig når der skal *læres og læres fra sig*, med *stædigheden* til at blive når _udfordringerne_ banker på døren.",
     step: 2,
   },
   {

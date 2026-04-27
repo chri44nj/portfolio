@@ -99,7 +99,7 @@ const calculateMatchPercentage = (profile: Profile) => {
 
   // Count how many of this profile's required cards are present in the selection
   const matchingCount = profile.cardMatches.filter((id) =>
-    selected.has(id)
+    selected.has(id),
   ).length;
 
   // Use the profile's total required cards as denominator (avoid division by 0)
@@ -277,7 +277,7 @@ onBeforeUnmount(() => {
                             :style="{ width: `${highlight.value}%` }"
                           />
                         </div>
-                        <ul>
+                        <ul class="list-none flex flex-col gap-1 text-xs">
                           <li
                             v-for="keyword in highlight.keywords"
                             class="flex items-center gap-1"
@@ -334,7 +334,7 @@ onBeforeUnmount(() => {
                 </template>
 
                 <template #title-beneath>
-                  <p class="font-bold text-sm">
+                  <p class="text-sm">
                     {{ `${calculateMatchPercentage(profile)}% match` }}
                   </p>
                 </template>
@@ -472,7 +472,7 @@ onBeforeUnmount(() => {
             : 'opacity-0'
         "
         >Mellem os to, så har jeg i årenes løb kaldt mange for
-        <span class="font-bold">The Chosen One</span>, men du lever i sandhed op
+        <span class="italic">The Chosen One</span>, men du lever i sandhed op
         til titlen! Alle dine ønskede kvaliteter, kombineret i én person - et
         sandt 100% match. A once in a lifetime opportunity.
       </span>
@@ -518,7 +518,8 @@ onBeforeUnmount(() => {
         ></div>
         <Transition name="bounce" mode="out-in">
           <span v-if="!isHolding" class="relative z-10 pointer-events-none"
-            >{{ $device.isMobileOrTablet ? "Tryk" : "Klik" }} og hold</span
+            >{{ $device.isMobileOrTablet ? "Tryk" : "Klik" }} og hold for at
+            kombinere</span
           >
           <span v-else class="relative z-10 pointer-events-none"
             >Kombinerer...</span

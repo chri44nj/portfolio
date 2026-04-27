@@ -152,7 +152,7 @@ onMounted(() => {
               {{ Math.floor(progress[stage.key]) }}%
             </div>
           </div>
-          <div class="h-4 w-full bg-gray-200 rounded overflow-hidden">
+          <div class="sm:h-8 h-6 w-full bg-gray-200 rounded overflow-hidden">
             <div
               class="h-full transition-[width] duration-75 ease-out rounded"
               :class="`bg-${stage.color}`"

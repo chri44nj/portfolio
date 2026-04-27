@@ -126,7 +126,7 @@ export const superiorProfile: Profile = {
       color: "darkyellow",
       value: 92,
       keywords: [
-        "Til enhver situation",
+        "Spil til enhver situation",
         "Kan rent faktisk reglerne",
         "Du må godt låne dem",
       ],
@@ -135,7 +135,12 @@ export const superiorProfile: Profile = {
       title: "Viden om meget",
       color: "darkyellow",
       value: 95,
-      keywords: ["Fra bøger", "Fra video", "Fra random lommefilosoffer"],
+      keywords: [
+        "Teoretisk",
+        "Praktisk",
+        "God",
+        "Vent, var det lidt for Ritter Sport-agtigt?",
+      ],
     },
   ],
 };
@@ -355,14 +360,19 @@ export const inferiorProfiles: Profile[] = [
         title: "Viden om meget",
         color: "darkyellow",
         value: 95,
-        keywords: ["Fra bøger", "Fra video", "Fra random lommefilosoffer"],
+        keywords: [
+          "Teoretisk",
+          "Praktisk",
+          "God",
+          "Vent, var det lidt for Ritter Sport-agtigt?",
+        ],
       },
       {
         title: "Brætspilskollektion",
         color: "darkyellow",
         value: 92,
         keywords: [
-          "Til enhver situation",
+          "Spil til enhver situation",
           "Kan rent faktisk reglerne",
           "Du må godt låne dem",
         ],

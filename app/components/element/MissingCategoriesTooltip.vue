@@ -8,8 +8,10 @@ const cardStore = useCardStore();
     class="transition-color duration-1000 absolute bottom-full bg-darkred p-[2px] rounded text-sm"
   >
     <p class="p-4 bg-matteblack text-center rounded">
-      Vælg <strong>minimum 1 kvalitet</strong> i hver kategori. Du mangler at
-      vælge i
+      Vælg minimum 1 kvalitet, som du søger i en kandidat, i hver kategori. Du
+      mangler at vælge i kategori{{
+        cardStore.categoriesNotSelected.length > 1 ? "erne" : "en"
+      }}
       <span
         v-for="(card, index) in cardStore.categoriesNotSelected"
         :key="card"
@@ -19,16 +21,16 @@ const cardStore = useCardStore();
             card === 'kompetencer'
               ? 'text-lightblue'
               : card === 'personlighed'
-              ? 'text-basered'
-              : 'text-darkyellow'
+                ? 'text-basered'
+                : 'text-darkyellow'
           "
           >{{ card }} </span
         ><span>{{
           index === 0 && cardStore.categoriesNotSelected.length === 3
             ? ", "
             : index + 1 !== cardStore.categoriesNotSelected.length
-            ? " og "
-            : "."
+              ? " og "
+              : "."
         }}</span>
       </span>
     </p>

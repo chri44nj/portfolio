@@ -6,7 +6,7 @@ const cardStore = useCardStore();
 const flowStepText = computed(() => {
   switch (uiStore.flowStep) {
     case 2:
-      return "Vælg kvaliteterne du søger i en kandidat";
+      return "Vælg de kvaliteter, du søger i en kandidat";
     case 3:
       return "Gennemse kvaliteterne";
     case 4:

@@ -74,31 +74,6 @@ useTextAnimation({
 <template>
   <section class="flex flex-col items-center text-center w-full">
     <div>
-      <div class="flex items-center gap-2 mb-2 justify-center">
-        <div
-          class="w-5 md:w-6 flex items-center transition-all duration-200"
-          :class="
-            cardStore.currentCategoryHasSelection ? 'opacity-100' : 'opacity-50'
-          "
-        >
-          <Transition name="icon">
-            <Icon
-              v-if="cardStore.currentCategoryHasSelection"
-              class="shrink-0 text-xl md:text-2xl"
-              :name="'material-symbols:check-circle-rounded'"
-            />
-            <Icon
-              v-else
-              class="shrink-0 text-xl md:text-2xl"
-              :name="'material-symbols:cancel-rounded'"
-            />
-          </Transition>
-        </div>
-        <p>
-          Trin {{ uiStore.preferencesStep }} af
-          {{ uiStore.preferencesTotalSteps }}
-        </p>
-      </div>
       <Transition name="fade" mode="out-in">
         <ElementCardsSwiperHeading
           v-if="uiStore.preferencesStep === 1"
@@ -119,6 +94,10 @@ useTextAnimation({
           :maximum="bonusCards.length"
         />
       </Transition>
+      <p>
+        Kategori {{ uiStore.preferencesStep }} af
+        {{ uiStore.preferencesTotalSteps }}
+      </p>
     </div>
     <div
       ref="scrollContainerRef"

@@ -254,17 +254,15 @@ const cardsTurned = ref(false);
             route.params.username
               ? `ærede medlem af ${username}`
               : "ærede gæst"
-          }}. Eller skulle jeg kalde dig...
-          <span class="font-bold">The Chosen One? </span
-          ><span
+          }}. Eller skulle jeg kalde dig... The Chosen One?
+          <span
             class="transition-opacity duration-2000"
             :class="userMayContinue ? 'opacity-100' : 'opacity-0'"
             >Legenderne hævder, at kun du kan bringe kontoret i balance.
             <strong
               >Marker de kvaliteter, du drømmer om i din næste kollega</strong
             >
-            og se dit ultimative match, baseret på
-            <strong>dine præferencer</strong>.</span
+            og se dit ultimative match, baseret på dine præferencer.</span
           >
         </p>
         <UButton

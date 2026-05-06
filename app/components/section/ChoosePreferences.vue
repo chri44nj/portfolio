@@ -164,6 +164,7 @@ useTextAnimation({
             ? 'solid'
             : 'outline'
         "
+        size="xl"
         @click="handleStepWithScroll('previous')"
       />
 
@@ -175,7 +176,7 @@ useTextAnimation({
         <Transition name="slide-up" mode="out-in">
           <UButtonGroup
             v-if="hoverCardCount && cardStore.selectedCardCount > 0"
-            class="w-full"
+            class="w-full h-8"
           >
             <UButton
               label="Ryd valgte"
@@ -184,7 +185,7 @@ useTextAnimation({
               @click="cardStore.clearAllSelections()"
             />
           </UButtonGroup>
-          <p v-else class="w-full cursor-default">
+          <p v-else class="w-full cursor-default h-8">
             <span
               v-if="cardStore.selectedCardCount === cardStore.amountOfCards"
               class="text-baseparchment font-bold"
@@ -203,6 +204,7 @@ useTextAnimation({
             ? 'solid'
             : 'outline'
         "
+        size="xl"
         @click="handleStepWithScroll('next')"
       />
     </div>

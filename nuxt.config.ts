@@ -13,6 +13,7 @@ export default defineNuxtConfig({
 
   // Modules & configuration
   modules: [
+    "@nuxt/icon",
     "@nuxt/eslint",
     "@nuxt/fonts",
     "@nuxt/image",
@@ -24,5 +25,32 @@ export default defineNuxtConfig({
   ],
   image: {
     format: ["webp"],
+  },
+  icon: {
+    clientBundle: {
+      icons: [
+        "material-symbols:computer-rounded",
+        "material-symbols:video-camera-back-rounded",
+        "material-symbols:dashboard-rounded",
+        "material-symbols:lightbulb-2-rounded",
+        "material-symbols:handshake-rounded",
+        "material-symbols:mindfulness-rounded",
+        "material-symbols:toys-and-games",
+        "material-symbols:favorite-rounded",
+        "material-symbols:cloud",
+        "material-symbols:local-fire-department-rounded",
+        "material-symbols:thumb-up-rounded",
+        "material-symbols:bolt-rounded",
+        "material-symbols:person-rounded",
+        "material-symbols:explore-rounded",
+        "material-symbols:sentiment-excited-rounded",
+        "material-symbols:chess-rook-rounded",
+        "material-symbols:movie-rounded",
+        "material-symbols:music-note-rounded",
+        "material-symbols:front-hand-rounded",
+        "material-symbols:book-5-rounded",
+      ],
+      scan: false,
+    },
   },
 });

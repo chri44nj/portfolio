@@ -67,7 +67,7 @@ watch(
       }, 700);
     });
     previousSelectedIds.value = [...newIds];
-  }
+  },
 );
 
 const getAnimationClass = (cardId: string) => {
@@ -82,7 +82,7 @@ const formatTextContent = (text: string): string => {
   let formattedText = text.replace(/\*(.*?)\*/g, "<strong>$1</strong>");
   formattedText = formattedText.replace(
     /_(.*?)_/g,
-    '<span class="underline">$1</span>'
+    '<span class="underline">$1</span>',
   );
   return formattedText;
 };

@@ -79,6 +79,7 @@ const keyboardShortcut7: ControlItem[] = [
     <UButton
       icon="material-symbols:question-mark-rounded"
       variant="outline"
+      size="xl"
       @click="showingTips = !showingTips"
     />
     <template #content>

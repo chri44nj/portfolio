@@ -49,24 +49,27 @@ watch(cardsCombined, async (val) => {
   }
 });
 
-onMounted(() => {
+const wait = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
+
+onMounted(async () => {
   if (cardStore.selectedCardCount === 0) {
+    await wait(50);
+    introGreetingVisible.value = true;
+
+    await wait(1750);
+    cardsTurned.value = true;
+
+    await wait(2000);
+    introGreetingVisible.value = false;
+    cardsCombined.value = true;
+
     setTimeout(() => {
-      introGreetingVisible.value = true;
-      setTimeout(() => {
-        cardsTurned.value = true;
-        setTimeout(() => {
-          introGreetingVisible.value = false;
-          cardsCombined.value = true;
-          setTimeout(() => {
-            linesActivated.value = true;
-          }, 1500);
-          setTimeout(() => {
-            userMayContinue.value = true;
-          }, 5000);
-        }, 2500);
-      }, 1750);
-    }, 50);
+      linesActivated.value = true;
+    }, 1500);
+
+    setTimeout(() => {
+      userMayContinue.value = true;
+    }, 5000);
   } else {
     introGreetingVisible.value = false;
     cardsCombined.value = true;
@@ -109,7 +112,7 @@ const cardsTurned = ref(false);
           >
             <Icon
               name="material-symbols:star-rounded"
-              class="text-baseparchment text-xl !transition-opacity !duration-1000"
+              class="text-matteblack text-xl !transition-opacity !duration-1000"
               :class="cardsTurned ? 'opacity-100' : 'opacity-0'"
             />
             <div
@@ -165,12 +168,12 @@ const cardsTurned = ref(false);
             class="flex flex-col items-center absolute h-[75%] bottom-1 right-1 gap-1"
           >
             <div
-              class="w-1 h-full bg-baseparchment !transition-opacity !duration-1000"
+              class="w-1 h-full bg-matteblack !transition-opacity !duration-1000"
               :class="cardsTurned ? 'opacity-100' : 'opacity-0'"
             />
             <Icon
               name="material-symbols:star-rounded"
-              class="text-xl rotate-180 text-baseparchment !transition-opacity !duration-1000"
+              class="text-xl rotate-180 text-matteblack !transition-opacity !duration-1000"
               :class="cardsTurned ? 'opacity-100' : 'opacity-0'"
             />
           </div>

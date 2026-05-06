@@ -37,12 +37,13 @@ export default defineNuxtConfig({
 
     clientBundle: {
       icons: [
+        "material-symbols:chevron-left-rounded",
+        "material-symbols:chevron-right-rounded",
         "material-symbols:computer-rounded",
         "material-symbols:video-camera-back-rounded",
         "material-symbols:dashboard-rounded",
         "material-symbols:lightbulb-2-rounded",
         "material-symbols:handshake-rounded",
-
         "material-symbols:mindfulness-rounded",
         "material-symbols:toys-and-games",
         "material-symbols:favorite-rounded",
@@ -53,13 +54,11 @@ export default defineNuxtConfig({
         "material-symbols:person-rounded",
         "material-symbols:explore-rounded",
         "material-symbols:sentiment-excited-rounded",
-
         "material-symbols:chess-rook-rounded",
         "material-symbols:movie-rounded",
         "material-symbols:music-note-rounded",
         "material-symbols:front-hand-rounded",
         "material-symbols:book-5-rounded",
-
         "material-symbols:refresh-rounded",
       ],
       scan: false,

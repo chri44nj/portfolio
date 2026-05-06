@@ -104,7 +104,7 @@ useTextAnimation({
       class="w-full overflow-auto p-4 hide-scrollbar"
     >
       <div class="min-w-min flex justify-center">
-        <Transition name="bounce">
+        <Transition name="bounce" mode="out-in">
           <ElementCardsSwiper
             v-if="uiStore.preferencesStep === 1"
             :cards="skillCards"

@@ -81,7 +81,7 @@ onMounted(() => {
         icon="material-symbols:arrow-back-rounded"
         class="fixed top-4 left-4 opacity-50 md:hover:opacity-100"
         aria-label="Gå tilbage til forrige trin"
-        size="xl"
+        size="lg"
         @click="handlePreviousStep"
       />
       <ElementProgressBar />

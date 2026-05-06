@@ -164,7 +164,7 @@ useTextAnimation({
             ? 'solid'
             : 'outline'
         "
-        size="xl"
+        size="lg"
         @click="handleStepWithScroll('previous')"
       />
 
@@ -204,7 +204,7 @@ useTextAnimation({
             ? 'solid'
             : 'outline'
         "
-        size="xl"
+        size="lg"
         @click="handleStepWithScroll('next')"
       />
     </div>

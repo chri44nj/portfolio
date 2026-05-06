@@ -215,7 +215,7 @@ const reset = () => {
           class="absolute transition-all ease-in-out duration-3000 -left-8 w-1/2 min-w-[250px] max-w-[750px]"
           :class="
             teamWorkChoice === 'maybe'
-              ? 'bottom-0 opacity-100'
+              ? '-bottom-[5px] opacity-100'
               : '-bottom-[200px] md:-bottom-[500px] opacity-0'
           "
         />

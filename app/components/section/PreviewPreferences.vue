@@ -97,9 +97,9 @@ const handleLeaveCard = (id: string) => {
               class="!md:text-[1.25rem] md:px-4 md:py-2 px-2 py-1 rounded cursor-default transition-all duration-200 hover:opacity-75"
               :class="[
                 card.step === 1
-                  ? 'bg-blueondark'
+                  ? 'bg-lightblue'
                   : card.step === 2
-                    ? 'bg-redondark'
+                    ? 'bg-basered'
                     : 'bg-darkyellow text-matteblack',
                 hoveredCards.get(card.id) ? 'animate-pulse scale-110' : '',
               ]"
@@ -130,9 +130,9 @@ const handleLeaveCard = (id: string) => {
               class="!md:text-[1rem] md:px-4 md:py-2 px-2 py-1 rounded opacity-50 hover:opacity-75 transition-all duration-200 border-1 cursor-default"
               :class="
                 card.step === 1
-                  ? 'border-blueondark hover:bg-blueondark'
+                  ? 'border-lightblue hover:bg-lightblue'
                   : card.step === 2
-                    ? 'border-redondark hover:bg-redondark'
+                    ? 'border-basered hover:bg-basered'
                     : 'border-darkyellow hover:bg-darkyellow'
               "
               @mouseenter="!isMobileOrTablet && handleHoverCard(card.id)"

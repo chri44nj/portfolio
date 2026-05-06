@@ -11,10 +11,11 @@ const emit = defineEmits(["toggle-select-card"]);
 const animatingCards = ref<Map<string, "forward" | "backward">>(new Map());
 const previousSelectedIds = ref<string[]>([...cardStore.selectedCardIds]);
 const flippedCards = ref<string[]>([]);
+const { isMobileOrTablet } = useDevice();
 
 const handleClick = (id: string) => {
   emit("toggle-select-card", id);
-  if (import.meta.client && window.matchMedia("(max-width: 1024px)").matches) {
+  if (isMobileOrTablet) {
     flippedCards.value = flippedCards.value.filter((cardId) => cardId === id);
   }
 };
@@ -23,10 +24,7 @@ const toggleFlip = (id: string) => {
   if (flippedCards.value.includes(id)) {
     flippedCards.value = flippedCards.value.filter((cardId) => cardId !== id);
   } else {
-    if (
-      import.meta.client &&
-      window.matchMedia("(max-width: 1024px)").matches
-    ) {
+    if (isMobileOrTablet) {
       flippedCards.value = [id];
     } else {
       flippedCards.value.push(id);
@@ -86,134 +84,160 @@ const formatTextContent = (text: string): string => {
   );
   return formattedText;
 };
+
+const isReady = ref(false);
+
+onMounted(() => {
+  requestAnimationFrame(() => {
+    isReady.value = true;
+  });
+});
 </script>
+
 <template>
   <div class="flex items-center gap-4 md:gap-6">
-    <div
-      v-for="card in cards"
-      :key="card.id"
-      class="transition-all duration-200"
-      :class="{
-        'opacity-50 hover:opacity-100 ': !cardStore.isCardSelected(card.id),
-      }"
-    >
+    <template v-if="!isReady">
       <div
-        class="relative cursor-default transition-all duration-200 group"
-        :class="[
-          cardStore.isCardSelected(card.id)
-            ? 'opacity-100 transform scale-105'
-            : '',
-          !cardStore.isCardSelected(card.id) && !flippedCards.includes(card.id)
-            ? 'hover:animate-pulse focus-visible:animate-pulse'
-            : '',
-        ]"
-        tabindex="0"
-        @click="handleClick(card.id)"
-        @keydown.space.prevent="handleClick(card.id)"
-        @keydown.enter.prevent="handleClick(card.id)"
-        @mouseleave="!$device.isMobileOrTablet && hoverFlip(card.id, false)"
+        v-for="n in cards?.length || 5"
+        :key="n"
+        class="flex flex-col items-center"
       >
         <div
-          class="flip-card aspect-2/3 h-[250px] bg-transparent perspective-1000"
-          :class="{
-            flipped: flippedCards.includes(card.id),
-            'hover-flip': !$device.isMobileOrTablet,
-          }"
+          class="aspect-2/3 h-[250px] rounded-xl bg-lightparchment opacity-50 animate-pulse"
+        />
+        <div
+          class="mt-4 bg-offwhite w-[80%] rounded opacity-50 animate-pulse sm:h-3.5 md:h-4"
+        />
+      </div>
+    </template>
+    <template v-else>
+      <div
+        v-for="card in cards"
+        :key="card.id"
+        class="transition-all duration-200"
+        :class="{
+          'opacity-50 hover:opacity-100 ': !cardStore.isCardSelected(card.id),
+        }"
+      >
+        <div
+          class="relative cursor-default transition-all duration-200 group"
+          :class="[
+            cardStore.isCardSelected(card.id)
+              ? 'opacity-100 transform scale-105'
+              : '',
+            !cardStore.isCardSelected(card.id) &&
+            !flippedCards.includes(card.id)
+              ? 'hover:animate-pulse focus-visible:animate-pulse'
+              : '',
+          ]"
+          tabindex="0"
+          @click="handleClick(card.id)"
+          @keydown.space.prevent="handleClick(card.id)"
+          @keydown.enter.prevent="handleClick(card.id)"
+          @mouseleave="!$device.isMobileOrTablet && hoverFlip(card.id, false)"
         >
           <div
-            class="flip-card-inner relative w-full h-full text-center"
-            :class="
-              flippedCards.includes(card.id) ? 'duration-800' : 'duration-500'
-            "
+            class="flip-card aspect-2/3 h-[250px] bg-transparent perspective-1000"
+            :class="{
+              flipped: flippedCards.includes(card.id),
+              'hover-flip': !$device.isMobileOrTablet,
+            }"
           >
             <div
-              class="flip-card-front absolute w-full h-full backface-hidden p-2 bg-baseparchment rounded-xl flex items-center justify-center"
+              class="flip-card-inner relative w-full h-full text-center"
+              :class="
+                flippedCards.includes(card.id) ? 'duration-800' : 'duration-500'
+              "
             >
               <div
-                class="h-full w-full border-4 border-matteblack rounded-xl bg-lightparchment"
-              />
-              <Icon
-                v-if="card.icon"
-                :name="card.icon"
-                class="absolute top-1/2 left-1/2 transform transition-all duration-200 -translate-x-1/2 -translate-y-1/2 text-[2.5rem]"
-                :class="[
-                  cardStore.isCardSelected(card.id)
-                    ? cardStore.categoryColor
-                    : 'text-matteblack',
-                  getAnimationClass(card.id),
-                ]"
-              />
-              <div
-                class="absolute top-0 right-0 pt-4 pr-4 z-10"
-                @click.stop="$device.isMobileOrTablet && toggleFlip(card.id)"
-                @mouseenter="
-                  !$device.isMobileOrTablet && hoverFlip(card.id, true)
-                "
+                class="flip-card-front absolute w-full h-full backface-hidden p-2 bg-baseparchment rounded-xl flex items-center justify-center"
               >
+                <div
+                  class="h-full w-full border-4 border-matteblack rounded-xl bg-lightparchment"
+                />
                 <Icon
-                  name="material-symbols:refresh-rounded"
-                  class="text-xl shrink-0 opacity-50 group-hover:opacity-100 group-focus-visible:opacity-100 text-matteblack transition-opacity duration-200"
-                  :class="{
-                    'group-hover:rotate-360 group-focus-visible:rotate-360 transition-transform duration-750':
-                      !cardStore.isCardSelected(card.id),
-                  }"
+                  v-if="card.icon"
+                  :name="card.icon"
+                  class="absolute top-1/2 left-1/2 transform transition-all duration-200 -translate-x-1/2 -translate-y-1/2 text-[2.5rem]"
+                  :class="[
+                    cardStore.isCardSelected(card.id)
+                      ? cardStore.categoryColor
+                      : 'text-matteblack',
+                    getAnimationClass(card.id),
+                  ]"
+                />
+                <div
+                  class="absolute top-0 right-0 pt-4 pr-4 z-10"
+                  @click.stop="$device.isMobileOrTablet && toggleFlip(card.id)"
+                  @mouseenter="
+                    !$device.isMobileOrTablet && hoverFlip(card.id, true)
+                  "
+                >
+                  <Icon
+                    name="material-symbols:refresh-rounded"
+                    class="text-xl shrink-0 opacity-50 group-hover:opacity-100 group-focus-visible:opacity-100 text-matteblack transition-opacity duration-200"
+                    :class="{
+                      'group-hover:rotate-360 group-focus-visible:rotate-360 transition-transform duration-750':
+                        !cardStore.isCardSelected(card.id),
+                    }"
+                  />
+                </div>
+              </div>
+              <div
+                class="flip-card-back absolute w-full h-full backface-hidden bg-lightparchment rounded-xl flex flex-col items-center justify-center p-4"
+              >
+                <div
+                  v-if="$device.isMobileOrTablet"
+                  class="absolute top-0 right-0 pt-4 pr-4 z-10"
+                  @click.stop="$device.isMobileOrTablet && toggleFlip(card.id)"
+                >
+                  <Icon
+                    name="material-symbols:refresh-rounded"
+                    class="text-matteblack text-xl shrink-0 transform rotate-y-180"
+                  />
+                </div>
+
+                <Icon
+                  v-if="card.icon"
+                  :name="card.icon"
+                  class="absolute top-2 left-2 transition-all duration-200 text-xl"
+                  :class="[
+                    cardStore.isCardSelected(card.id)
+                      ? cardStore.categoryColor
+                      : 'text-matteblack',
+                    getAnimationClass(card.id),
+                  ]"
+                />
+                <p
+                  class="text-matteblack text-left text-xs italic break-normal"
+                  v-html="formatTextContent(card.textBack)"
+                />
+
+                <Icon
+                  v-if="card.icon"
+                  :name="card.icon"
+                  class="absolute bottom-2 right-2 rotate-180 transition-all duration-200 text-xl"
+                  :class="[
+                    cardStore.isCardSelected(card.id)
+                      ? cardStore.categoryColor
+                      : 'text-matteblack',
+                    getAnimationClass(card.id),
+                  ]"
                 />
               </div>
-            </div>
-            <div
-              class="flip-card-back absolute w-full h-full backface-hidden bg-lightparchment rounded-xl flex flex-col items-center justify-center p-4"
-            >
-              <div
-                v-if="$device.isMobileOrTablet"
-                class="absolute top-0 right-0 pt-4 pr-4 z-10"
-                @click.stop="$device.isMobileOrTablet && toggleFlip(card.id)"
-              >
-                <Icon
-                  name="material-symbols:refresh-rounded"
-                  class="text-matteblack text-xl shrink-0 transform rotate-y-180"
-                />
-              </div>
-
-              <Icon
-                v-if="card.icon"
-                :name="card.icon"
-                class="absolute top-2 left-2 transition-all duration-200 text-xl"
-                :class="[
-                  cardStore.isCardSelected(card.id)
-                    ? cardStore.categoryColor
-                    : 'text-matteblack',
-                  getAnimationClass(card.id),
-                ]"
-              />
-              <p
-                class="text-matteblack text-left text-xs italic break-normal"
-                v-html="formatTextContent(card.textBack)"
-              />
-
-              <Icon
-                v-if="card.icon"
-                :name="card.icon"
-                class="absolute bottom-2 right-2 rotate-180 transition-all duration-200 text-xl"
-                :class="[
-                  cardStore.isCardSelected(card.id)
-                    ? cardStore.categoryColor
-                    : 'text-matteblack',
-                  getAnimationClass(card.id),
-                ]"
-              />
             </div>
           </div>
         </div>
+        <p
+          class="mt-4 text-center w-full transition-all duration-200 card-name text-sm md:text-base"
+          :class="{
+            'opacity-100': cardStore.isCardSelected(card.id),
+          }"
+        >
+          {{ card.heading }}
+        </p>
       </div>
-      <p
-        class="mt-4 text-center w-full transition-all duration-200 card-name text-sm md:text-base"
-        :class="{
-          'opacity-100': cardStore.isCardSelected(card.id),
-        }"
-      >
-        {{ card.heading }}
-      </p>
-    </div>
+    </template>
   </div>
 </template>
 

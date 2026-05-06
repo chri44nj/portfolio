@@ -104,7 +104,7 @@ useTextAnimation({
       class="w-full overflow-auto p-4 hide-scrollbar"
     >
       <div class="min-w-min flex justify-center">
-        <Transition name="bounce" mode="out-in" appear>
+        <Transition name="bounce">
           <ElementCardsSwiper
             v-if="uiStore.preferencesStep === 1"
             :cards="skillCards"
@@ -165,6 +165,7 @@ useTextAnimation({
             : 'outline'
         "
         size="lg"
+        aria-label="Forrige kategori"
         @click="handleStepWithScroll('previous')"
       />
 
@@ -205,6 +206,7 @@ useTextAnimation({
             : 'outline'
         "
         size="lg"
+        aria-label="Næste kategori"
         @click="handleStepWithScroll('next')"
       />
     </div>

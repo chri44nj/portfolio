@@ -34,8 +34,64 @@ export default defineNuxtConfig({
     serverBundle: {
       collections: ["material-symbols"],
     },
+
     clientBundle: {
-      scan: true,
+      icons: [
+        "material-symbols:computer-rounded",
+        "material-symbols:video-camera-back-rounded",
+        "material-symbols:dashboard-rounded",
+        "material-symbols:lightbulb-2-rounded",
+        "material-symbols:handshake-rounded",
+
+        "material-symbols:mindfulness-rounded",
+        "material-symbols:toys-and-games",
+        "material-symbols:favorite-rounded",
+        "material-symbols:cloud",
+        "material-symbols:local-fire-department-rounded",
+        "material-symbols:thumb-up-rounded",
+        "material-symbols:bolt-rounded",
+        "material-symbols:person-rounded",
+        "material-symbols:explore-rounded",
+        "material-symbols:sentiment-excited-rounded",
+
+        "material-symbols:chess-rook-rounded",
+        "material-symbols:movie-rounded",
+        "material-symbols:music-note-rounded",
+        "material-symbols:front-hand-rounded",
+        "material-symbols:book-5-rounded",
+
+        "material-symbols:refresh-rounded",
+      ],
+      scan: false,
     },
+  },
+  fonts: {
+    families: [
+      {
+        name: "Poppins",
+        provider: "google",
+        weights: [400, 700],
+        display: "swap",
+        preload: true,
+      },
+      {
+        name: "Rubik Doodle Shadow",
+        provider: "google",
+        display: "swap",
+        preload: true,
+      },
+      {
+        name: "Monoton",
+        provider: "google",
+        display: "optional",
+        preload: false,
+      },
+      {
+        name: "Satisfy",
+        provider: "google",
+        display: "optional",
+        preload: false,
+      },
+    ],
   },
 });

@@ -18,8 +18,8 @@ let yPoint = 0;
 // YOUR COLOR PALETTE
 // ==========================================================
 const FIREWORK_COLORS = [
-  "#4f78e6", // lightblue
-  "#e63946", // basered
+  "#4f78e6", // blueondark
+  "#e63946", // redondark
   "#cdaa3d", // darkyellow
   "#d9c6a3", // baseparchment
   "#f8f9fa", // offwhite
@@ -159,7 +159,11 @@ onMounted(() => {
 
   window.addEventListener("resize", resizeCanvas);
 
-  loop();
+  onMounted(() => {
+    setTimeout(() => {
+      loop();
+    }, 100);
+  });
 });
 
 onBeforeUnmount(() => {

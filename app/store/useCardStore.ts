@@ -10,19 +10,19 @@ export const useCardStore = defineStore(
 
     const selectedSkillCards = computed(() => {
       return skillCards.filter((card) =>
-        selectedCardIds.value.includes(card.id)
+        selectedCardIds.value.includes(card.id),
       );
     });
 
     const selectedPersonalityCards = computed(() => {
       return personalityCards.filter((card) =>
-        selectedCardIds.value.includes(card.id)
+        selectedCardIds.value.includes(card.id),
       );
     });
 
     const selectedBonusCards = computed(() => {
       return bonusCards.filter((card) =>
-        selectedCardIds.value.includes(card.id)
+        selectedCardIds.value.includes(card.id),
       );
     });
 
@@ -68,7 +68,7 @@ export const useCardStore = defineStore(
     });
     const notSelectedCards = computed(() => {
       return allCards.filter(
-        (card) => !selectedCardIds.value.includes(card.id)
+        (card) => !selectedCardIds.value.includes(card.id),
       );
     });
     const notSelectedCardIds = computed(() => {
@@ -128,21 +128,22 @@ export const useCardStore = defineStore(
     });
     const selectedCardsByCategory = (prefix: string) => {
       const categoryIds = selectedCardIds.value.filter((id) =>
-        id.startsWith(prefix)
+        id.startsWith(prefix),
       );
       return allCards.filter((card) => categoryIds.includes(card.id));
     };
     const notSelectedCardsByCategory = (prefix: string) => {
       return allCards.filter(
         (card) =>
-          card.id.startsWith(prefix) && !selectedCardIds.value.includes(card.id)
+          card.id.startsWith(prefix) &&
+          !selectedCardIds.value.includes(card.id),
       );
     };
     function toggleSelectCard(id: string) {
       const index = selectedCardIds.value.indexOf(id);
       if (index !== -1) {
         selectedCardIds.value = selectedCardIds.value.filter(
-          (cardId) => cardId !== id
+          (cardId) => cardId !== id,
         );
       } else {
         selectedCardIds.value.push(id);
@@ -155,7 +156,7 @@ export const useCardStore = defineStore(
     }
     function deselectCard(id: string) {
       selectedCardIds.value = selectedCardIds.value.filter(
-        (cardId) => cardId !== id
+        (cardId) => cardId !== id,
       );
     }
     function clearAllSelections() {
@@ -166,7 +167,7 @@ export const useCardStore = defineStore(
     }
     function clearCategory(prefix: string) {
       selectedCardIds.value = selectedCardIds.value.filter(
-        (id) => !id.startsWith(prefix)
+        (id) => !id.startsWith(prefix),
       );
     }
     function selectAllInCategory(prefix: string) {
@@ -174,22 +175,22 @@ export const useCardStore = defineStore(
         .filter((card) => card.id.startsWith(prefix))
         .map((card) => card.id);
       const cardsToAdd = categoryCardIds.filter(
-        (id) => !selectedCardIds.value.includes(id)
+        (id) => !selectedCardIds.value.includes(id),
       );
       selectedCardIds.value = [...selectedCardIds.value, ...cardsToAdd];
     }
     function clearAllInCategory(prefix: string) {
       selectedCardIds.value = selectedCardIds.value.filter(
-        (id) => !id.startsWith(prefix)
+        (id) => !id.startsWith(prefix),
       );
     }
 
     const categoryColor = computed(() => {
       switch (uiStore.preferencesStep) {
         case 1:
-          return "text-lightblue";
+          return "text-blueondark";
         case 2:
-          return "text-basered";
+          return "text-redondark";
         case 3:
           return "text-darkyellow";
         default:
@@ -231,5 +232,5 @@ export const useCardStore = defineStore(
   },
   {
     persist: true,
-  }
+  },
 );

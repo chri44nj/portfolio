@@ -14,13 +14,13 @@ const stages = [
   {
     key: "skill",
     label: "Kompetencer",
-    color: "lightblue",
+    color: "blueondark",
     processingText: "kompetencer",
   },
   {
     key: "personality",
     label: "Personlighed",
-    color: "basered",
+    color: "redondark",
     processingText: "personlighed",
   },
   {

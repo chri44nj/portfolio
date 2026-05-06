@@ -19,9 +19,9 @@ const cardStore = useCardStore();
         <span
           :class="
             card === 'kompetencer'
-              ? 'text-lightblue'
+              ? 'text-blueondark'
               : card === 'personlighed'
-                ? 'text-basered'
+                ? 'text-redondark'
                 : 'text-darkyellow'
           "
           >{{ card }} </span

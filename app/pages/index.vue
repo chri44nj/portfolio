@@ -205,7 +205,7 @@ const reset = () => {
           teamWorkChoice === 'yes'
             ? 'from-transparent to-transparent'
             : teamWorkChoice === 'no'
-              ? ' from-matteblack/75 to-lightblue/50'
+              ? ' from-matteblack/75 to-blueondark/50'
               : 'from-transparent to-transparent'
         "
       >

@@ -3,7 +3,7 @@ import { useCardStore } from "~/store/useCardStore";
 import { computed } from "vue";
 
 const props = defineProps<{
-  color: "lightblue" | "basered" | "darkyellow";
+  color: "blueondark" | "redondark" | "darkyellow";
   textColor: "blueondark" | "redondark" | "darkyellow";
   cardType: "skill" | "personality" | "bonus";
   textFirst: string;

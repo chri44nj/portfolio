@@ -22,13 +22,13 @@ export const superiorProfile: Profile = {
   highlights: [
     {
       title: "Frontendudvikling",
-      color: "lightblue",
+      color: "blueondark",
       value: 90,
       keywords: ["HTML", "CSS", "JavaScript"],
     },
     {
       title: "Solid tech stack",
-      color: "lightblue",
+      color: "blueondark",
       value: 90,
       keywords: [
         "Vue/Nuxt",
@@ -41,7 +41,7 @@ export const superiorProfile: Profile = {
     },
     {
       title: "Optagelse/redigering",
-      color: "lightblue",
+      color: "blueondark",
       value: 85,
       keywords: [
         "Kamera",
@@ -52,25 +52,25 @@ export const superiorProfile: Profile = {
     },
     {
       title: "Konceptualisering",
-      color: "lightblue",
+      color: "blueondark",
       value: 80,
       keywords: ["Idégenerering", "Storyboarding"],
     },
     {
       title: "Brugeroplevelse",
-      color: "lightblue",
+      color: "blueondark",
       value: 90,
       keywords: ["UI-design", "UX-design", "Kunderelationer"],
     },
     {
       title: "Design",
-      color: "lightblue",
+      color: "blueondark",
       value: 85,
       keywords: ["Figma", "Adobe XD", "God til at låne :)"],
     },
     {
       title: "Innovation",
-      color: "lightblue",
+      color: "blueondark",
       value: 94,
       keywords: [
         "Idégenering",
@@ -80,25 +80,25 @@ export const superiorProfile: Profile = {
     },
     {
       title: "Processer/metoder",
-      color: "lightblue",
+      color: "blueondark",
       value: 82,
       keywords: ["Designtænkning", "Agil systemudvikling", "Ideation"],
     },
     {
       title: "Innovation",
-      color: "basered",
+      color: "redondark",
       value: 95,
       keywords: ["Kreativ", "Nysgerrig", "Fokuseret", "Selvstændig"],
     },
     {
       title: "Potentiale",
-      color: "basered",
+      color: "redondark",
       value: 100,
       keywords: ["Lærer hurtigt", "Dedikeret", "Tålmodig", "Fokuseret"],
     },
     {
       title: "Autencitet",
-      color: "basered",
+      color: "redondark",
       value: 95,
       keywords: ["Ærlig", "Passioneret", "Energisk", "Grineren"],
     },
@@ -181,13 +181,13 @@ export const inferiorProfiles: Profile[] = [
     highlights: [
       {
         title: "Frontendudvikling",
-        color: "lightblue",
+        color: "blueondark",
         value: 90,
         keywords: ["HTML", "CSS", "JavaScript"],
       },
       {
         title: "Solid tech stack",
-        color: "lightblue",
+        color: "blueondark",
         value: 90,
         keywords: [
           "Vue/Nuxt",
@@ -200,13 +200,13 @@ export const inferiorProfiles: Profile[] = [
       },
       {
         title: "Innovation",
-        color: "basered",
+        color: "redondark",
         value: 95,
         keywords: ["Kreativ", "Nysgerrig"],
       },
       {
         title: "Potentiale",
-        color: "basered",
+        color: "redondark",
         value: 100,
         keywords: ["Lærer hurtigt", "Dedikeret", "Tålmodig", "Fokuseret"],
       },
@@ -256,7 +256,7 @@ export const inferiorProfiles: Profile[] = [
     highlights: [
       {
         title: "Optagelse/redigering",
-        color: "lightblue",
+        color: "blueondark",
         value: 85,
         keywords: [
           "Kamera",
@@ -267,19 +267,19 @@ export const inferiorProfiles: Profile[] = [
       },
       {
         title: "Konceptualisering",
-        color: "lightblue",
+        color: "blueondark",
         value: 80,
         keywords: ["Idégenerering", "Storyboarding"],
       },
       {
         title: "Innovation",
-        color: "basered",
+        color: "redondark",
         value: 95,
         keywords: ["Kreativ", "Nysgerrig"],
       },
       {
         title: "Autencitet",
-        color: "basered",
+        color: "redondark",
         value: 95,
         keywords: ["Ærlig", "Passioneret", "Energisk", "Grineren"],
       },
@@ -334,25 +334,25 @@ export const inferiorProfiles: Profile[] = [
     highlights: [
       {
         title: "Brugeroplevelse",
-        color: "lightblue",
+        color: "blueondark",
         value: 90,
         keywords: ["UI-design", "UX-design", "Kunderelationer"],
       },
       {
         title: "Design",
-        color: "lightblue",
+        color: "blueondark",
         value: 85,
         keywords: ["Figma", "Adobe XD", "God til at låne :)"],
       },
       {
         title: "Autencitet",
-        color: "basered",
+        color: "redondark",
         value: 95,
         keywords: ["Ærlig", "Passioneret", "Nysgerrig"],
       },
       {
         title: "Potentiale",
-        color: "basered",
+        color: "redondark",
         value: 95,
         keywords: ["Kreativ", "Selvstændig", "Tålmodig"],
       },
@@ -418,7 +418,7 @@ export const inferiorProfiles: Profile[] = [
     highlights: [
       {
         title: "Innovation",
-        color: "lightblue",
+        color: "blueondark",
         value: 94,
         keywords: [
           "Idégenering",
@@ -428,19 +428,19 @@ export const inferiorProfiles: Profile[] = [
       },
       {
         title: "Processer/metoder",
-        color: "lightblue",
+        color: "blueondark",
         value: 82,
         keywords: ["Designtænkning", "Agil systemudvikling", "Ideation"],
       },
       {
         title: "Ud-af-boksen",
-        color: "basered",
+        color: "redondark",
         value: 97,
         keywords: ["Kreativ", "Nysgerrig", "Energisk", "Fokuseret"],
       },
       {
         title: "Temperamentfuld",
-        color: "basered",
+        color: "redondark",
         value: 97,
         keywords: ["Grineren", "Ærlig", "Passioneret"],
       },

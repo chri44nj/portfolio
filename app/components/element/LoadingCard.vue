@@ -16,10 +16,10 @@ const emittedStop = ref(false);
 
 const backgroundColor = computed(() => {
   switch (props.color) {
-    case "basered":
-      return "bg-basered";
-    case "lightblue":
-      return "bg-lightblue";
+    case "redondark":
+      return "bg-redondark";
+    case "blueondark":
+      return "bg-blueondark";
     case "darkyellow":
       return "bg-darkyellow";
     case "offwhite":
@@ -34,7 +34,7 @@ watch(
     if (active && !shouldStop.value) {
       isStopped.value = false;
     }
-  }
+  },
 );
 
 watch(
@@ -47,7 +47,7 @@ watch(
       emittedStop.value = true;
       emit("stopped");
     }
-  }
+  },
 );
 
 const onAnimationIteration = () => {

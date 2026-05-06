@@ -3,7 +3,8 @@ import { useCardStore } from "~/store/useCardStore";
 import { computed } from "vue";
 
 const props = defineProps<{
-  textColor: "lightblue" | "basered" | "darkyellow";
+  color: "lightblue" | "basered" | "darkyellow";
+  textColor: "blueondark" | "redondark" | "darkyellow";
   cardType: "skill" | "personality" | "bonus";
   textFirst: string;
   textSecond?: string;
@@ -31,25 +32,43 @@ const cards = computed(() => {
   }
 });
 
+//
+// 🎨 COLOR SYSTEM (key change)
+//
+const colorMap = {
+  blueondark: {
+    base: "text-blueondark",
+    hover: "hover:text-blueondark",
+    active: "text-blueondark",
+  },
+  redondark: {
+    base: "text-redondark",
+    hover: "hover:text-redondark",
+    active: "text-redondark",
+  },
+  darkyellow: {
+    base: "text-darkyellow",
+    hover: "hover:text-darkyellow",
+    active: "text-darkyellow",
+  },
+};
+
 const textColorClass = computed(() => {
-  return `text-${props.textColor}`;
+  return colorMap[props.textColor].base;
 });
 
 const hoverClasses = computed(() => {
   return {
-    "hover:text-lightblue": props.textColor === "lightblue",
-    "hover:text-basered": props.textColor === "basered",
-    "hover:text-darkyellow": props.textColor === "darkyellow",
+    [colorMap[props.textColor].hover]: true,
   };
 });
 
 const getTextClasses = (cardId: string) => {
   const isHovered = props.hoveredCards.get(cardId);
+
   return {
     ...hoverClasses.value,
-    "text-lightblue": isHovered && props.textColor === "lightblue",
-    "text-basered": isHovered && props.textColor === "basered",
-    "text-darkyellow": isHovered && props.textColor === "darkyellow",
+    [colorMap[props.textColor].active]: isHovered,
   };
 };
 
@@ -71,12 +90,15 @@ const handleSelection = (id: string) => {
     <p class="md:order-1">
       <template v-if="cards.length">
         {{ textFirst }}
-        <strong :class="textColorClass">{{ highlightedWord }} </strong>
+        <strong :class="textColorClass">
+          {{ highlightedWord }}
+        </strong>
         {{ textSecond }}
       </template>
+
       <template v-else>
         {{ textAltFirst }}
-        <strong :class="textColorClass">{{ highlightedAltWord }}? </strong>
+        <strong :class="textColorClass"> {{ highlightedAltWord }}? </strong>
         &nbsp;{{ textAltSecond }}
       </template>
 
@@ -94,33 +116,36 @@ const handleSelection = (id: string) => {
             index === cards.length - 1 && cards.length > 1
               ? `og ${card.text}.`
               : index === cards.length - 1 && cards.length === 1
-              ? ` ${card.text}.`
-              : index === cards.length - 2
-              ? ` ${card.text} `
-              : ` ${card.text}, `
+                ? ` ${card.text}.`
+                : index === cards.length - 2
+                  ? ` ${card.text} `
+                  : ` ${card.text}, `
           }}
         </span>
       </TransitionGroup>
     </p>
+
     <div
       class="flex items-center w-full md:w-fit transition-all duration-200"
       :class="cards.length ? 'opacity-100' : 'opacity-50'"
     >
       <div class="md:hidden w-full h-[1px] bg-offwhite" />
+
       <div class="w-5 md:w-6 mx-2 md:mx-0 flex items-center">
-        <Transition name="icon"
-          ><Icon
+        <Transition name="icon">
+          <Icon
             v-if="cards.length"
             class="shrink-0 text-xl md:text-2xl"
-            :name="'material-symbols:check-circle-rounded'"
+            name="material-symbols:check-circle-rounded"
           />
           <Icon
             v-else
             class="shrink-0 text-xl md:text-2xl"
-            :name="'material-symbols:cancel-rounded'"
+            name="material-symbols:cancel-rounded"
           />
         </Transition>
       </div>
+
       <div class="md:hidden w-full h-[1px] bg-offwhite" />
     </div>
   </div>

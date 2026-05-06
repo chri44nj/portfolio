@@ -80,6 +80,7 @@ const keyboardShortcut7: ControlItem[] = [
       icon="material-symbols:question-mark-rounded"
       variant="outline"
       size="lg"
+      aria-label="Vis navigations keyboard shortcuts"
       @click="showingTips = !showingTips"
     />
     <template #content>

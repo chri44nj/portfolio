@@ -14,14 +14,16 @@
   --color-basegreen: #38a747; /* your tuned anchor green */
   --color-darkgreen: #23692f; /* deep forest green */
   --color-lightred: #f28b82;
-  --color-basered: #d73340;
+  --color-basered: #cc2f3b;
   --color-darkred: #b22234;
   --color-lightyellow: #ffe29a;
   --color-baseyellow: #ffd166;
   --color-darkyellow: #b89530;
-  --color-lightblue: #456fe0;
+  --color-lightblue: #3f63d8;
   --color-baseblue: #1f4ddb;
   --color-darkblue: #11296b;
+  --color-blueondark: #6f8cff;
+  --color-redondark: #ff5a67;
   --color-lightparchment: #f4e1c1;
   --color-baseparchment: #d9c6a3;
   --color-darkparchment: #94876e;

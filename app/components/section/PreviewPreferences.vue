@@ -32,7 +32,8 @@ const handleLeaveCard = (id: string) => {
       <TransitionGroup name="fade" appear>
         <ElementMatchText
           key="1"
-          text-color="lightblue"
+          text-color="blueondark"
+          color="lightblue"
           card-type="skill"
           text-first="En"
           text-second="kollega der"
@@ -49,7 +50,8 @@ const handleLeaveCard = (id: string) => {
 
         <ElementMatchText
           key="2"
-          text-color="basered"
+          text-color="redondark"
+          color="basered"
           card-type="personality"
           text-first="En kontormakker med"
           text-second="der er"
@@ -67,6 +69,7 @@ const handleLeaveCard = (id: string) => {
         <ElementMatchText
           key="3"
           text-color="darkyellow"
+          color="darkyellow"
           card-type="bonus"
           text-first="En der som"
           highlighted-word="bonus"
@@ -97,7 +100,7 @@ const handleLeaveCard = (id: string) => {
                   ? 'bg-lightblue'
                   : card.step === 2
                     ? 'bg-basered'
-                    : 'bg-darkyellow',
+                    : 'bg-darkyellow text-matteblack',
                 hoveredCards.get(card.id) ? 'animate-pulse scale-110' : '',
               ]"
               @mouseenter="!isMobileOrTablet && handleHoverCard(card.id)"

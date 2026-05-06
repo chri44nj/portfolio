@@ -1,4 +1,15 @@
 <script lang="ts" setup>
+useHead({
+  title: "Mød Christian",
+  meta: [
+    {
+      name: "description",
+      content:
+        "På forsiden kan du lære mig bedre at kende, og finde ud af om jeg kunne være det ultimative match for dig og din virksomhed.",
+    },
+  ],
+});
+
 const companyName = ref("");
 const teamWorkChoice = ref<string | null>(null);
 
@@ -194,8 +205,8 @@ const reset = () => {
           teamWorkChoice === 'yes'
             ? 'from-transparent to-transparent'
             : teamWorkChoice === 'no'
-            ? ' from-matteblack/75 to-lightblue/50'
-            : 'from-transparent to-transparent'
+              ? ' from-matteblack/75 to-lightblue/50'
+              : 'from-transparent to-transparent'
         "
       >
         <NuxtImg

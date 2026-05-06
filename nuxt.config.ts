@@ -6,6 +6,11 @@ export default defineNuxtConfig({
   // App settings
   app: {
     pageTransition: { name: "page", mode: "out-in" },
+    head: {
+      htmlAttrs: {
+        lang: "da",
+      },
+    },
   },
 
   // Styling & UI

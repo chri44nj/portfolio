@@ -65,6 +65,7 @@ const handleClickFlowStep5 = () => {
       <UButton
         class="rounded w-4 h-6 transition-all duration-200 bg-baseparchment"
         :class="uiStore.flowStep >= 2 ? 'opacity-100' : 'opacity-25'"
+        aria-label="Gå til step 1: vælg kvaliteter"
         @click="handleClickFlowStep2"
       />
       <div
@@ -77,6 +78,7 @@ const handleClickFlowStep5 = () => {
           !cardStore.allCategoriesSelected ? 'cursor-not-allowed' : '',
           uiStore.flowStep >= 3 ? 'opacity-100' : 'opacity-25',
         ]"
+        aria-label="Gå til step 2: gennemse kvaliteter"
         @click.stop="handleClickFlowStep3"
       />
       <div
@@ -89,6 +91,7 @@ const handleClickFlowStep5 = () => {
           !cardStore.allCategoriesSelected ? 'cursor-not-allowed' : '',
           uiStore.flowStep >= 4 ? 'opacity-100' : 'opacity-25',
         ]"
+        aria-label="Gå til step 3: find matches"
         @click.stop="handleClickFlowStep4"
       />
       <div
@@ -99,21 +102,23 @@ const handleClickFlowStep5 = () => {
         class="rounded w-4 h-6 transition-all duration-200 bg-baseparchment"
         :class="uiStore.flowStep >= 5 ? 'opacity-100' : 'opacity-25'"
         :disabled="!cardStore.allCategoriesSelected || !uiStore.matchDone"
+        aria-label="Gå til step 4: se matches"
         @click="handleClickFlowStep5"
       />
     </div>
     <NuxtLink
-      :to="
-        uiStore.flowStep === 5 && !uiStore.showSuperiorProfile
-          ? 'https://www.youtube.com/watch?v=vyCbIDhLepE'
-          : ''
-      "
+      v-if="uiStore.flowStep === 5 && !uiStore.showSuperiorProfile"
+      to="https://www.youtube.com/watch?v=vyCbIDhLepE"
       target="_blank"
     >
       <p class="px-10 text-xs md:text-sm opacity-75">
         {{ flowStepText }}
       </p>
     </NuxtLink>
+
+    <p v-else class="px-10 text-xs md:text-sm opacity-75">
+      {{ flowStepText }}
+    </p>
   </div>
 </template>
 

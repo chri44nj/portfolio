@@ -1,10 +1,17 @@
 <script lang="ts" setup>
 import { useCardStore } from "~/store/useCardStore";
 import { useUIStore } from "~/store/useUIStore";
-
 useHead({
   title: "Det Ultimative Match",
+  meta: [
+    {
+      name: "description",
+      content:
+        "Vælg de kvaliteter, du søger i en kandidat, og find dit ultimative match baseret på dine præferencer. Hint: det er sandsynligvis mig, Christian Valentin!",
+    },
+  ],
 });
+
 const cardStore = useCardStore();
 const uiStore = useUIStore();
 const { handlePreviousStep, handleNextStep, setupKeyboardListeners } =
@@ -73,6 +80,8 @@ onMounted(() => {
         variant="outline"
         icon="material-symbols:arrow-back-rounded"
         class="fixed top-4 left-4 opacity-50 md:hover:opacity-100"
+        aria-label="Gå tilbage til forrige trin"
+        size="xl"
         @click="handlePreviousStep"
       />
       <ElementProgressBar />

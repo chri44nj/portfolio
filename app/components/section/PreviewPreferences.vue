@@ -88,7 +88,7 @@ const handleLeaveCard = (id: string) => {
         <h3 class="mb-4 !text-xl">Valgte &nbsp;kvaliteter</h3>
         <div class="flex gap-4 flex-wrap justify-center">
           <TransitionGroup name="list" appear>
-            <div
+            <button
               v-for="card in cardStore.selectedCards"
               :key="card.id"
               class="!md:text-[1.25rem] md:px-4 md:py-2 px-2 py-1 rounded cursor-default transition-all duration-200 hover:opacity-75"
@@ -96,16 +96,18 @@ const handleLeaveCard = (id: string) => {
                 card.step === 1
                   ? 'bg-lightblue'
                   : card.step === 2
-                  ? 'bg-basered'
-                  : 'bg-darkyellow',
+                    ? 'bg-basered'
+                    : 'bg-darkyellow',
                 hoveredCards.get(card.id) ? 'animate-pulse scale-110' : '',
               ]"
               @mouseenter="!isMobileOrTablet && handleHoverCard(card.id)"
               @mouseleave="!isMobileOrTablet && handleLeaveCard(card.id)"
+              tabindex="0"
+              :aria-label="`Fravælg ${card.heading}`"
               @click="handleSelection(card.id)"
             >
               {{ card.heading }}
-            </div>
+            </button>
           </TransitionGroup>
           <p v-if="cardStore.selectedCards.length === 0">
             Vælg de kvaliteter, der bedst repræsenterer den kollega du søger og
@@ -119,7 +121,7 @@ const handleLeaveCard = (id: string) => {
         </p>
         <div class="flex gap-4 flex-wrap justify-center">
           <TransitionGroup name="list" appear>
-            <div
+            <button
               v-for="card in cardStore.notSelectedCards"
               :key="card.id"
               class="!md:text-[1rem] md:px-4 md:py-2 px-2 py-1 rounded opacity-50 hover:opacity-75 transition-all duration-200 border-1 cursor-default"
@@ -127,15 +129,17 @@ const handleLeaveCard = (id: string) => {
                 card.step === 1
                   ? 'border-lightblue hover:bg-lightblue'
                   : card.step === 2
-                  ? 'border-basered hover:bg-basered'
-                  : 'border-darkyellow hover:bg-darkyellow'
+                    ? 'border-basered hover:bg-basered'
+                    : 'border-darkyellow hover:bg-darkyellow'
               "
               @mouseenter="!isMobileOrTablet && handleHoverCard(card.id)"
               @mouseleave="!isMobileOrTablet && handleLeaveCard(card.id)"
+              tabindex="0"
+              :aria-label="`Tilføj ${card.heading}`"
               @click="handleSelection(card.id)"
             >
               {{ card.heading }}
-            </div>
+            </button>
           </TransitionGroup>
         </div>
       </div>

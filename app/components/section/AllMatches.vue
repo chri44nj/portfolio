@@ -70,6 +70,19 @@ const handleHoldEnd = () => {
   }
 };
 
+const handleKeyDown = (e: KeyboardEvent) => {
+  if (e.code === "Space" || e.code === "Enter") {
+    e.preventDefault(); // undgå scroll på space
+    handleHoldStart();
+  }
+};
+
+const handleKeyUp = (e: KeyboardEvent) => {
+  if (e.code === "Space" || e.code === "Enter") {
+    handleHoldEnd();
+  }
+};
+
 const handleHoldComplete = () => {
   console.log("Ultimate match created!");
   uiStore.showSuperiorProfile = true;
@@ -247,6 +260,7 @@ onBeforeUnmount(() => {
                 :key="profile.id"
                 :hide-title="isHolding"
                 class="card-shake"
+                :clickable="false"
                 :style="{
                   zIndex: calculateMatchPercentage(profile),
                   ...getCardStyle(index, inferiorProfiles.length),
@@ -318,8 +332,12 @@ onBeforeUnmount(() => {
                 <template #front-center>
                   <NuxtImg
                     src="/img/facecard.webp"
-                    alt="Inferior Profile"
-                    class="w-1/2 opacity-50"
+                    alt="Profile card"
+                    width="100"
+                    height="180"
+                    loading="eager"
+                    placeholder="blur"
+                    class="w-1/2 h-auto"
                   />
                 </template>
 
@@ -406,8 +424,12 @@ onBeforeUnmount(() => {
         <template #front-center>
           <NuxtImg
             src="/img/facecard.webp"
-            alt="Superior Profile"
-            class="w-1/2"
+            alt="Profile card"
+            width="100"
+            height="180"
+            loading="eager"
+            placeholder="blur"
+            class="w-1/2 h-auto"
           />
         </template>
 
@@ -496,6 +518,8 @@ onBeforeUnmount(() => {
           ? 'bottom-0'
           : '-bottom-full'
       "
+      @keydown="handleKeyDown"
+      @keyup="handleKeyUp"
       @mousedown="handleHoldStart"
       @mouseup="handleHoldEnd"
       @mouseleave="handleHoldEnd"
@@ -530,7 +554,7 @@ onBeforeUnmount(() => {
     <NuxtLink
       v-else-if="showButtonMore || uiStore.visitedUltimateMatch"
       to="/"
-      class="fixed bottom-4 z-10 slide-and-tip"
+      class="fixed bottom-4 z-100 slide-and-tip"
     >
       <UButton size="lg" label="Lad os gå mere i dybden!" />
     </NuxtLink>

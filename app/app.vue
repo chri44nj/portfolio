@@ -1,7 +1,14 @@
 <script setup>
 useHead({
   title: "Christian Valentin",
-  link: [{ rel: "icon", type: "image/x-icon", href: "/favicon.ico" }],
+  link: [
+    { rel: "icon", type: "image/x-icon", href: "/favicon.ico" },
+    {
+      rel: "preload",
+      as: "image",
+      href: "/img/facecard.webp",
+    },
+  ],
 });
 </script>
 

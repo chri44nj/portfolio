@@ -2,6 +2,7 @@
 const props = defineProps<{
   hideTitle?: boolean;
   standout?: boolean;
+  clickable?: boolean;
 }>();
 
 const flipped = ref(false);
@@ -29,10 +30,10 @@ const handleMouseLeave = () => {
     >
       <slot name="title-top"></slot>
     </p>
-    <div
+    <button
       class="flip-card aspect-2/3 rounded-xl h-[250px] md:h-[300px] bg-transparent perspective-1000 relative group cursor-default group z-1"
       :class="{ flipped, 'has-glow': standout }"
-      tabindex="0"
+      :tabindex="clickable === false ? -1 : 0"
       @mouseleave="handleMouseLeave"
     >
       <!-- Animated standout layers -->
@@ -101,7 +102,7 @@ const handleMouseLeave = () => {
           <slot name="back"></slot>
         </div>
       </div>
-    </div>
+    </button>
     <p
       class="mt-2 text-center w-full transition-all duration-1000 card-name text-sm md:text-base"
       :class="hideTitle ? 'text-transparent' : 'text-offwhite'"

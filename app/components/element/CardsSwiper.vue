@@ -119,7 +119,7 @@ onMounted(() => {
           'opacity-50 hover:opacity-100 ': !cardStore.isCardSelected(card.id),
         }"
       >
-        <div
+        <button
           class="relative cursor-default transition-all duration-200 group"
           :class="[
             cardStore.isCardSelected(card.id)
@@ -130,7 +130,6 @@ onMounted(() => {
               ? 'hover:animate-pulse focus-visible:animate-pulse'
               : '',
           ]"
-          tabindex="0"
           @click="handleClick(card.id)"
           @keydown.space.prevent="handleClick(card.id)"
           @keydown.enter.prevent="handleClick(card.id)"
@@ -227,7 +226,7 @@ onMounted(() => {
               </div>
             </div>
           </div>
-        </div>
+        </button>
         <p
           class="mt-4 text-center w-full transition-all duration-200 card-name text-sm md:text-base"
           :class="{

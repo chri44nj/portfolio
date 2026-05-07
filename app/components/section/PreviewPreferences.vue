@@ -105,7 +105,6 @@ const handleLeaveCard = (id: string) => {
               ]"
               @mouseenter="!isMobileOrTablet && handleHoverCard(card.id)"
               @mouseleave="!isMobileOrTablet && handleLeaveCard(card.id)"
-              tabindex="0"
               :aria-label="`Fravælg ${card.heading}`"
               @click="handleSelection(card.id)"
             >
@@ -137,7 +136,6 @@ const handleLeaveCard = (id: string) => {
               "
               @mouseenter="!isMobileOrTablet && handleHoverCard(card.id)"
               @mouseleave="!isMobileOrTablet && handleLeaveCard(card.id)"
-              tabindex="0"
               :aria-label="`Tilføj ${card.heading}`"
               @click="handleSelection(card.id)"
             >
